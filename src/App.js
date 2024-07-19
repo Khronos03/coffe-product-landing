@@ -5,6 +5,7 @@ import ProductInfo from './components/ProductInfo';
 import AdditionalInfo from './components/AdditionalInfo';
 import ShoppingSection from './components/ShoppingSection';
 import Footer from './components/Footer';
+import CoffeeDetails from './components/CoffeeDetails';
 
 function App() {
   return (
@@ -14,10 +15,15 @@ function App() {
         <ProductImage />
         <ProductInfo />
       </div>
-      <div className="my-16">
+      <div id="section1" className="my-16">
         <AdditionalInfo />
+      </div>
+      <div id='section2'>
+      <CoffeeDetails />
       </div>      
+      <div id='section3'>
       <ShoppingSection />
+      </div>
       <Footer />
     </div>
   );
