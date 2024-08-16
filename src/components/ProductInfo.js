@@ -8,11 +8,17 @@ const ProductInfo = () => {
         Cumbre Café, descubre la experiencia de un Café excepcional
       </h1>
       <p className="text-left text-secondary leading-relaxed">
-        Sumérgete en una experiencia sensorial única con nuestro Café de Origen
-        Premium, cuidadosamente seleccionado y cultivado en las mejores regiones
-        cafetaleras del mundo. Cada grano de café cuenta una historia de
-        dedicación, tradición y pasión, llevada a tu taza para ofrecerte un
-        sabor inigualable.
+        Sumérgete en una 
+        <strong className="text-yellow-950"> experiencia sensorial </strong>
+        única con nuestro 
+        Café de Origen Premium, 
+        <strong className="text-yellow-950"> cuidadosamente seleccionado </strong>
+         y cultivado en las mejores regiones cafetaleras del mundo. 
+         Cada grano de café cuenta una historia de
+        <strong className="text-yellow-950"> dedicación, tradición y pasión, </strong>
+         llevada a tu taza para ofrecerte un
+        sabor 
+        <strong className="text-yellow-950"> inigualable. </strong>
       </p>
       <a
         className="px-6 py-3 mt-4 bg-[#714226] text-white rounded-full inline-flex items-center 

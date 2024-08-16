@@ -12,16 +12,16 @@ const ShoppingSection = () => {
             alt="Coffee"
             className="w-40 h-40 rounded-full"
           />
-          <h2 className="mt-4 text-2xl font-bold text-white">Café de Tostado Medio</h2>
+          <h2 className="mt-4 text-2xl font-bold text-white">Café tostión media</h2>
           <p className="mt-2 text-white">
-            Descubre el equilibrio perfecto con nuestro Café de Tostado Medio,
+            Descubre el equilibrio perfecto con nuestro Café tostión media,
             ideal para quienes buscan una taza suave y aromática con una acidez
             viva y un cuerpo equilibrado.
           </p>
           <a
             className="px-6 py-3 mt-4 bg-[#8D6E63] text-white rounded-full inline-flex items-center 
           justify-center space-x-2 hover:bg-[#714226] hover:shadow-lg duration-300 ease-in-out"
-            href="https://wa.me/573216363596/?text=¡Hola! Me gustaría comprar café de especialidad de Tostado Medio."
+            href="https://wa.me/573216363596/?text=¡Hola! Me gustaría comprar café de especialidad de tostión Media."
             title="Comprar ahora"
           >
             <FaShoppingCart size={24} />
@@ -37,17 +37,17 @@ const ShoppingSection = () => {
             className="w-40 h-40 rounded-full"
           />
           <h2 className="mt-4 text-2xl font-bold text-white">
-            Café de Tostado Medio-Oscuro
+            Café tostión media-oscura
           </h2>
           <p className="mt-2 text-left text-white">
-            Experimenta la riqueza y profundidad de nuestro Café de Tostado
-            Medio-Oscuro, donde cada sorbo revela un balance exquisito entre
+            Experimenta la riqueza y profundidad de nuestro Café tostión
+            medio-oscuro, donde cada sorbo revela un balance exquisito entre
             sabores intensos y suaves.
           </p>
           <a
             className="px-6 py-3 mt-4 bg-[#8D6E63] text-white rounded-full inline-flex items-center 
           justify-center space-x-2 hover:bg-[#714226] hover:shadow-lg duration-300 ease-in-out"
-            href="https://wa.me/573216363596/?text=¡Hola! Me gustaría comprar café de especialidad de Tostado Medio-Oscuro."
+            href="https://wa.me/573216363596/?text=¡Hola! Me gustaría comprar café de especialidad de tostión Media-Oscura."
             title="Comprar ahora"
           >
             <FaShoppingCart size={24} />
@@ -62,16 +62,16 @@ const ShoppingSection = () => {
             alt="Coffee"
             className="w-40 h-40 rounded-full"
           />
-          <h2 className="mt-4 text-2xl font-bold text-white">Café de Tostado Oscuro</h2>
+          <h2 className="mt-4 text-2xl font-bold text-white">Café tostión oscura</h2>
           <p className="mt-2 text-left text-white">
             Sumérgete en la intensidad profunda y audaz de nuestro Café de
-            Tostado Oscuro, diseñado para quienes aprecian una experiencia de
+            tostión oscura, diseñado para quienes aprecian una experiencia de
             sabor fuerte y rica.
           </p>
           <a
             className="px-6 py-3 mt-4 bg-[#8D6E63] text-white rounded-full inline-flex items-center 
           justify-center space-x-2 hover:bg-[#714226] hover:shadow-lg duration-300 ease-in-out"
-            href="https://wa.me/573216363596/?text=¡Hola! Me gustaría comprar café de especialidad de Tostado Oscuro."
+            href="https://wa.me/573216363596/?text=¡Hola! Me gustaría comprar café de especialidad de tostión Oscura."
             title="Comprar ahora"
           >
             <FaShoppingCart size={24} />
