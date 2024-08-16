@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { IoLogoWhatsapp } from "react-icons/io";
 
 const Menu = () => {
   const [activeLink, setActiveLink] = useState('');
@@ -26,11 +27,18 @@ const Menu = () => {
   }, []);
 
   return (
+    <>
     <nav className="fixed top-0 left-0 w-full bg-primary text-white p-4 flex justify-center shadow-md z-50">
       <a href="#section1" className={`mx-4 text-accent rounded px-2 py-1 hover:bg-secondary ${activeLink === 'section1' ? 'bg-secondary' : ''}`}>Calidad</a>
       <a href="#section2" className={`mx-4 text-accent rounded px-2 py-1 hover:bg-secondary ${activeLink === 'section2' ? 'bg-secondary' : ''}`}>Características</a>
       <a href="#section3" className={`mx-4 text-accent rounded px-2 py-1 hover:bg-secondary ${activeLink === 'section3' ? 'bg-secondary' : ''}`}>Comprar</a>
     </nav>
+    <div className="fixed-bubble">
+  <a href="https://wa.me/573216363596/?text=¡Hola! Me gustaría comprar café de especialidad." title='Chatea con nosotros'>
+    <IoLogoWhatsapp size={38} color="green" />
+  </a>
+</div>
+    </>
   );
 };
 

@@ -3,12 +3,8 @@ import coffeeImage from "../coffe.jpg";
 import { FaShoppingCart } from "react-icons/fa";
 
 const ShoppingSection = () => {
-  const handlePurchase = (subject) => {
-    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}`;
-  };
-
   return (
-    <div className="flex h-screen mt-48">
+    <div className="flex flex-col md:flex-row h-auto md:h-screen mt-12 md:mt-48">
       <div className="group flex-1 flex flex-col items-center justify-center bg-[#714226]">
         <div className="m-7">
           <img
@@ -25,9 +21,7 @@ const ShoppingSection = () => {
           <a
             className="px-6 py-3 mt-4 bg-[#8D6E63] text-white rounded-full inline-flex items-center 
           justify-center space-x-2 hover:bg-[#714226] hover:shadow-lg duration-300 ease-in-out"
-            onClick={() =>
-              handlePurchase("Hola, me gustaria comprar Café de Tostado Medio")
-            }
+            href="https://wa.me/573216363596/?text=¡Hola! Me gustaría comprar café de especialidad de Tostado Medio."
             title="Comprar ahora"
           >
             <FaShoppingCart size={24} />
@@ -53,11 +47,7 @@ const ShoppingSection = () => {
           <a
             className="px-6 py-3 mt-4 bg-[#8D6E63] text-white rounded-full inline-flex items-center 
           justify-center space-x-2 hover:bg-[#714226] hover:shadow-lg duration-300 ease-in-out"
-            onClick={() =>
-              handlePurchase(
-                "Hola, me gustaria comprar Café de Tostado Medio-Oscuro"
-              )
-            }
+            href="https://wa.me/573216363596/?text=¡Hola! Me gustaría comprar café de especialidad de Tostado Medio-Oscuro."
             title="Comprar ahora"
           >
             <FaShoppingCart size={24} />
@@ -81,9 +71,7 @@ const ShoppingSection = () => {
           <a
             className="px-6 py-3 mt-4 bg-[#8D6E63] text-white rounded-full inline-flex items-center 
           justify-center space-x-2 hover:bg-[#714226] hover:shadow-lg duration-300 ease-in-out"
-            onClick={() =>
-              handlePurchase("Hola, me gusaria comprar Café de Tostado Oscuro")
-            }
+            href="https://wa.me/573216363596/?text=¡Hola! Me gustaría comprar café de especialidad de Tostado Oscuro."
             title="Comprar ahora"
           >
             <FaShoppingCart size={24} />

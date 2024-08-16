@@ -8,7 +8,11 @@ const ProductImage = () => {
         src={coffeeImage}
         alt="Coffee Product"
         className="rounded-full border-secondary shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl"
-        style={{ width: '350px', height: '350px' }}
+        style={{
+          width: '100%',          // La imagen ocupará el 100% del contenedor
+          maxWidth: '350px',      // Límite máximo para no exceder 350px
+          height: 'auto'          // Altura automática para mantener la proporción
+        }}
       />
     </div>
   );
