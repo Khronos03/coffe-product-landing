@@ -1,5 +1,6 @@
 import React from 'react';
-import backgroundImage from '../cultivador.jpg';
+//import backgroundImage from '../cultivador.jpg';
+import backgroundImage from '../FondoSostenibilidad.JPG';
 
 const AdditionalInfo = () => {
     return (
