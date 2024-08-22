@@ -3,7 +3,7 @@ import coffeeImage from "../coffe.jpg";
 
 const ProductImage = () => {
   return (
-    <div className="flex justify-center my-8">
+    <div className="flex justify-center mt-24">
       <img
         src={coffeeImage}
         alt="Coffee Product"

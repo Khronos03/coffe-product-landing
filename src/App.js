@@ -9,9 +9,9 @@ import CoffeeDetails from './components/CoffeeDetails';
 
 function App() {
   return (
-    <div className="App bg-accent min-h-screen flex flex-col">
+    <div className="App bg-accent flex flex-col">
       <Menu />
-      <div className="flex-grow flex flex-col justify-center items-center min-h-screen">
+      <div className="flex-grow flex flex-col items-center">
         <ProductImage />
         <ProductInfo />
       </div>
