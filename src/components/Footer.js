@@ -8,13 +8,13 @@ const Footer = () => {
       <div className="text-center">Siguenos en nuestras redes sociales</div>
       <div className="group flex-1 flex flex-row items-center justify-center text-center space-x-4 mt-2">
       <a href="https://wa.me/573216363596/?text=¡Hola! Me gustaría comprar café de especialidad." title="Ir" target="_blank">
-          <IoLogoWhatsapp size={24} color="green" />
+          <IoLogoWhatsapp size={24} color="white" />
         </a>
         <a href="https://www.facebook.com/share/EbvUVP2UEw1mPXbG/?mibextid=qi2Omg" title="Seguir" target="_blank">
-          <FaFacebook size={24} color="blue" />
+          <FaFacebook size={24} color="white" />
         </a>
         <a href="https://www.instagram.com/cumbre.cafe" title="Seguir" target="_blank">
-          <FaInstagram size={24} color="purple" />
+          <FaInstagram size={24} color="white" />
         </a>
         <a href="https://www.tiktok.com/@cumbre.caf?_t=8ovh16QRai6&_r=1" title="Seguir" target="_blank">
           <FaTiktok size={24} color="white" />
