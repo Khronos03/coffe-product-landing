@@ -9,7 +9,7 @@ const ProductInfo = () => {
 
       <div className="container mx-auto px-6 md:px-12 lg:px-16">
         <h2 className="text-center text-3xl md:text-4xl font-bold text-white mb-10">
-          Notas y Sabores de Nuestro Café ☕✨
+          Notas y sabores de nuestro Café ☕✨
         </h2>
 
         <div className="flex flex-col md:flex-row items-center justify-center gap-8">

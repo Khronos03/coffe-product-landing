@@ -14,7 +14,7 @@ const AdditionalInfo = () => {
                     Compromiso con la Calidad y la Sostenibilidad
                 </h2>
                 <p className="mb-6 text-lg text-white leading-relaxed drop-shadow-md text-center">
-                    Nos enorgullece trabajar con pequeños productores que practican métodos de cultivo sostenibles, respetando el medio ambiente y contribuyendo al bienestar de las comunidades locales. Cada compra de nuestro Café de Origen apoya estos esfuerzos y garantiza un producto de calidad.
+                    Somos una familia de caficultores, practicamos métodos de cultivo sostenibles, respetando el medio ambiente y contribuyendo al bienestar de las comunidades locales. Cada compra de nuestro Café de Origen apoya estos esfuerzos y garantiza un producto de calidad.
                 </p>
                 <ul className="list-disc list-inside space-y-4 text-lg text-white drop-shadow-md">
                     <li>☕ Disfruta de un café aromático con notas florales y frutales.</li>

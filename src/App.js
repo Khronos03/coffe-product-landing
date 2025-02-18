@@ -3,13 +3,12 @@ import Menu from "./components/Menu";
 import ProductImage from "./components/ProductImage";
 import ProductInfo from "./components/ProductInfo";
 import AdditionalInfo from "./components/AdditionalInfo";
-import ShoppingSection from "./components/ShoppingSection";
+import AboutUs from "./components/AboutUs";
 import Footer from "./components/Footer";
-import CoffeeDetails from "./components/CoffeeDetails";
 
 function App() {
   return (
-    <div className="App bg-accent flex flex-col">
+    <div className="App flex flex-col">
       <Menu />
       <div id="section1" className="flex-grow flex flex-col items-center">
         <ProductImage />
@@ -18,6 +17,9 @@ function App() {
         <ProductInfo />
       </div>
       <div id="section3">
+      <AboutUs />
+      </div>
+      <div id="section4">
       <AdditionalInfo />
       </div>
       <Footer />
