@@ -32,7 +32,7 @@ const Menu = () => {
       <a href="#section1" className={`mx-4 rounded px-2 py-1 hover:bg-secondary hover:text-primary ${activeLink === 'section1' ? 'bg-secondary' : ''}`}>Comprar</a>
       <a href="#section2" className={`mx-4 rounded px-2 py-1 hover:bg-secondary hover:text-primary ${activeLink === 'section2' ? 'bg-secondary' : ''}`}>Perfiles</a>
       <a href="#section3" className={`mx-4 rounded px-2 py-1 hover:bg-secondary hover:text-primary ${activeLink === 'section3' ? 'bg-secondary' : ''}`}>Nosotros</a>
-      <a href="https://wa.me/573216363596/?text=¡Hola! Me gustaría comprar café de especialidad." className={`mx-4 text-accent rounded px-2 py-1 hover:bg-secondary hover:text-primary`}>Escríbenos</a>
+      <a href="" className={`mx-4 text-accent rounded px-2 py-1 hover:bg-secondary hover:text-primary`}>Ingresar al portal</a>
     </nav>
     <div className="fixed-bubble">
   <a href="https://wa.me/573216363596/?text=¡Hola! Me gustaría comprar café de especialidad." title='Chatea con nosotros'>
