@@ -6,15 +6,15 @@ module.exports = {
    theme: {
     extend: {
       colors: {
-        /*primary: '#7B1B1C',
-        secondary: '#E5CFB8',
-        accent: '#F9ECE4',*/
+        // Paleta de colores Cumbre Café
+        primary: '#1D342C', 
+        secondary: '#A8AE80', 
+        tertiary: '#7F8C39', 
+        accent: '#F5F0C8',
+        background: '#D1D0AB', 
+        text: '#535A28', 
         complementary: '#5C4740',
         textdark: '#3E2723',
-        
-        primary: '#430f0f',
-        secondary: '#F9ECE4',
-        accent: '#FFFFFF',
       },
     },
   },
