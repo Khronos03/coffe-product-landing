@@ -18,9 +18,9 @@ const ProductInfo = () => {
             title="Cumbre Café · Proceso Lavado"
             imageSrc={Lavado}
             variants={[
-              { label: "250 gr", price: "$25.000", oldPrice: "$30.000" },
-              { label: "350 gr", price: "$35.000", oldPrice: "$42.000" },
-              { label: "454 gr", price: "$45.000", oldPrice: "$54.000" },
+              { label: "250 gr", price: "$20.000", oldPrice: "$25.000" },
+              { label: "350 gr", price: "$25.000", oldPrice: "$35.000" },
+              { label: "454 gr", price: "$32.000", oldPrice: "$37.000" },
             ]}
             details={{
               perfil: "Frutos rojos",
@@ -34,9 +34,9 @@ const ProductInfo = () => {
             title="Cumbre Café · Proceso Honey"
             imageSrc={Honey}
             variants={[
-              { label: "250 gr", price: "$25.000", oldPrice: "$30.000" },
-              { label: "350 gr", price: "$35.000", oldPrice: "$42.000" },
-              { label: "454 gr", price: "$45.000", oldPrice: "$54.000" },
+              { label: "250 gr", price: "$20.000", oldPrice: "$25.000" },
+              { label: "350 gr", price: "$25.000", oldPrice: "$30.000" },
+              { label: "454 gr", price: "$32.000", oldPrice: "$37.000" },
             ]}
             details={{
               perfil: "Panela, Miel",
