@@ -9,6 +9,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; 
 }
 
 code {
@@ -20,31 +21,30 @@ img {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Add this to your existing CSS file */
 html {
   scroll-behavior: smooth;
 }
 
 .fixed-bubble {
-  position: fixed; /* Fija el elemento en la pantalla */
-  bottom: 20px; /* Ajusta la distancia desde la parte inferior */
-  right: 20px; /* Ajusta la distancia desde la derecha */
-  background-color: #ffffff; /* Cambia el color de fondo de la burbuja */
-  padding: 12px; /* Ajusta el relleno de la burbuja */
-  border-radius: 50%; /* Hace que la burbuja sea redonda */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Añade sombra para darle un efecto elevado */
-  z-index: 1000; /* Asegura que esté sobre otros elementos */
-  transition: background-color 0.3s ease; /* Suaviza el cambio de color al pasar el ratón */
+  position: fixed;
+  bottom: 20px; 
+  right: 20px; 
+  background-color: #ffffff; 
+  padding: 12px; 
+  border-radius: 50%; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+  z-index: 1000; 
+  transition: background-color 0.3s ease; 
 }
 
 .fixed-bubble a {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white; /* Cambia el color del ícono */
+  color: white; 
 }
 
 .fixed-bubble:hover {
-  background-color: #1b342f; /* Cambia el color de fondo cuando el ratón pasa por encima */
+  background-color: #1b342f; 
 }
 
