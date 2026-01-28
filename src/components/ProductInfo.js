@@ -76,7 +76,7 @@ const ProductInfo = () => {
             imageSrc={Satchets2}
             variants={[
               { label: "Unidad", price: "$1.500", oldPrice: "$2.000", imageSrc: Satchets2 },
-              { label: "Caja x 10 unidades", price: "$14.000", oldPrice: "$16.000", imageSrc: SatchetsBox },
+              { label: "Caja x 10 unidades", price: "$15.000", oldPrice: "$17.000", imageSrc: SatchetsBox },
             ]}
             details={{
               notas: "Pequeñas bolsas individuales, selladas herméticamente, diseñadas para una sola porción de café.",
