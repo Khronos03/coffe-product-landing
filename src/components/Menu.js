@@ -37,8 +37,8 @@ const Menu = () => {
       <nav className="fixed top-0 left-0 w-full bg-primary text-accent shadow-md z-50" aria-label="Navegación principal">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center">
           <div className="flex-shrink-0">
-            <a href="#section1" className="font-extrabold tracking-wider text-lg md:text-xl text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary" aria-label="Ir a inicio">
-              CUMBRE CAFÉ
+            <a href="/">
+              <img src="/cumbreCafeHeader.webp" alt="Logo Cumbre Café" className="h-12 md:h-14 w-auto object-contain" />
             </a>
           </div>
 

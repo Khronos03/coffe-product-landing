@@ -1,31 +1,72 @@
 import { useEffect, useRef } from "react";
 
-const frameCount = 480;
+const frameCount = 240; 
+const PRELOAD_COUNT = 60; 
 
-const ScrollCanvasBackground = () => {
+const ScrollCanvasBackground = ({ onLoadProgress }) => {
   const canvasRef = useRef(null);
   const imagesRef = useRef([]);
   const loadingRef = useRef(new Set());
   const rafRef = useRef(null);
   const lastDrawnIndexRef = useRef(0);
+  const preloadedCountRef = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    const ensureImage = (index) => {
-      if (index < 0 || index >= frameCount) return;
-      if (imagesRef.current[index]) return;
-      if (loadingRef.current.has(index)) return;
-      loadingRef.current.add(index);
-      const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/frames/frame-${String(index + 1).padStart(4, "0")}.webp`;
-      img.decoding = "async";
-      img.onload = () => {
-        imagesRef.current[index] = img;
-        loadingRef.current.delete(index);
-        if (lastDrawnIndexRef.current === index) drawFrame(index);
-      };
+    const updateProgress = () => {
+      const progress = Math.min((preloadedCountRef.current / PRELOAD_COUNT) * 100, 100);
+      if (onLoadProgress) onLoadProgress(progress);
+    };
+
+    const fileIndexFor = (idx) => idx * 2 + 1; 
+
+    const ensureImage = (index, isPriority = false) => {
+      if (index < 0 || index >= frameCount) return Promise.resolve();
+      if (imagesRef.current[index]) return Promise.resolve();
+      if (loadingRef.current.has(index)) return Promise.resolve();
+
+      return new Promise((resolve) => {
+        loadingRef.current.add(index);
+        const img = new Image();
+        const fileNumber = fileIndexFor(index);
+        img.src = `${process.env.PUBLIC_URL}/frames/frame-${String(fileNumber).padStart(4, "0")}.webp`;
+        img.decoding = "async";
+
+        let timeoutId = null;
+        if (isPriority) {
+          // Fallback: si el navegador no dispara onload/onerror, avanzamos igual
+          timeoutId = setTimeout(() => {
+            loadingRef.current.delete(index);
+            preloadedCountRef.current++;
+            updateProgress();
+            resolve();
+          }, 5000);
+        }
+
+        img.onload = () => {
+          if (timeoutId) clearTimeout(timeoutId);
+          imagesRef.current[index] = img;
+          loadingRef.current.delete(index);
+          if (isPriority) {
+            preloadedCountRef.current++;
+            updateProgress();
+          }
+          if (lastDrawnIndexRef.current === index) drawFrame(index);
+          resolve();
+        };
+
+        img.onerror = () => {
+          if (timeoutId) clearTimeout(timeoutId);
+          loadingRef.current.delete(index);
+          if (isPriority) {
+            preloadedCountRef.current++;
+            updateProgress();
+          }
+          resolve();
+        };
+      });
     };
 
     const drawFrame = (index) => {
@@ -63,15 +104,19 @@ const ScrollCanvasBackground = () => {
     resizeCanvas();
 
     imagesRef.current = [];
-    ensureImage(0);
 
-    if (imagesRef.current[0]) {
-      imagesRef.current[0].onload = () => {
-        ctx.fillStyle = "#D1D0AB";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        drawFrame(0);
-      };
-    }
+    const preloadInitialFrames = async () => {
+      const preloadPromises = [];
+      for (let i = 0; i < PRELOAD_COUNT; i++) {
+        preloadPromises.push(ensureImage(i, true));
+      }
+      await Promise.allSettled(preloadPromises);
+      preloadedCountRef.current = PRELOAD_COUNT;
+      updateProgress();
+      drawFrame(0);
+    };
+
+    preloadInitialFrames();
 
     let targetIndex = 0;
     const handleScroll = () => {
