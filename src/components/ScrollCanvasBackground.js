@@ -141,7 +141,7 @@ const ScrollCanvasBackground = ({ onLoadProgress }) => {
       window.removeEventListener("resize", resizeCanvas);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, []);
+  }, [onLoadProgress]);
 
   return (
     <canvas
