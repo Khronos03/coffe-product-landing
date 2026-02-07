@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 const frameCount = 240; 
-const PRELOAD_COUNT = 60; 
+const PRELOAD_COUNT = 80; 
 
 const ScrollCanvasBackground = ({ onLoadProgress }) => {
   const canvasRef = useRef(null);

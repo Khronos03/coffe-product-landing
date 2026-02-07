@@ -34,16 +34,20 @@ const Menu = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full bg-primary text-accent shadow-md z-50" aria-label="Navegación principal">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center">
+      <div
+        className="fixed top-0 left-0 w-full bg-primaryLight text-accent uppercase tracking-wide text-xs md:text-sm py-1 text-center shadow-sm z-[60]"
+        role="status"
+        aria-live="polite"
+      >
+        BIENVENIDOS
+      </div>
+
+      <nav className="fixed top-6 left-0 w-full bg-primary text-accent shadow-md z-50" aria-label="Navegación principal">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex-shrink-0">
             <a href="/">
               <img src="/cumbreCafeHeader.webp" alt="Logo Cumbre Café" className="h-12 md:h-14 w-auto object-contain" />
             </a>
-          </div>
-
-          <div className="hidden md:block flex-1 text-center font-semibold tracking-wide">
-            BIENVENIDOS
           </div>
 
           <div className="hidden md:flex items-center justify-end">
