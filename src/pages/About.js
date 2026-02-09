@@ -8,14 +8,15 @@ const About = () => {
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           <div className="bg-accent/50 backdrop-blur-lg rounded-2xl shadow-xl p-6 md:p-8">
             <h2 id="about-heading" className="text-2xl md:text-3xl font-extrabold text-primary mb-4">
-              Compromiso con la Calidad y la Sostenibilidad
+              Compromiso con la calidad y el medio ambiente
             </h2>
             <div className="space-y-3 text-textdark text-base md:text-lg leading-relaxed">
               <p>
-                Somos una familia de caficultores comprometida con la producción de café de especialidad. Cultivamos bajo prácticas sostenibles que respetan el medio ambiente, fortalecen las comunidades locales y preservan la esencia de nuestro origen.
+                Somos una familia de caficultores comprometida con la producción de café de especialidad de alta calidad.
+                Cultivamos bajo prácticas sostenibles que <strong>respetan el medio ambiente</strong>, y preservan la esencia de nuestro origen.
               </p>
               <p>
-                Cada compra de nuestro café apoya este trabajo responsable y garantiza una experiencia auténtica, donde la calidad, el cuidado y la tradición se reflejan en cada taza.
+                Cada compra de nuestro café apoya este trabajo responsable!
               </p>
             </div>
           </div>

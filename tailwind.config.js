@@ -6,7 +6,6 @@ module.exports = {
    theme: {
     extend: {
       colors: {
-        // Paleta de colores Cumbre Café
         primary: '#1D342C', 
         primaryLight: '#254536',
         secondary: '#A8AE80', 

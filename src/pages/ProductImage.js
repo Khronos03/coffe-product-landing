@@ -26,7 +26,7 @@ const ProductImage = () => {
               Desde las montañas de Mistrató, Risaralda, nace un café de origen 100 % colombiano, creado para quienes valoran la calidad y la autenticidad.
             </p>
             <p className="text-base md:text-lg leading-relaxed">
-             Cada grano es <strong>cuidadosamente seleccionado</strong> y cultivado bajo prácticas responsables, dando como resultado un café que expresa el carácter de su origen en cada sorbo.
+             Cada grano es <strong>cuidadosamente seleccionado</strong> y cultivado bajo prácticas responsables, dando como resultado un café que expresa el amor y la dedicación de nuestro trabajo
             </p>
           </div>
           <div className="mt-4 rounded-xl overflow-hidden border-4 border-accent/70 shadow-lg max-w-md mx-auto h-40 md:h-56 lg:h-64 group transition-all duration-300 hover:shadow-2xl">

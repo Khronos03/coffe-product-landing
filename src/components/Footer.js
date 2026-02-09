@@ -23,7 +23,7 @@ const Footer = () => {
         </a>
       </div>
       <div className="text-center text-sm mt-4 text-accent">
-        Desarrollado con 🤎 por Jose Alexander Suaza M. &copy;
+        Desarrollado con 💚 por Alexander Suaza M y Javier Cortes. &copy;
         {new Date().getFullYear()}
       </div>
     </footer>
