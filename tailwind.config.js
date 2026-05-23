@@ -6,15 +6,25 @@ module.exports = {
    theme: {
     extend: {
       colors: {
-        primary: '#1D342C', 
-        primaryLight: '#254536',
-        secondary: '#A8AE80', 
-        tertiary: '#7F8C39', 
-        accent: '#F5F0C8',
-        background: '#D1D0AB', 
-        text: '#535A28', 
-        complementary: '#5C4740',
-        textdark: '#3E2723',
+        // Paleta Premium Nueva
+        primary: '#eb8b3a',        // Naranja cálido principal
+        warm: '#fbcd86',           // Amarillo claro - fondos suaves
+        dark: '#430000',           // Marrón muy oscuro - base
+        accent: '#a11d00',         // Rojo-marrón - énfasis
+        light: '#fff8f0',          // Crema muy clara
+        surface: '#faf5f0',        // Superficie clara
+        muted: '#d9cfc4',          // Gris cálido
+        text: '#2d1810',           // Texto oscuro
+        textLight: '#6b5344',      // Texto secundario
+        success: '#2d5016',        // Verde complementario
+      },
+      boxShadow: {
+        'premium': '0 10px 40px rgba(235, 139, 58, 0.1)',
+        'premium-lg': '0 20px 60px rgba(67, 0, 0, 0.15)',
+        'premium-xl': '0 25px 80px rgba(161, 29, 0, 0.12)',
+      },
+      backdropBlur: {
+        'premium': 'blur(10px)',
       },
     },
   },

@@ -31,93 +31,129 @@ const ProductCard = ({ title, imageSrc, variants, details, compact = false }) =>
     (activeDetails.perfil || activeDetails.tostion || activeDetails.proceso || activeDetails.notas);
 
   return (
-    <div className="group w-full max-w-[420px]">
-      <div className="p-[1px] rounded-2xl bg-gradient-to-br from-secondary/50 via-accent/40 to-primary/60">
-        <div className="bg-white/40 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden flex flex-col">
-          <div className="relative w-full aspect-[4/3] overflow-hidden flex items-center justify-center">
-            <div
-              aria-hidden
-              className="absolute top-0 left-0 w-full h-10 bg-gradient-to-b from-white/90 via-white/60 to-transparent backdrop-blur-md z-10 pointer-events-none"
-            />
+    <div className="group w-full max-w-md animate-fade-in-up">
+      {/* Contenedor con Glass Effect */}
+      <div className="relative rounded-2xl overflow-hidden shadow-premium-lg hover-lift transition-all duration-500 h-full">
+        
+        {/* Fondo Gradiente */}
+        <div className="absolute inset-0 bg-gradient-to-br from-light via-surface to-warm/10 opacity-60"></div>
+        
+        {/* Borde Gradiente */}
+        <div className="absolute inset-0 rounded-2xl border border-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+        {/* Contenido */}
+        <div className="relative backdrop-blur-sm rounded-2xl border border-light/40 h-full flex flex-col overflow-hidden">
+          
+          {/* Imagen Section */}
+          <div className="relative w-full aspect-[4/3] overflow-hidden flex items-center justify-center bg-gradient-to-br from-surface to-warm/20">
+            {/* Overlay decorativo */}
+            <div className="absolute inset-0 bg-gradient-to-t from-dark/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
             <img
               src={displayImageSrc}
               alt={title}
               loading="lazy"
               decoding="async"
-              className="relative z-0 max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.4]"
+              className="relative z-10 max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-125"
             />
+
+            {/* Badge - Descuento */}
+            {current?.oldPrice && (
+              <div className="absolute top-3 right-3 px-3 py-1 bg-gradient-primary text-light text-xs font-bold rounded-full shadow-premium-lg">
+                Oferta
+              </div>
+            )}
           </div>
-          <div className={`${compact ? "px-3 pt-3 pb-3" : "px-5 pt-4 pb-5"} flex-1 flex flex-col gap-2`}>
-            <h3 className={`${compact ? "text-sm" : "text-lg"} font-bold text-primary text-center`}>
+
+          {/* Contenido */}
+          <div className={`flex-1 flex flex-col gap-3 ${compact ? "px-3 py-4" : "px-5 py-6"}`}>
+            
+            {/* Título */}
+            <h3 className={`font-bold text-center text-gradient ${compact ? "text-base" : "text-xl"}`}>
               {title}
             </h3>
 
+            {/* Badges */}
             {(activeDetails?.proceso || activeDetails?.tostion) && (
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center justify-center gap-2 flex-wrap">
                 {activeDetails?.proceso && (
-                  <span className="px-2 py-0.5 text-xs rounded-full bg-primary/10 text-primary border border-primary/20">
+                  <span className="px-3 py-1 text-xs font-semibold rounded-full bg-primary/15 text-primary border border-primary/30">
                     {activeDetails.proceso}
                   </span>
                 )}
                 {activeDetails?.tostion && (
-                  <span className="px-2 py-0.5 text-xs rounded-full bg-tertiary/10 text-textdark border border-tertiary/20">
+                  <span className="px-3 py-1 text-xs font-semibold rounded-full bg-accent/15 text-accent border border-accent/30">
                     Tostión: {activeDetails.tostion}
                   </span>
                 )}
               </div>
             )}
 
+            {/* Detalles */}
             {hasDetails && !compact && (
-              <dl className="text-sm text-textdark space-y-2">
+              <div className="space-y-2 text-sm text-textLight bg-light/30 rounded-lg p-3 backdrop-blur-sm">
                 {activeDetails.perfil && (
-                  <div className="flex gap-2">
-                    <dt className="font-semibold w-28">Perfil:</dt>
-                    <dd>{activeDetails.perfil}</dd>
+                  <div>
+                    <dt className="font-semibold text-primary">Perfil</dt>
+                    <dd className="text-text">{activeDetails.perfil}</dd>
                   </div>
                 )}
                 {activeDetails.notas && (
-                  <div className="flex gap-2">
-                    <dt className="font-semibold w-28">Notas:</dt>
-                    <dd>{activeDetails.notas}</dd>
+                  <div>
+                    <dt className="font-semibold text-primary">Notas</dt>
+                    <dd className="text-text">{activeDetails.notas}</dd>
                   </div>
                 )}
-              </dl>
+              </div>
             )}
 
-            {/* Selector */}
-            <div className="flex items-center justify-between gap-2 mt-2">
-              <button onClick={prev} className="p-2 rounded-full bg-primary text-accent">
-                <FiChevronLeft size={16} />
+            {/* Selector de Variantes */}
+            <div className="flex items-center justify-between gap-3 mt-auto pt-2 border-t border-primary/10">
+              <button 
+                onClick={prev}
+                aria-label="Variante anterior"
+                className="p-2 rounded-lg bg-light/50 hover:bg-primary/20 text-primary transition-all duration-300 hover-scale focus-ring"
+              >
+                <FiChevronLeft size={18} />
               </button>
 
-              <div className="text-center">
-                <div className="text-xs font-semibold">{current.label}</div>
-                <div className="flex justify-center gap-1">
+              <div className="text-center flex-1">
+                <div className="text-xs font-bold text-textLight uppercase tracking-wide">
+                  {current.label}
+                </div>
+                <div className="flex justify-center gap-2 items-center mt-1">
                   {current.oldPrice && (
-                    <span className="text-xs line-through text-red-500/80">{current.oldPrice}</span>
+                    <span className="text-xs line-through text-textLight/50">
+                      {current.oldPrice}
+                    </span>
                   )}
                   {current.price && (
-                    <span className="text-sm font-bold text-primary">{current.price}</span>
+                    <span className="text-lg font-black text-primary">
+                      {current.price}
+                    </span>
                   )}
                 </div>
               </div>
 
-              <button onClick={next} className="p-2 rounded-full bg-primary text-accent">
-                <FiChevronRight size={16} />
+              <button 
+                onClick={next}
+                aria-label="Siguiente variante"
+                className="p-2 rounded-lg bg-light/50 hover:bg-primary/20 text-primary transition-all duration-300 hover-scale focus-ring"
+              >
+                <FiChevronRight size={18} />
               </button>
             </div>
 
-            {/* CTA */}
+            {/* CTA Comprar */}
             <a
               href={waLink}
               target="_blank"
               rel="noreferrer"
-              className="mt-auto w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
-                bg-gradient-to-r from-primary to-tertiary text-accent font-semibold shadow"
+              className="w-full mt-4 inline-flex items-center justify-center gap-3 px-4 py-3 rounded-xl gradient-primary text-light font-bold shadow-premium hover-lift transition-all duration-300 focus-ring"
+              aria-label={`Comprar ${title}`}
             >
-              <FaShoppingCart />
-              Comprar
+              <FaShoppingCart size={18} />
+              <span>Comprar</span>
             </a>
           </div>
         </div>
