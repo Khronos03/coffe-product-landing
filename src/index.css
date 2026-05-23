@@ -833,7 +833,7 @@ tr:hover td {
   background-clip: text;
 }
 
-/* Gradiente de encabezado alternativo — más warm */
+/* Gradiente de encabezado alternativo más warm */
 .text-gradient-warm {
   background: linear-gradient(135deg, #430000 0%, #a11d00 50%, #a75911 100%);
   -webkit-background-clip: text;
