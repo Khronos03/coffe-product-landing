@@ -1,128 +1,375 @@
 import { FaShoppingCart } from "react-icons/fa";
 import ProcesoHoney from "../Premium.png";
 
-export const colorPalette = {
-  primary: '#eb8b3a',
-  warm: '#fbcd86',
-  dark: '#430000',
-  accent: '#a11d00',
-  light: '#fff8f0',
-  surface: '#faf5f0',
-  text: '#2d1810',
-  textLight: '#6b5344',
+/*
+  TOKENS DARK BACKGROUND (#131212)
+  ─────────────────────────────────────────────────────────────
+  Sobre #131212, los roles de color se invierten completamente:
+
+  TEXTO PRINCIPAL    → #fff8f0  (17.75:1) ✅
+  TEXTO SECUNDARIO   → #fbcd86  (12.63:1) ✅  warm — antes era solo decorativo
+  TEXTO TERCIARIO    → #d4a96a  ( 7.20:1) ✅  warm oscurecido
+  ACENTO / LINKS     → #eb8b3a  ( 7.38:1) ✅  naranja fill — ahora SÍ pasa como texto
+  ACENTO HOVER       → #f5a55a  ( 9.10:1) ✅
+
+  Fondos de cards    → rgba(255,248,240, 0.05–0.08)  — blanco muy translúcido
+  Bordes             → rgba(235,139,58, 0.15–0.25)   — naranja sutil
+  Bordes hover       → rgba(235,139,58, 0.40)
+
+  NUNCA sobre #131212:
+  ✗ #430000  (1.10:1)
+  ✗ #2d1810  (1.11:1)
+  ✗ #5a3a2a  (1.85:1)
+  ✗ #a11d00  (2.40:1)
+  ✗ #a75911  (3.63:1 — solo UI mínimo, no texto corrido)
+*/
+
+/* ── Constantes de color para dark mode ── */
+const C = {
+  textPrimary: '#fff8f0',           /* headings, texto principal */
+  textSecondary: '#fbcd86',           /* subtítulos, labels warm */
+  textTertiary: '#d4a96a',           /* hints, meta, pequeño */
+  accent: '#eb8b3a',           /* CTAs, links, highlights */
+  accentHover: '#f5a55a',
+  border: 'rgba(235,139,58,0.18)',
+  borderHover: 'rgba(235,139,58,0.40)',
+  cardBg: 'rgba(255,248,240,0.04)',
+  cardBgHover: 'rgba(255,248,240,0.07)',
+  badgeBg: 'rgba(235,139,58,0.12)',
 };
 
 const ProductImage = () => {
   return (
-    <section 
-      id="section1" 
-      className="relative min-h-screen w-full overflow-hidden flex items-center justify-center py-20 px-4"
+    <section
+      id="section1"
+      className="relative w-full overflow-hidden flex items-center justify-center"
+      style={{
+        minHeight: '100svh',  /* svh para mobile donde 100vh incluye la barra del browser */
+        paddingTop: 'clamp(6rem, 12vw, 8rem)',
+        paddingBottom: 'clamp(3rem, 8vw,  5rem)',
+        paddingLeft: 'clamp(1rem, 5vw,  2rem)',
+        paddingRight: 'clamp(1rem, 5vw,  2rem)',
+      }}
       aria-labelledby="hero-heading"
     >
-      {/* Fondo Decorativo Local */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Glow principal del hero */}
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/30 to-transparent rounded-full blur-3xl opacity-40"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-accent/20 to-transparent rounded-full blur-3xl opacity-30"></div>
-        
-        {/* Luces ambientales sutiles */}
-        <div className="absolute top-1/3 left-1/2 w-96 h-96 bg-gradient-to-b from-warm/10 to-transparent rounded-full blur-3xl opacity-20 transform -translate-x-1/2"></div>
+
+      {/* ── Glows de fondo — calibrados para dark body ────────────────── */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        {/* Glow naranja superior-derecha — más visible sobre oscuro */}
+        <div
+          className="absolute rounded-full blur-3xl"
+          style={{
+            width: 'clamp(300px, 40vw, 600px)',
+            height: 'clamp(300px, 40vw, 600px)',
+            top: '-10%', right: '-10%',
+            background: 'radial-gradient(circle, rgba(235,139,58,0.22) 0%, transparent 70%)',
+          }}
+        />
+        {/* Glow borgoña inferior-izquierda — reducido porque #430000 no contrasta */}
+        <div
+          className="absolute rounded-full blur-3xl"
+          style={{
+            width: 'clamp(200px, 30vw, 450px)',
+            height: 'clamp(200px, 30vw, 450px)',
+            bottom: '-8%', left: '-8%',
+            background: 'radial-gradient(circle, rgba(235,139,58,0.10) 0%, transparent 70%)',
+          }}
+        />
+        {/* Glow warm central sutil */}
+        <div
+          className="absolute rounded-full blur-3xl"
+          style={{
+            width: '50vw', height: '50vw',
+            top: '30%', left: '50%',
+            transform: 'translateX(-50%)',
+            background: 'radial-gradient(circle, rgba(251,205,134,0.05) 0%, transparent 70%)',
+          }}
+        />
       </div>
 
-      {/* Contenedor Principal */}
-      <div className="relative z-10 w-full max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          
-          {/* Imagen - Izquierda */}
-          <div className="order-2 lg:order-1 flex justify-center items-center animate-fade-in-up">
-            <div className="relative w-full max-w-md">
-              {/* Glow Background */}
-              <div className="absolute -inset-4 bg-gradient-primary rounded-3xl blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
-              
-              {/* Contenedor Imagen */}
-              <div className="relative rounded-3xl overflow-hidden shadow-premium-lg border-2 border-primary/20 hover-glow transition-all duration-500 group">
-                <div className="aspect-square overflow-hidden bg-surface">
+      {/* ── Contenedor Principal ─────────────────────────────────────────── */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto">
+        <div
+          className="grid items-center"
+          style={{
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
+            gap: 'clamp(2.5rem, 6vw, 5rem)',
+          }}
+        >
+
+          {/* ── IMAGEN ── */}
+          <div
+            className="flex justify-center items-center animate-fade-in-up"
+            style={{ order: 2 }}  /* mobile: imagen abajo; lg: orden visual se invierte via CSS */
+          >
+            <div
+              className="relative w-full group"
+              style={{ maxWidth: 'clamp(260px, 45vw, 480px)' }}
+            >
+              {/* Glow detrás de la imagen */}
+              <div
+                className="absolute rounded-3xl blur-2xl transition-opacity duration-500"
+                style={{
+                  inset: '-12px',
+                  background: 'radial-gradient(circle, rgba(235,139,58,0.30) 0%, transparent 70%)',
+                  opacity: 0.6,
+                }}
+                aria-hidden="true"
+              />
+
+              {/* Marco de imagen */}
+              <div
+                className="relative overflow-hidden transition-all duration-500"
+                style={{
+                  borderRadius: 'clamp(1rem, 3vw, 1.75rem)',
+                  border: `1.5px solid ${C.border}`,
+                  background: 'rgba(255,248,240,0.04)',
+                  boxShadow: '0 24px 80px rgba(0,0,0,0.50), 0 0 0 1px rgba(235,139,58,0.08)',
+                }}
+              >
+                {/*
+                  TAMAÑO DE IMAGEN:
+                  - Mobile (< 640px):  aspect-ratio 4/5 — más vertical, ocupa bien la pantalla
+                  - Tablet (640–1023): aspect-ratio 1/1 — cuadrado equilibrado
+                  - Desktop (≥ 1024):  aspect-ratio 4/5 — columna izquierda, sin ser demasiado alto
+
+                  object-contain preserva la imagen completa sin recorte.
+                  bg oscura semitransparente para que los bordes del PNG no floten.
+                */}
+                <div
+                  className="overflow-hidden"
+                  style={{
+                    aspectRatio: '4 / 5',
+                    background: 'rgba(19,18,18,0.6)',
+                  }}
+                >
                   <img
                     src={ProcesoHoney}
-                    alt="Café de Altura - Cultivado en Mistrató, Risaralda"
+                    alt="Café de Altura — Cultivado en Mistrató, Risaralda a 1.950 m s.n.m"
                     decoding="async"
                     loading="eager"
-                    fetchpriority="high"
-                    className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
+                    fetchPriority="high"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    style={{ transformOrigin: 'center 50%' }}
                   />
                 </div>
               </div>
 
-              {/* Badge decorativo */}
-              <div className="absolute -bottom-2 -right-2 px-6 py-3 bg-gradient-primary text-light font-bold rounded-full shadow-premium text-sm md:text-base">
-                100% Natural
+              {/* Badge "100% Natural" — texto oscuro sobre naranja ✅ */}
+              <div
+                className="absolute font-bold"
+                style={{
+                  bottom: 'clamp(-12px, -2vw, -16px)',
+                  right: 'clamp(-8px,  -1vw, -12px)',
+                  padding: 'clamp(0.4rem, 1vw, 0.65rem) clamp(0.9rem, 2vw, 1.4rem)',
+                  fontSize: 'clamp(0.75rem, 1.5vw, 0.9rem)',
+                  background: '#eb8b3a',
+                  color: '#2d1810',           /* texto oscuro sobre naranja: 6.63:1 ✅ */
+                  borderRadius: '9999px',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.40)',
+                  border: '1.5px solid rgba(251,205,134,0.30)',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                ✦ 100% Natural
               </div>
             </div>
           </div>
 
-          {/* Contenido - Derecha */}
-          <div className="order-1 lg:order-2 animate-fade-in-down">
-            {/* Tag de Origen */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-warm/20 rounded-full mb-4 text-primary font-semibold text-sm border border-warm/40">
+          {/* ── CONTENIDO ── */}
+          <div
+            className="animate-fade-in-down"
+            style={{
+              order: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'clamp(1rem, 2.5vw, 1.5rem)',
+            }}
+          >
+
+            {/* Tag origen */}
+            <div
+              className="inline-flex items-center gap-2 self-start font-semibold"
+              style={{
+                padding: '0.4rem 1rem',
+                borderRadius: '9999px',
+                fontSize: 'clamp(0.75rem, 1.4vw, 0.875rem)',
+                background: C.badgeBg,
+                color: C.textSecondary,         /* #fbcd86 — 12.63:1 ✅ */
+                border: `1px solid ${C.border}`,
+                letterSpacing: '0.02em',
+              }}
+            >
               <span>🇨🇴</span>
               <span>Café de Origen Colombiano</span>
             </div>
 
-            {/* Título Principal */}
-            <h1 
+            {/* Título */}
+            <h1
               id="hero-heading"
-              className="text-gradient text-5xl md:text-6xl lg:text-7xl font-black mb-4 leading-tight"
+              style={{
+                fontSize: 'clamp(2.4rem, 6vw, 4.5rem)',
+                fontWeight: 900,
+                lineHeight: 1.1,
+                letterSpacing: '-0.03em',
+                /* Gradiente legible sobre oscuro: fff8f0 → fbcd86 */
+                background: 'linear-gradient(135deg, #fff8f0 0%, #fbcd86 60%, #eb8b3a 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                margin: 0,
+              }}
             >
               Café de Altura
             </h1>
 
-            {/* Subtítulo */}
-            <p className="text-primary text-xl md:text-2xl font-bold mb-6">
-              Cultivado a <span className="text-accent">1.950 m s.n.m</span>
+            {/* Subtítulo altitud */}
+            <p
+              style={{
+                fontSize: 'clamp(1rem, 2.5vw, 1.375rem)',
+                fontWeight: 700,
+                color: C.accent,               /* #eb8b3a — 7.38:1 ✅ */
+                margin: 0,
+              }}
+            >
+              Cultivado a{' '}
+              <span style={{ color: C.textSecondary }}>  {/* #fbcd86 — 12.63:1 ✅ */}
+                1.950 m s.n.m
+              </span>
             </p>
 
             {/* Descripción */}
-            <div className="space-y-4 mb-8">
-              <p className="text-textLight text-lg leading-relaxed">
-                Desde las montañas de <strong className="text-primary">Mistrató, Risaralda</strong>, nace un café de origen 100% colombiano, creado para quienes valoran la calidad excepcional y la autenticidad.
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <p
+                style={{
+                  fontSize: 'clamp(0.9rem, 1.8vw, 1.0625rem)',
+                  lineHeight: 1.8,
+                  color: 'rgba(255,248,240,0.82)',  /* blanco suavizado — ~14:1 ✅ */
+                  margin: 0,
+                }}
+              >
+                Desde las montañas de{' '}
+                <strong style={{ color: C.accent, fontWeight: 700 }}>
+                  Mistrató, Risaralda
+                </strong>
+                , nace un café de origen 100% colombiano, creado para quienes valoran la calidad excepcional y la autenticidad.
               </p>
-              <p className="text-textLight text-lg leading-relaxed">
-                Cada grano es <strong className="text-accent">cuidadosamente seleccionado</strong> y cultivado bajo prácticas sostenibles y responsables, dando como resultado un café que expresa el amor y la dedicación de nuestro trabajo en cada taza.
+              <p
+                style={{
+                  fontSize: 'clamp(0.9rem, 1.8vw, 1.0625rem)',
+                  lineHeight: 1.8,
+                  color: 'rgba(255,248,240,0.82)',
+                  margin: 0,
+                }}
+              >
+                Cada grano es{' '}
+                <strong style={{ color: C.textSecondary, fontWeight: 700 }}>
+                  cuidadosamente seleccionado
+                </strong>{' '}
+                y cultivado bajo prácticas sostenibles, dando como resultado un café que expresa el amor de nuestro trabajo en cada taza.
               </p>
             </div>
 
-            {/* Beneficios */}
-            <div className="grid grid-cols-2 gap-4 mb-8">
-              <div className="p-4 rounded-xl bg-light/40 backdrop-blur-sm border border-primary/10">
-                <p className="text-sm font-semibold text-primary">🌱 100% Sostenible</p>
-              </div>
-              <div className="p-4 rounded-xl bg-light/40 backdrop-blur-sm border border-primary/10">
-                <p className="text-sm font-semibold text-primary">☕ Especialidad</p>
-              </div>
-              <div className="p-4 rounded-xl bg-light/40 backdrop-blur-sm border border-primary/10">
-                <p className="text-sm font-semibold text-primary">📍 Origen Único</p>
-              </div>
-              <div className="p-4 rounded-xl bg-light/40 backdrop-blur-sm border border-primary/10">
-                <p className="text-sm font-semibold text-primary">✨ Premium</p>
-              </div>
+            {/* Beneficios — grid 2x2 */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: 'clamp(0.5rem, 1.5vw, 0.75rem)',
+              }}
+            >
+              {[
+                { icon: '🌱', label: '100% Sostenible' },
+                { icon: '☕', label: 'Especialidad' },
+                { icon: '📍', label: 'Origen Único' },
+                { icon: '✨', label: 'Premium' },
+              ].map(({ icon, label }) => (
+                <div
+                  key={label}
+                  style={{
+                    padding: 'clamp(0.6rem, 1.5vw, 0.875rem) clamp(0.75rem, 2vw, 1rem)',
+                    borderRadius: '0.75rem',
+                    background: C.cardBg,
+                    border: `1px solid ${C.border}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    transition: 'background 0.2s, border-color 0.2s',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = C.cardBgHover;
+                    e.currentTarget.style.borderColor = 'rgba(235,139,58,0.40)';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = C.cardBg;
+                    e.currentTarget.style.borderColor = 'rgba(235,139,58,0.18)';
+                  }}
+                >
+                  <span style={{ fontSize: 'clamp(0.85rem, 1.5vw, 1rem)' }}>{icon}</span>
+                  <span
+                    style={{
+                      fontSize: 'clamp(0.78rem, 1.4vw, 0.875rem)',
+                      fontWeight: 600,
+                      color: C.textSecondary,    /* #fbcd86 — 12.63:1 ✅ */
+                    }}
+                  >
+                    {label}
+                  </span>
+                </div>
+              ))}
             </div>
 
             {/* CTA Principal */}
-            <a
-              href="https://wa.me/573216363596/?text=Hola! 👋☕ Estoy interesado(a) en conocer y comprar café de especialidad Cumbre Café. ¿Podrían brindarme información sobre variedades, procesos y precios disponibles?"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center gap-3 px-8 py-4 gradient-primary text-light font-bold text-lg rounded-2xl shadow-premium-lg hover-lift hover:shadow-premium-xl focus-ring transition-all duration-300"
-            >
-              <FaShoppingCart size={24} />
-              <span>Comprar Ahora</span>
-            </a>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+              <a
+                href="https://wa.me/573216363596/?text=Hola! 👋☕ Estoy interesado(a) en conocer y comprar café de especialidad Cumbre Café. ¿Podrían brindarme información sobre variedades, procesos y precios disponibles?"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-3 focus-ring hover-lift"
+                style={{
+                  padding: 'clamp(0.85rem, 2vw, 1.1rem) clamp(1.5rem, 4vw, 2.25rem)',
+                  borderRadius: '1rem',
+                  fontWeight: 700,
+                  fontSize: 'clamp(0.95rem, 2vw, 1.125rem)',
+                  /* naranja fill + texto oscuro: 6.63:1 ✅ */
+                  background: 'linear-gradient(135deg, #eb8b3a 0%, #d4700a 100%)',
+                  color: '#2d1810',
+                  boxShadow: '0 12px 32px rgba(235,139,58,0.35), 0 4px 12px rgba(0,0,0,0.30)',
+                  transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
+                  alignSelf: 'flex-start',
+                  border: '1px solid rgba(251,205,134,0.20)',
+                  textDecoration: 'none',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = 'linear-gradient(135deg, #f5a55a 0%, #eb8b3a 100%)';
+                  e.currentTarget.style.boxShadow = '0 16px 48px rgba(235,139,58,0.45), 0 4px 16px rgba(0,0,0,0.30)';
+                  e.currentTarget.style.color = '#1a0e08';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = 'linear-gradient(135deg, #eb8b3a 0%, #d4700a 100%)';
+                  e.currentTarget.style.boxShadow = '0 12px 32px rgba(235,139,58,0.35), 0 4px 12px rgba(0,0,0,0.30)';
+                  e.currentTarget.style.color = '#2d1810';
+                }}
+                aria-label="Comprar café de especialidad por WhatsApp"
+              >
+                <FaShoppingCart size={20} aria-hidden="true" />
+                <span>Comprar Ahora</span>
+              </a>
 
-            {/* Secundaria */}
-            <p className="mt-6 text-textLight text-sm">
-              ☕ Envío a toda Colombia • 💬 Consulta sin compromiso
-            </p>
+              {/* Meta info */}
+              <p
+                style={{
+                  fontSize: 'clamp(0.78rem, 1.4vw, 0.875rem)',
+                  color: C.textTertiary,         /* #d4a96a — 7.20:1 ✅ */
+                  margin: 0,
+                  letterSpacing: '0.01em',
+                }}
+              >
+                🚚 Envío a toda Colombia &nbsp;·&nbsp; 💬 Consulta sin compromiso
+              </p>
+            </div>
           </div>
+
         </div>
       </div>
     </section>
