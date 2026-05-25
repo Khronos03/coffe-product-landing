@@ -108,7 +108,7 @@ const BADGES = [
   { icon: '🌱', label: 'Procesos Especiales', desc: 'Lavado & Honey' },
   { icon: '⭐', label: 'Grado AA',            desc: 'Premium Quality' },
   { icon: '📍', label: 'Mistrató',            desc: '1.950 m.s.n.m'  },
-  { icon: '☕', label: 'Variedades',          desc: 'Tipica & Bourbon' },
+  { icon: '☕', label: 'Variedades',          desc: 'Castillo & Supremo' },
 ];
 
 /* ────────────────────────────────────────
