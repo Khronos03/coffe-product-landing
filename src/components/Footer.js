@@ -1,10 +1,56 @@
 import { FaFacebook, FaTiktok, FaInstagram, FaMailBulk } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { FiArrowUp } from "react-icons/fi";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Color palette
+  const colors = {
+    primary: '#fff8f0',
+    secondary: '#fbcd86',
+    accent: '#eb8b3a',
+    dark: '#131212',
+    border: 'rgba(235,139,58,0.18)',
+    cardBg: 'rgba(255,248,240,0.04)',
+    hoverBg: 'rgba(235,139,58,0.12)',
+  };
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 100,
+        damping: 15,
+      },
+    },
+  };
+
+  const linkHoverVariants = {
+    rest: { color: colors.secondary, x: 0 },
+    hover: { 
+      color: colors.accent,
+      x: 4,
+      transition: { type: 'spring', stiffness: 300, damping: 20 }
+    },
   };
 
   const socialLinks = [
@@ -36,140 +82,282 @@ const Footer = () => {
       icon: FaMailBulk,
       href: "mailto:cafesaboracampo@gmail.com",
       label: "Email",
-      color: "#eb8b3a",
+      color: colors.accent,
     },
   ];
 
   return (
-    <footer className="relative bg-gradient-to-br from-dark via-dark/95 to-dark/90 text-light py-16 md:py-20 overflow-hidden">
-      {/* Elemento Decorativo de Fondo */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl opacity-20"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-warm rounded-full blur-3xl opacity-10"></div>
-      </div>
+    <footer 
+      className="relative bg-dark text-light py-12 md:py-20 overflow-hidden"
+      style={{ background: colors.dark }}
+    >
+      {/* Elemento Decorativo de Fondo Animado */}
+      <motion.div 
+        className="absolute inset-0 opacity-5"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 0.05 }}
+        transition={{ duration: 1 }}
+      >
+        <div 
+          className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl"
+          style={{ background: colors.accent }}
+        ></div>
+        <div 
+          className="absolute bottom-0 left-0 w-96 h-96 rounded-full blur-3xl"
+          style={{ background: colors.accent }}
+        ></div>
+      </motion.div>
 
       {/* Contenido Principal */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+      <motion.div 
+        className="relative z-10 max-w-7xl mx-auto px-4 md:px-8"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-50px' }}
+      >
+        {/* Grid Principal */}
+        <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12">
           
           {/* Sección 1: Marca */}
-          <div className="text-center md:text-left">
-            <h3 className="text-2xl font-black text-gradient mb-3">Cumbre Café</h3>
-            <p className="text-light/70 text-sm leading-relaxed">
+          <motion.div 
+            className="text-center md:text-left"
+            variants={itemVariants}
+          >
+            <motion.h3 
+              className="text-3xl md:text-4xl font-black mb-4"
+              style={{ color: colors.accent }}
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ type: 'spring', stiffness: 100 }}
+            >
+              Cumbre Café
+            </motion.h3>
+            <motion.p 
+              className="text-sm md:text-base leading-relaxed"
+              style={{ color: colors.secondary }}
+              variants={itemVariants}
+            >
               Café de especialidad 100% colombiano. Cultivado en las montañas de Mistrató, Risaralda con prácticas sostenibles.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
           {/* Sección 2: Links Rápidos */}
-          <div className="text-center">
-            <h4 className="text-lg font-bold text-primary mb-4">Navegación</h4>
-            <nav className="space-y-2 flex flex-col items-center">
-              <a 
-                href="#section1" 
-                className="text-light/70 hover:text-primary transition-colors duration-300 text-sm"
-              >
-                Inicio
-              </a>
-              <a 
-                href="#section2" 
-                className="text-light/70 hover:text-primary transition-colors duration-300 text-sm"
-              >
-                Productos
-              </a>
-              <a 
-                href="#section3" 
-                className="text-light/70 hover:text-primary transition-colors duration-300 text-sm"
-              >
-                Nosotros
-              </a>
+          <motion.div 
+            className="text-center"
+            variants={itemVariants}
+          >
+            <motion.h4 
+              className="text-lg md:text-xl font-bold mb-6"
+              style={{ color: colors.accent }}
+              variants={itemVariants}
+            >
+              Navegación
+            </motion.h4>
+            <nav className="space-y-4 flex flex-col items-center">
+              {['Inicio', 'Productos', 'Nosotros'].map((item, idx) => (
+                <div key={item} className="relative">
+                  <motion.a
+                    href={`#section${idx + 1}`}
+                    className="text-sm md:text-base font-semibold py-2 relative block"
+                    style={{ color: colors.primary }}
+                    initial={{ opacity: 0.8 }}
+                    whileHover={{ opacity: 1 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                    custom={idx}
+                  >
+                    {item}
+                  </motion.a>
+                  <motion.div
+                    className="absolute bottom-0 left-0 right-0 h-0.5"
+                    style={{ background: colors.accent }}
+                    initial={{ scaleX: 0, transformOrigin: 'left' }}
+                    whileHover={{ scaleX: 1 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  ></motion.div>
+                </div>
+              ))}
             </nav>
-          </div>
+          </motion.div>
 
           {/* Sección 3: Contacto */}
-          <div className="text-center md:text-right">
-            <h4 className="text-lg font-bold text-primary mb-4">Contacto</h4>
-            <div className="space-y-2 text-sm">
-              <p className="text-light/70">
-                📧 <a 
-                  href="mailto:cafesaboracampo@gmail.com"
-                  className="hover:text-primary transition-colors duration-300"
+          <motion.div 
+            className="text-center md:text-right"
+            variants={itemVariants}
+          >
+            <motion.h4 
+              className="text-lg md:text-xl font-bold mb-6"
+              style={{ color: colors.accent }}
+              variants={itemVariants}
+            >
+              Contacto
+            </motion.h4>
+            <motion.div 
+              className="space-y-3 text-sm md:text-base"
+              variants={containerVariants}
+            >
+              {[
+                { icon: '📧', text: 'cafesaboracampo@gmail.com', href: 'mailto:cafesaboracampo@gmail.com' },
+                { icon: '📱', text: '+57 (321) 636-3596', href: 'https://wa.me/573216363596' },
+                { icon: '📍', text: 'Mistrató, Risaralda - Colombia', href: null },
+              ].map((item, idx) => (
+                <motion.p 
+                  key={idx}
+                  style={{ color: colors.secondary }}
+                  variants={itemVariants}
+                  className="text-sm md:text-base"
                 >
-                  cafesaboracampo@gmail.com
-                </a>
-              </p>
-              <p className="text-light/70">
-                📱 <a 
-                  href="https://wa.me/573216363596"
-                  className="hover:text-primary transition-colors duration-300"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  +57 (321) 636-3596
-                </a>
-              </p>
-              <p className="text-light/70">
-                📍 Mistrató, Risaralda - Colombia
-              </p>
-            </div>
-          </div>
-        </div>
+                  {item.icon} {' '}
+                  {item.href ? (
+                    <motion.a
+                      href={item.href}
+                      target={item.href?.startsWith('http') ? '_blank' : '_self'}
+                      rel={item.href?.startsWith('http') ? 'noreferrer' : ''}
+                      className="hover:opacity-80 transition-opacity duration-300"
+                      style={{ color: colors.secondary }}
+                      whileHover={{ color: colors.accent }}
+                    >
+                      {item.text}
+                    </motion.a>
+                  ) : (
+                    <span>{item.text}</span>
+                  )}
+                </motion.p>
+              ))}
+            </motion.div>
+          </motion.div>
+        </motion.div>
 
-        {/* Divisor */}
-        <div className="h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent mb-8"></div>
+        {/* Divisor Animado */}
+        <motion.div 
+          className="h-px mb-8 md:mb-12"
+          style={{
+            background: `linear-gradient(to right, transparent, ${colors.border}, transparent)`
+          }}
+          initial={{ opacity: 0, scaleX: 0 }}
+          whileInView={{ opacity: 1, scaleX: 1 }}
+          transition={{ duration: 0.8 }}
+        ></motion.div>
 
         {/* Sección de Redes Sociales */}
-        <div className="text-center mb-8">
-          <p className="text-light/80 font-semibold mb-5 text-sm uppercase tracking-wide">
+        <motion.div 
+          className="text-center mb-8 md:mb-12"
+          variants={itemVariants}
+        >
+          <motion.p 
+            className="font-bold mb-6 uppercase tracking-widest text-xs md:text-sm"
+            style={{ color: colors.secondary }}
+            variants={itemVariants}
+          >
             Síguenos en nuestras redes
-          </p>
-          <div className="flex items-center justify-center gap-4 flex-wrap">
-            {socialLinks.map((link) => {
+          </motion.p>
+          <motion.div 
+            className="flex items-center justify-center gap-3 md:gap-4 flex-wrap"
+            variants={containerVariants}
+          >
+            {socialLinks.map((link, idx) => {
               const Icon = link.icon;
               return (
-                <a
+                <motion.a
                   key={link.label}
                   href={link.href}
                   target="_blank"
                   rel="noreferrer"
                   aria-label={`Seguir en ${link.label}`}
                   title={link.label}
-                  className="group p-3 rounded-full bg-light/10 border border-primary/20 hover:bg-gradient-primary hover:border-primary transition-all duration-300 hover-lift focus-ring"
+                  className="rounded-full transition-all duration-300"
+                  style={{
+                    padding: '0.875rem',
+                    background: colors.cardBg,
+                    border: `1.5px solid ${colors.border}`,
+                    color: colors.secondary,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  variants={itemVariants}
+                  whileHover={{
+                    y: -6,
+                    background: colors.hoverBg,
+                    borderColor: colors.accent,
+                    color: colors.accent,
+                    transition: { type: 'spring', stiffness: 300, damping: 20 }
+                  }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <Icon 
-                    size={20} 
-                    className="group-hover:text-light transition-colors duration-300" 
-                    color="currentColor"
-                  />
-                </a>
+                  <Icon size={22} />
+                </motion.a>
               );
             })}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        {/* Divisor */}
-        <div className="h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent mb-8"></div>
+        {/* Divisor Animado */}
+        <motion.div 
+          className="h-px mb-8 md:mb-12"
+          style={{
+            background: `linear-gradient(to right, transparent, ${colors.border}, transparent)`
+          }}
+          initial={{ opacity: 0, scaleX: 0 }}
+          whileInView={{ opacity: 1, scaleX: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        ></motion.div>
 
         {/* Footer Bottom */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs md:text-sm text-light/60">
-          <p>
-            © {new Date().getFullYear()} <strong className="text-primary">Cumbre Café</strong>. Todos los derechos reservados.
-          </p>
-          <p>
-            Desarrollado con <span className="text-primary">❤️</span> por <strong className="text-primary">Alexander Suaza M.</strong>
-          </p>
-          <button
+        <motion.div 
+          className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 text-xs md:text-sm"
+          style={{ color: colors.secondary }}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <motion.p variants={itemVariants}>
+            © {new Date().getFullYear()} <span style={{ color: colors.accent }} className="font-bold">Cumbre Café</span>. Todos los derechos reservados.
+          </motion.p>
+          <motion.p variants={itemVariants}>
+            Desarrollado con <span style={{ color: colors.accent }}>❤️</span> por <span style={{ color: colors.accent }} className="font-bold">Alexander Suaza M.</span>
+          </motion.p>
+          <motion.button
             onClick={scrollToTop}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 hover:bg-primary/40 transition-all duration-300 focus-ring text-light"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full font-bold transition-all duration-300"
+            style={{
+              background: colors.cardBg,
+              color: colors.secondary,
+              border: `1.5px solid ${colors.border}`,
+            }}
+            variants={itemVariants}
+            whileHover={{
+              background: colors.hoverBg,
+              borderColor: colors.accent,
+              color: colors.accent,
+              y: -4,
+              transition: { type: 'spring', stiffness: 300, damping: 20 }
+            }}
+            whileTap={{ scale: 0.95 }}
             aria-label="Ir al inicio"
           >
-            <span>Volver arriba</span>
-            <FiArrowUp size={16} />
-          </button>
-        </div>
-      </div>
+            <span className="text-xs md:text-sm">Volver arriba</span>
+            <motion.div
+              animate={{ y: [-2, 2, -2] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <FiArrowUp size={16} />
+            </motion.div>
+          </motion.button>
+        </motion.div>
+      </motion.div>
 
       {/* Patrón decorativo de fondo */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent"></div>
+      <motion.div 
+        className="absolute bottom-0 left-0 right-0 h-px"
+        style={{
+          background: `linear-gradient(to right, transparent, ${colors.border}, transparent)`
+        }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      ></motion.div>
     </footer>
   );
 };
