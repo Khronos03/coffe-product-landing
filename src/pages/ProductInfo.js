@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
-import Honey from "../Honey.webp";
-import Lavado from "../Lavado.webp";
+import Honey from "../EHoney.jpg";
+import Lavado from "../ELavado.jpg";
 import Cuarteron from "../cuarteron.png";
 import Satchets2 from "../satchets2.webp";
 import SatchetsBox from "../satchesBox.webp";
