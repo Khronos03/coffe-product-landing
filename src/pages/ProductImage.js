@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { FaShoppingCart } from "react-icons/fa";
 import ProcesoHoney from "../Premium.png";
 
@@ -26,16 +27,16 @@ import ProcesoHoney from "../Premium.png";
 
 /* ── Constantes de color para dark mode ── */
 const C = {
-  textPrimary: '#fff8f0',           /* headings, texto principal */
+  textPrimary:   '#fff8f0',           /* headings, texto principal */
   textSecondary: '#fbcd86',           /* subtítulos, labels warm */
-  textTertiary: '#d4a96a',           /* hints, meta, pequeño */
-  accent: '#eb8b3a',           /* CTAs, links, highlights */
-  accentHover: '#f5a55a',
-  border: 'rgba(235,139,58,0.18)',
-  borderHover: 'rgba(235,139,58,0.40)',
-  cardBg: 'rgba(255,248,240,0.04)',
-  cardBgHover: 'rgba(255,248,240,0.07)',
-  badgeBg: 'rgba(235,139,58,0.12)',
+  textTertiary:  '#d4a96a',           /* hints, meta, pequeño */
+  accent:        '#eb8b3a',           /* CTAs, links, highlights */
+  accentHover:   '#f5a55a',
+  border:        'rgba(235,139,58,0.18)',
+  borderHover:   'rgba(235,139,58,0.40)',
+  cardBg:        'rgba(255,248,240,0.04)',
+  cardBgHover:   'rgba(255,248,240,0.07)',
+  badgeBg:       'rgba(235,139,58,0.12)',
 };
 
 const ProductImage = () => {
@@ -44,18 +45,17 @@ const ProductImage = () => {
       id="section1"
       className="relative w-full overflow-hidden flex items-center justify-center"
       style={{
-        minHeight: '100svh',  /* svh para mobile donde 100vh incluye la barra del browser */
-        paddingTop: 'clamp(6rem, 12vw, 8rem)',
+        minHeight: '100svh',
+        paddingTop:    'clamp(6rem, 12vw, 8rem)',
         paddingBottom: 'clamp(3rem, 8vw,  5rem)',
-        paddingLeft: 'clamp(1rem, 5vw,  2rem)',
-        paddingRight: 'clamp(1rem, 5vw,  2rem)',
+        paddingLeft:   'clamp(1rem, 5vw,  2rem)',
+        paddingRight:  'clamp(1rem, 5vw,  2rem)',
       }}
       aria-labelledby="hero-heading"
     >
 
-      {/* ── Glows de fondo — calibrados para dark body ────────────────── */}
+      {/* ── Glows de fondo ────────────────── */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        {/* Glow naranja superior-derecha — más visible sobre oscuro */}
         <div
           className="absolute rounded-full blur-3xl"
           style={{
@@ -65,7 +65,6 @@ const ProductImage = () => {
             background: 'radial-gradient(circle, rgba(235,139,58,0.22) 0%, transparent 70%)',
           }}
         />
-        {/* Glow borgoña inferior-izquierda — reducido porque #430000 no contrasta */}
         <div
           className="absolute rounded-full blur-3xl"
           style={{
@@ -75,7 +74,6 @@ const ProductImage = () => {
             background: 'radial-gradient(circle, rgba(235,139,58,0.10) 0%, transparent 70%)',
           }}
         />
-        {/* Glow warm central sutil */}
         <div
           className="absolute rounded-full blur-3xl"
           style={{
@@ -88,7 +86,13 @@ const ProductImage = () => {
       </div>
 
       {/* ── Contenedor Principal ─────────────────────────────────────────── */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto">
+      <motion.div
+        className="relative z-10 w-full max-w-7xl mx-auto"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+      >
         <div
           className="grid items-center"
           style={{
@@ -98,9 +102,13 @@ const ProductImage = () => {
         >
 
           {/* ── IMAGEN ── */}
-          <div
-            className="flex justify-center items-center animate-fade-in-up"
-            style={{ order: 2 }}  /* mobile: imagen abajo; lg: orden visual se invierte via CSS */
+          <motion.div
+            className="flex justify-center items-center"
+            style={{ order: 2 }}
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            viewport={{ once: true }}
           >
             <div
               className="relative w-full group"
@@ -127,15 +135,6 @@ const ProductImage = () => {
                   boxShadow: '0 24px 80px rgba(0,0,0,0.50), 0 0 0 1px rgba(235,139,58,0.08)',
                 }}
               >
-                {/*
-                  TAMAÑO DE IMAGEN:
-                  - Mobile (< 640px):  aspect-ratio 4/5 — más vertical, ocupa bien la pantalla
-                  - Tablet (640–1023): aspect-ratio 1/1 — cuadrado equilibrado
-                  - Desktop (≥ 1024):  aspect-ratio 4/5 — columna izquierda, sin ser demasiado alto
-
-                  object-contain preserva la imagen completa sin recorte.
-                  bg oscura semitransparente para que los bordes del PNG no floten.
-                */}
                 <div
                   className="overflow-hidden"
                   style={{
@@ -155,16 +154,16 @@ const ProductImage = () => {
                 </div>
               </div>
 
-              {/* Badge "100% Natural" — texto oscuro sobre naranja ✅ */}
+              {/* Badge "100% Natural" */}
               <div
                 className="absolute font-bold"
                 style={{
                   bottom: 'clamp(-12px, -2vw, -16px)',
-                  right: 'clamp(-8px,  -1vw, -12px)',
+                  right:  'clamp(-8px,  -1vw, -12px)',
                   padding: 'clamp(0.4rem, 1vw, 0.65rem) clamp(0.9rem, 2vw, 1.4rem)',
                   fontSize: 'clamp(0.75rem, 1.5vw, 0.9rem)',
                   background: '#eb8b3a',
-                  color: '#2d1810',           /* texto oscuro sobre naranja: 6.63:1 ✅ */
+                  color: '#2d1810',
                   borderRadius: '9999px',
                   boxShadow: '0 8px 24px rgba(0,0,0,0.40)',
                   border: '1.5px solid rgba(251,205,134,0.30)',
@@ -174,17 +173,20 @@ const ProductImage = () => {
                 ✦ 100% Natural
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* ── CONTENIDO ── */}
-          <div
-            className="animate-fade-in-down"
+          <motion.div
             style={{
               order: 1,
               display: 'flex',
               flexDirection: 'column',
               gap: 'clamp(1rem, 2.5vw, 1.5rem)',
             }}
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.1 }}
+            viewport={{ once: true }}
           >
 
             {/* Tag origen */}
@@ -195,7 +197,7 @@ const ProductImage = () => {
                 borderRadius: '9999px',
                 fontSize: 'clamp(0.75rem, 1.4vw, 0.875rem)',
                 background: C.badgeBg,
-                color: C.textSecondary,         /* #fbcd86 — 12.63:1 ✅ */
+                color: C.textSecondary,
                 border: `1px solid ${C.border}`,
                 letterSpacing: '0.02em',
               }}
@@ -212,7 +214,6 @@ const ProductImage = () => {
                 fontWeight: 900,
                 lineHeight: 1.1,
                 letterSpacing: '-0.03em',
-                /* Gradiente legible sobre oscuro: fff8f0 → fbcd86 */
                 background: 'linear-gradient(135deg, #fff8f0 0%, #fbcd86 60%, #eb8b3a 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -228,12 +229,12 @@ const ProductImage = () => {
               style={{
                 fontSize: 'clamp(1rem, 2.5vw, 1.375rem)',
                 fontWeight: 700,
-                color: C.accent,               /* #eb8b3a — 7.38:1 ✅ */
+                color: C.accent,
                 margin: 0,
               }}
             >
               Cultivado a{' '}
-              <span style={{ color: C.textSecondary }}>  {/* #fbcd86 — 12.63:1 ✅ */}
+              <span style={{ color: C.textSecondary }}>
                 1.950 m s.n.m
               </span>
             </p>
@@ -244,7 +245,7 @@ const ProductImage = () => {
                 style={{
                   fontSize: 'clamp(0.9rem, 1.8vw, 1.0625rem)',
                   lineHeight: 1.8,
-                  color: 'rgba(255,248,240,0.82)',  /* blanco suavizado — ~14:1 ✅ */
+                  color: 'rgba(255,248,240,0.82)',
                   margin: 0,
                 }}
               >
@@ -310,7 +311,7 @@ const ProductImage = () => {
                     style={{
                       fontSize: 'clamp(0.78rem, 1.4vw, 0.875rem)',
                       fontWeight: 600,
-                      color: C.textSecondary,    /* #fbcd86 — 12.63:1 ✅ */
+                      color: C.textSecondary,
                     }}
                   >
                     {label}
@@ -331,7 +332,6 @@ const ProductImage = () => {
                   borderRadius: '1rem',
                   fontWeight: 700,
                   fontSize: 'clamp(0.95rem, 2vw, 1.125rem)',
-                  /* naranja fill + texto oscuro: 6.63:1 ✅ */
                   background: 'linear-gradient(135deg, #eb8b3a 0%, #d4700a 100%)',
                   color: '#2d1810',
                   boxShadow: '0 12px 32px rgba(235,139,58,0.35), 0 4px 12px rgba(0,0,0,0.30)',
@@ -360,7 +360,7 @@ const ProductImage = () => {
               <p
                 style={{
                   fontSize: 'clamp(0.78rem, 1.4vw, 0.875rem)',
-                  color: C.textTertiary,         /* #d4a96a — 7.20:1 ✅ */
+                  color: C.textTertiary,
                   margin: 0,
                   letterSpacing: '0.01em',
                 }}
@@ -368,10 +368,16 @@ const ProductImage = () => {
                 🚚 Envío a toda Colombia &nbsp;·&nbsp; 💬 Consulta sin compromiso
               </p>
             </div>
-          </div>
+
+          </motion.div>
+          {/* ── FIN CONTENIDO ── */}
 
         </div>
-      </div>
+        {/* ── FIN GRID ── */}
+
+      </motion.div>
+      {/* ── FIN CONTENEDOR PRINCIPAL ── */}
+
     </section>
   );
 };

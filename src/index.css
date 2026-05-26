@@ -418,7 +418,6 @@ label {
 .header,
 nav,
 .navbar {
-  background: rgba(255, 248, 240, 0.90);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--color-border-default);
   /* Texto en navbar debe tener contraste sobre fondo translúcido claro */
