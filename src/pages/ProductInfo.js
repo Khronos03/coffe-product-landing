@@ -106,7 +106,7 @@ const PRODUCTS = [
 
 const BADGES = [
   { icon: '🌱', label: 'Procesos Especiales', desc: 'Lavado & Honey' },
-  { icon: '⭐', label: 'Grado AA',            desc: 'Premium Quality' },
+  { icon: '⭐', label: 'Invima',            desc: 'NSA-0376-2026' },
   { icon: '📍', label: 'Mistrató',            desc: '1.950 m.s.n.m'  },
   { icon: '☕', label: 'Variedades',          desc: 'Castillo & Supremo' },
 ];

@@ -87,7 +87,7 @@ const ProductCard = ({ title, imageSrc, variants, details, compact = false }) =>
         style={{
           background: 'rgba(255,248,240,0.04)',
           border: '1.5px solid rgba(235,139,58,0.18)',
-          height: 'clamp(500px, 70vh, 700px)',
+          height: 'clamp(400px, 55vh, 550px)',
           display: 'flex',
           flexDirection: 'column',
         }}
@@ -134,7 +134,7 @@ const ProductCard = ({ title, imageSrc, variants, details, compact = false }) =>
               alt={title}
               loading="lazy"
               decoding="async"
-              className="relative z-10 max-h-full max-w-full object-contain"
+              className="relative z-10 h-full w-full object-contain"
               variants={imageVariants}
               initial="initial"
               whileHover="hover"
