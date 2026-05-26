@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IoLogoWhatsapp } from "react-icons/io";
 import { FiMenu, FiX } from "react-icons/fi";

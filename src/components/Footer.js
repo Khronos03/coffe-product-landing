@@ -44,14 +44,7 @@ const Footer = () => {
     },
   };
 
-  const linkHoverVariants = {
-    rest: { color: colors.secondary, x: 0 },
-    hover: { 
-      color: colors.accent,
-      x: 4,
-      transition: { type: 'spring', stiffness: 300, damping: 20 }
-    },
-  };
+
 
   const socialLinks = [
     {

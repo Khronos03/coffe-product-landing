@@ -8,7 +8,6 @@ const whatsappNumber = "573216363596";
 const ProductCard = ({ title, imageSrc, variants, details, compact = false }) => {
   const [index, setIndex] = useState(0);
   const [isImageHovered, setIsImageHovered] = useState(false);
-  const [isButtonHovered, setIsButtonHovered] = useState(false);
 
   const prev = () => setIndex(i => (i === 0 ? variants.length - 1 : i - 1));
   const next = () => setIndex(i => (i === variants.length - 1 ? 0 : i + 1));
@@ -354,8 +353,6 @@ const ProductCard = ({ title, imageSrc, variants, details, compact = false }) =>
               href={waLink}
               target="_blank"
               rel="noreferrer"
-              onHoverStart={() => setIsButtonHovered(true)}
-              onHoverEnd={() => setIsButtonHovered(false)}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
