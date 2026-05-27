@@ -12,6 +12,26 @@
   }
 }
 
+/* ── Optimizaciones de Rendimiento ── */
+@supports (backdrop-filter: blur(1px)) {
+  .motion-optimize {
+    backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: transform;
+  }
+  
+  .motion-optimize * {
+    transform: translateZ(0);
+  }
+}
+
+/* Reducir complejidad en dispositivos con mejor movimiento */
+@media (max-width: 768px) {
+  * {
+    transition-duration: 150ms !important;
+  }
+}
+
 /* ── Animaciones de Entrada ── */
 @keyframes fadeIn {
   from {
@@ -328,6 +348,105 @@
 .stagger-item:nth-child(4) { animation-delay: 300ms; }
 .stagger-item:nth-child(5) { animation-delay: 400ms; }
 .stagger-item:nth-child(6) { animation-delay: 500ms; }
+
+/* ============================================================
+   OPTIMIZACIONES PARA MÓVILES - REDUCIR PARPADEO
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* Reducir duraciones de animaciones en móvil */
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-fade-in-down,
+  .animate-fade-in-left,
+  .animate-fade-in-right,
+  .animate-scale-in,
+  .animate-slide-in-left,
+  .animate-slide-in-right {
+    animation-duration: 0.4s !important;
+  }
+
+  /* Optimizar transiciones en móvil */
+  .hover-lift,
+  .hover-glow,
+  .hover-scale {
+    transition-duration: 200ms !important;
+  }
+
+  /* Desactivar efectos complejos en móvil */
+  .hover-lift:hover,
+  .hover-glow:hover,
+  .hover-scale:hover {
+    transition: none;
+  }
+
+  /* Reducir animaciones flotantes */
+  .animate-float,
+  .animate-float-slow {
+    animation-duration: 4s !important;
+  }
+
+  /* Backdrop menos agresivo en móvil */
+  .backdrop-blur-premium {
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+  }
+
+  /* Pulse más rápido en móvil */
+  .animate-pulse-slow {
+    animation-duration: 2s !important;
+  }
+
+  /* Desactivar sombras de box en hover para mejor rendimiento */
+  .hover-lift:hover,
+  .hover-glow:hover {
+    box-shadow: none !important;
+  }
+
+  /* Page transitions más rápidas */
+  .page-enter,
+  .page-exit {
+    animation-duration: 0.3s !important;
+  }
+
+  /* Reduce stagger delays en móvil */
+  .stagger-item:nth-child(2) { animation-delay: 50ms !important; }
+  .stagger-item:nth-child(3) { animation-delay: 100ms !important; }
+  .stagger-item:nth-child(4) { animation-delay: 150ms !important; }
+  .stagger-item:nth-child(5) { animation-delay: 200ms !important; }
+  .stagger-item:nth-child(6) { animation-delay: 250ms !important; }
+}
+
+/* Reducir aún más para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  /* Animaciones muy rápidas en teléfonos pequeños */
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-fade-in-down,
+  .animate-fade-in-left,
+  .animate-fade-in-right,
+  .animate-scale-in,
+  .animate-slide-in-left,
+  .animate-slide-in-right {
+    animation-duration: 0.3s !important;
+  }
+
+  /* Desactivar float en pantallas pequeñas */
+  .animate-float,
+  .animate-float-slow {
+    animation: none !important;
+  }
+
+  /* Simplificar shimmer */
+  .shimmer {
+    animation: shimmer 1.5s infinite !important;
+  }
+
+  /* Transiciones instantáneas */
+  * {
+    transition-duration: 100ms !important;
+  }
+}
 
 /* ── Respeta preferencias de usuario ── */
 @media (prefers-reduced-motion: reduce) {

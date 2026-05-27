@@ -1056,3 +1056,107 @@ section { scroll-margin-top: 80px; }
 .animate-slide-in-right{ animation: slideInRight 0.6s ease-out; }
 .animate-float         { animation: float 3s ease-in-out infinite; }
 .animate-pulse-glow    { animation: pulse-glow 2s ease-in-out infinite; }
+
+/* ============================================================
+   OPTIMIZACIONES DE RENDIMIENTO PARA MÓVILES
+   Reduce parpadeo y mejora FPS en dispositivos con bajo poder
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* Reducir duración de animaciones en móvil */
+  .animate-fade-in-up    { animation-duration: 0.4s !important; }
+  .animate-fade-in-down  { animation-duration: 0.4s !important; }
+  .animate-slide-in-left { animation-duration: 0.4s !important; }
+  .animate-slide-in-right{ animation-duration: 0.4s !important; }
+  .animate-float         { animation-duration: 2s !important; }
+  .animate-pulse-glow    { animation-duration: 1.5s !important; }
+
+  /* Acelerar scroll suave */
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Reduce blur en móvil para mejor rendimiento */
+  .orb-1, .orb-2, .orb-3, .orb-4, .orb-5 {
+    filter: blur(30px) !important;
+  }
+
+  /* Transiciones más rápidas */
+  * {
+    transition-duration: 150ms !important;
+  }
+
+  /* Disable backdrop-filter en móvil de bajo rendimiento */
+  @supports (backdrop-filter: blur(0px)) {
+    .backdrop-blur-md {
+      backdrop-filter: blur(3px) !important;
+      -webkit-backdrop-filter: blur(3px) !important;
+    }
+
+    .backdrop-blur-premium {
+      backdrop-filter: blur(5px) !important;
+      -webkit-backdrop-filter: blur(5px) !important;
+    }
+  }
+
+  /* Optimizar orbes - solo opacity en móvil */
+  @keyframes orb-float-1 {
+    0%, 100% { opacity: 0.15; }
+    50%       { opacity: 0.25; }
+  }
+  @keyframes orb-float-2 {
+    0%, 100% { opacity: 0.2; }
+    50%       { opacity: 0.3; }
+  }
+  @keyframes orb-float-3 {
+    0%, 100% { opacity: 0.15; }
+    50%       { opacity: 0.25; }
+  }
+
+  /* Deshabilitar glow pulses complejos */
+  @keyframes glow-pulse-1 {
+    0%, 100% { opacity: 0.15; }
+    50%       { opacity: 0.25; }
+  }
+  @keyframes glow-pulse-2 {
+    0%, 100% { opacity: 0.1; }
+    50%       { opacity: 0.2; }
+  }
+  @keyframes glow-pulse-3 {
+    0%, 100% { opacity: 0.08; }
+    50%       { opacity: 0.15; }
+  }
+}
+
+@media (max-width: 480px) {
+  /* Pantallas muy pequeñas */
+  .animate-fade-in-up    { animation-duration: 0.3s !important; }
+  .animate-fade-in-down  { animation-duration: 0.3s !important; }
+  .animate-slide-in-left { animation-duration: 0.3s !important; }
+  .animate-slide-in-right{ animation-duration: 0.3s !important; }
+  .animate-float         { animation: none !important; }
+  .animate-pulse-glow    { animation-duration: 1s !important; }
+
+  /* Transiciones instantáneas */
+  * {
+    transition-duration: 100ms !important;
+  }
+
+  /* Desactivar animaciones flotantes */
+  .orb-1, .orb-2, .orb-3, .orb-4, .orb-5 {
+    animation: none !important;
+  }
+
+  /* Blur mínimo */
+  .backdrop-blur-md,
+  .backdrop-blur-premium {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Deshabilitar sombras complejas */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+}

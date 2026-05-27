@@ -3,8 +3,31 @@ import Menu from "./components/Menu";
 import ProductImage from "./pages/ProductImage";
 import ProductInfo from "./pages/ProductInfo";
 import About from "./pages/About";
+import { useState, useEffect } from 'react';
 
 function App() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Variantes optimizadas para orbes - reducidas en móvil
+  const orbVariants = (delay, isMobile) => ({
+    animate: isMobile 
+      ? { opacity: [0.15, 0.25, 0.15] } // Solo opacity en móvil
+      : { 
+          y: [0, -30, 0],
+          x: [0, 20, 0],
+          opacity: [0.3, 0.5, 0.3]
+        }
+  });
+
   return (
     <div className="App relative min-h-screen">
       {/* Background Premium - Capa Fija */}
@@ -12,52 +35,79 @@ function App() {
         {/* Gradiente Base y Luces Ambientales */}
         <div className="ambient-light"></div>
         
-        {/* Orbes Flotantes Animadas */}
-        <motion.div 
-          className="orb-1"
-          animate={{ 
-            y: [0, -30, 0],
-            x: [0, 20, 0],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div 
-          className="orb-2"
-          animate={{ 
-            y: [0, 40, 0],
-            x: [0, -30, 0],
-            opacity: [0.25, 0.4, 0.25]
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-        />
-        <motion.div 
-          className="orb-3"
-          animate={{ 
-            y: [0, -20, 0],
-            x: [0, 25, 0],
-            opacity: [0.2, 0.35, 0.2]
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-        />
-        <motion.div 
-          className="orb-4"
-          animate={{ 
-            y: [0, 35, 0],
-            x: [0, -20, 0],
-            opacity: [0.15, 0.3, 0.15]
-          }}
-          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-        />
-        <motion.div 
-          className="orb-5"
-          animate={{ 
-            y: [0, -25, 0],
-            x: [0, 30, 0],
-            opacity: [0.1, 0.25, 0.1]
-          }}
-          transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
-        />
+        {/* Orbes Flotantes Animadas - Optimizadas para móvil */}
+        {!isMobile && (
+          <>
+            <motion.div 
+              className="orb-1"
+              animate={{ 
+                y: [0, -30, 0],
+                x: [0, 20, 0],
+                opacity: [0.3, 0.5, 0.3]
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ transform: 'translateZ(0)', willChange: 'transform, opacity' }}
+            />
+            <motion.div 
+              className="orb-2"
+              animate={{ 
+                y: [0, 40, 0],
+                x: [0, -30, 0],
+                opacity: [0.25, 0.4, 0.25]
+              }}
+              transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+              style={{ transform: 'translateZ(0)', willChange: 'transform, opacity' }}
+            />
+            <motion.div 
+              className="orb-3"
+              animate={{ 
+                y: [0, -20, 0],
+                x: [0, 25, 0],
+                opacity: [0.2, 0.35, 0.2]
+              }}
+              transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+              style={{ transform: 'translateZ(0)', willChange: 'transform, opacity' }}
+            />
+            <motion.div 
+              className="orb-4"
+              animate={{ 
+                y: [0, 35, 0],
+                x: [0, -20, 0],
+                opacity: [0.15, 0.3, 0.15]
+              }}
+              transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+              style={{ transform: 'translateZ(0)', willChange: 'transform, opacity' }}
+            />
+            <motion.div 
+              className="orb-5"
+              animate={{ 
+                y: [0, -25, 0],
+                x: [0, 30, 0],
+                opacity: [0.1, 0.25, 0.1]
+              }}
+              transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+              style={{ transform: 'translateZ(0)', willChange: 'transform, opacity' }}
+            />
+          </>
+        )}
+
+        {/* Orbes simplificadas en móvil - solo opacity animation */}
+        {isMobile && (
+          <>
+            <motion.div 
+              className="orb-1"
+              animate={{ opacity: [0.15, 0.25, 0.15] }}
+              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ transform: 'translateZ(0)', willChange: 'opacity' }}
+            />
+            <motion.div 
+              className="orb-2"
+              animate={{ opacity: [0.2, 0.3, 0.2] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+              style={{ transform: 'translateZ(0)', willChange: 'opacity' }}
+            />
+          </>
+        )}
         
         {/* Grid Pattern Sutil */}
         <div className="grid-pattern"></div>
