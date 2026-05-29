@@ -3,10 +3,12 @@ import Menu from "./components/Menu";
 import ProductImage from "./pages/ProductImage";
 import ProductInfo from "./pages/ProductInfo";
 import About from "./pages/About";
+import ImageModal from "./components/ImageModal";
 import { useState, useEffect } from 'react';
 
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -15,6 +17,11 @@ function App() {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Abrir el modal automáticamente cuando la página carga
+  useEffect(() => {
+    setIsModalOpen(true);
   }, []);
 
   // Variantes optimizadas para orbes - reducidas en móvil
@@ -30,6 +37,9 @@ function App() {
 
   return (
     <div className="App relative min-h-screen">
+      {/* Modal de Imagen */}
+      <ImageModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
       {/* Background Premium - Capa Fija */}
       <div className="app-background" aria-hidden="true">
         {/* Gradiente Base y Luces Ambientales */}
