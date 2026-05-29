@@ -1,5 +1,4 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
 import '../styles/ImageModal.css';
 
 function ImageModal({ isOpen, onClose }) {
