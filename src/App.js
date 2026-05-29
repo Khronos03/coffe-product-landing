@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import Menu from "./components/Menu";
 import ProductImage from "./pages/ProductImage";
 import ProductInfo from "./pages/ProductInfo";
+import ProcessComparison from "./pages/ProcessComparison";
 import About from "./pages/About";
 import ImageModal from "./components/ImageModal";
 import { useState, useEffect } from 'react';
@@ -128,6 +129,7 @@ function App() {
           {/* Secciones */}
           <ProductImage />
           <ProductInfo />
+          <ProcessComparison />
           <About />
         </main>
       </div>
