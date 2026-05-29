@@ -24,17 +24,6 @@ function App() {
     setIsModalOpen(true);
   }, []);
 
-  // Variantes optimizadas para orbes - reducidas en móvil
-  const orbVariants = (delay, isMobile) => ({
-    animate: isMobile 
-      ? { opacity: [0.15, 0.25, 0.15] } // Solo opacity en móvil
-      : { 
-          y: [0, -30, 0],
-          x: [0, 20, 0],
-          opacity: [0.3, 0.5, 0.3]
-        }
-  });
-
   return (
     <div className="App relative min-h-screen">
       {/* Modal de Imagen */}
