@@ -236,16 +236,21 @@ const About = () => {
                   style={{
                     display: 'flex',
                     gap: '1rem',
-                    padding: 'clamp(0.6rem, 1.5vw, 0.875rem) clamp(0.75rem, 2vw, 1rem)',
-                    borderRadius: '0.75rem',
+                    padding: 'clamp(1rem, 1.8vw, 1.25rem) clamp(1rem, 2vw, 1.25rem)',
+                    borderRadius: '1rem',
                     background: C.cardBg,
-                    border: `1px solid ${C.border}`,
-                    transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
+                    border: `1.5px solid ${C.border}`,
+                    transition: 'all 300ms cubic-bezier(0.34, 1.56, 0.64, 1)',
                     cursor: 'pointer',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    backdropFilter: 'blur(10px)',
                   }}
+                  whileHover={{ y: -4, scale: 1.02 }}
                   onMouseEnter={e => {
                     e.currentTarget.style.background = C.cardBgHover;
                     e.currentTarget.style.borderColor = C.borderHover;
+                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(235,139,58,0.2)';
                   }}
                   onMouseLeave={e => {
                     e.currentTarget.style.background = C.cardBg;
@@ -381,25 +386,30 @@ const About = () => {
                     variants={estadisticasVariants}
                     style={{
                       textAlign: 'center',
-                      padding: 'clamp(1rem, 2vw, 1.25rem)',
-                      borderRadius: '0.75rem',
+                      padding: 'clamp(1.25rem, 2.5vw, 1.5rem)',
+                      borderRadius: '1rem',
                       background: C.cardBgHover,
-                      border: `1px solid ${C.border}`,
-                      transition: 'all 0.3s',
+                      border: `1.5px solid ${C.border}`,
+                      transition: 'all 300ms cubic-bezier(0.34, 1.56, 0.64, 1)',
                       cursor: 'pointer',
+                      position: 'relative',
+                      overflow: 'hidden',
                     }}
+                    whileHover={{ y: -4, scale: 1.04 }}
                     onMouseEnter={e => {
-                      e.currentTarget.style.background = 'rgba(235,139,58,0.10)';
+                      e.currentTarget.style.background = 'rgba(235,139,58,0.15)';
                       e.currentTarget.style.borderColor = C.borderHover;
+                      e.currentTarget.style.boxShadow = '0 12px 32px rgba(235,139,58,0.25)';
                     }}
                     onMouseLeave={e => {
                       e.currentTarget.style.background = C.cardBgHover;
                       e.currentTarget.style.borderColor = C.border;
+                      e.currentTarget.style.boxShadow = 'none';
                     }}
                   >
-                    <p style={{ fontSize: 'clamp(1rem, 1.5vw, 1.5rem)', margin: '0 0 0.5rem 0' }}>{stat.icon}</p>
+                    <p style={{ fontSize: 'clamp(1.2rem, 2vw, 1.75rem)', margin: '0 0 0.75rem 0' }}>{stat.icon}</p>
                     <p style={{
-                      fontSize: 'clamp(1.5rem, 3vw, 2.25rem)',
+                      fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)',
                       fontWeight: 900,
                       background: 'linear-gradient(135deg, #fff8f0 0%, #fbcd86 100%)',
                       WebkitBackgroundClip: 'text',

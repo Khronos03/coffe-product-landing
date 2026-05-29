@@ -112,7 +112,7 @@ const BADGES = [
 ];
 
 /* ────────────────────────────────────────
-   Badge de calidad con efecto hover
+   Badge de calidad con efecto hover - MEJORADO
 ───────────────────────────────────────── */
 const QualityBadge = ({ icon, label, desc, index }) => {
   const [hovered, setHovered] = useState(false);
@@ -123,16 +123,18 @@ const QualityBadge = ({ icon, label, desc, index }) => {
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
       style={{
-        padding: 'clamp(0.75rem, 2vw, 1.1rem)',
-        borderRadius: '1rem',
+        padding: 'clamp(1rem, 2.5vw, 1.35rem)',
+        borderRadius: '1.125rem',
         background: hovered ? C.cardBgHover : C.cardBg,
-        border: `1px solid ${hovered ? C.borderHover : C.border}`,
+        border: `1.5px solid ${hovered ? C.borderHover : C.border}`,
         textAlign: 'center',
-        cursor: 'default',
-        transition: 'background 0.25s, border-color 0.25s',
+        cursor: 'pointer',
+        transition: 'all 300ms cubic-bezier(0.34, 1.56, 0.64, 1)',
         position: 'relative',
         overflow: 'hidden',
+        backdropFilter: 'blur(10px)',
       }}
+      whileHover={{ y: -4, scale: 1.04 }}
     >
       {/* Glow interno al hover */}
       <motion.div
@@ -140,13 +142,14 @@ const QualityBadge = ({ icon, label, desc, index }) => {
         transition={{ duration: 0.3 }}
         style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
-          background: 'radial-gradient(circle at 50% 0%, rgba(235,139,58,0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(circle at 50% 0%, rgba(235,139,58,0.15) 0%, transparent 70%)',
+          boxShadow: hovered ? '0 12px 32px rgba(235,139,58,0.2) inset' : 'none',
         }}
       />
       <motion.p
-        animate={{ scale: hovered ? 1.2 : 1 }}
+        animate={{ scale: hovered ? 1.25 : 1 }}
         transition={{ type: 'spring', stiffness: 300, damping: 18 }}
-        style={{ fontSize: 'clamp(1.2rem, 2.5vw, 1.5rem)', marginBottom: '0.4rem' }}
+        style={{ fontSize: 'clamp(1.3rem, 2.8vw, 1.75rem)', marginBottom: '0.6rem' }}
       >
         {icon}
       </motion.p>

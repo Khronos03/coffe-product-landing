@@ -1,0 +1,215 @@
+/* Modal Backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  backdrop-filter: blur(3px);
+}
+
+/* Modal Overlay Container */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+/* Modal Content Box */
+.modal-content {
+  position: relative;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
+              0 0 40px rgba(215, 174, 110, 0.2);
+  max-width: 600px;
+  width: 100%;
+  overflow: hidden;
+  border: 2px solid rgba(215, 174, 110, 0.3);
+}
+
+/* Image Container */
+.modal-image-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.modal-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.modal-image:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.modal-image:active {
+  transform: scale(0.98);
+}
+
+/* Opportunity Text */
+.modal-text {
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.opportunity-text {
+  font-size: 28px;
+  font-weight: 700;
+  color: #d7ae6e;
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.product-text {
+  font-size: 18px;
+  color: #e8dcc8;
+  margin: 12px 0 8px 0;
+  letter-spacing: 0.3px;
+  line-height: 1.5;
+}
+
+.product-text strong {
+  color: #d7ae6e;
+  font-weight: 700;
+}
+
+.cta-text {
+  font-size: 14px;
+  color: #b8a88a;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Close Badge */
+.close-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d7ae6e 0%, #c99a5c 100%);
+  border: none;
+  color: #1a1a2e;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(215, 174, 110, 0.3);
+  transition: all 0.3s ease;
+}
+
+.close-badge:hover {
+  background: linear-gradient(135deg, #e5bf7f 0%, #d7ae6e 100%);
+  box-shadow: 0 6px 20px rgba(215, 174, 110, 0.5);
+  transform: scale(1.15);
+}
+
+.close-badge:active {
+  transform: scale(0.95);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 15px;
+  }
+
+  .modal-content {
+    max-width: 100%;
+    border-radius: 15px;
+  }
+
+  .modal-text {
+    padding: 25px 15px;
+  }
+
+  .opportunity-text {
+    font-size: 24px;
+  }
+
+  .product-text {
+    font-size: 16px;
+  }
+
+  .cta-text {
+    font-size: 13px;
+  }
+
+  .close-badge {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    top: 10px;
+    right: 10px;
+  }
+}
+
+/* Extra Small Devices */
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 10px;
+  }
+
+  .modal-content {
+    border-radius: 12px;
+  }
+
+  .modal-text {
+    padding: 20px 12px;
+  }
+
+  .opportunity-text {
+    font-size: 20px;
+  }
+
+  .product-text {
+    font-size: 14px;
+  }
+
+  .cta-text {
+    font-size: 12px;
+  }
+
+  .close-badge {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+    top: 8px;
+    right: 8px;
+  }
+}
+
+/* Animation Enhancement */
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop,
+  .modal-content,
+  .close-badge,
+  .modal-text {
+    animation: none !important;
+    transition: none !important;
+  }
+}

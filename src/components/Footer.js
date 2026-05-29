@@ -109,8 +109,8 @@ const Footer = () => {
         whileInView="visible"
         viewport={{ once: true, margin: '-50px' }}
       >
-        {/* Grid Principal */}
-        <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12">
+        {/* Grid Principal - Mejorado */}
+        <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 mb-16 pb-8 border-b border-orange-900/20">
           
           {/* Sección 1: Marca */}
           <motion.div 
@@ -118,7 +118,7 @@ const Footer = () => {
             variants={itemVariants}
           >
             <motion.h3 
-              className="text-3xl md:text-4xl font-black mb-4"
+              className="text-3xl md:text-4xl font-black mb-6"
               style={{ color: colors.accent }}
               initial={{ opacity: 0, y: -20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -141,21 +141,21 @@ const Footer = () => {
             variants={itemVariants}
           >
             <motion.h4 
-              className="text-lg md:text-xl font-bold mb-6"
+              className="text-lg md:text-xl font-bold mb-8"
               style={{ color: colors.accent }}
               variants={itemVariants}
             >
               Navegación
             </motion.h4>
-            <nav className="space-y-4 flex flex-col items-center">
+            <nav className="space-y-5 flex flex-col items-center">
               {['Inicio', 'Productos', 'Nosotros'].map((item, idx) => (
                 <div key={item} className="relative">
                   <motion.a
                     href={`#section${idx + 1}`}
-                    className="text-sm md:text-base font-semibold py-2 relative block"
+                    className="text-sm md:text-base font-semibold py-2 relative block transition-colors"
                     style={{ color: colors.primary }}
                     initial={{ opacity: 0.8 }}
-                    whileHover={{ opacity: 1 }}
+                    whileHover={{ opacity: 1, color: colors.accent }}
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                     custom={idx}
                   >
@@ -234,18 +234,18 @@ const Footer = () => {
 
         {/* Sección de Redes Sociales */}
         <motion.div 
-          className="text-center mb-8 md:mb-12"
+          className="text-center mb-12 md:mb-16"
           variants={itemVariants}
         >
           <motion.p 
-            className="font-bold mb-6 uppercase tracking-widest text-xs md:text-sm"
+            className="font-bold mb-8 uppercase tracking-widest text-xs md:text-sm"
             style={{ color: colors.secondary }}
             variants={itemVariants}
           >
-            Síguenos en nuestras redes
+            Conecta con nosotros en redes sociales
           </motion.p>
           <motion.div 
-            className="flex items-center justify-center gap-3 md:gap-4 flex-wrap"
+            className="flex items-center justify-center gap-4 md:gap-6 flex-wrap"
             variants={containerVariants}
           >
             {socialLinks.map((link, idx) => {
@@ -260,25 +260,28 @@ const Footer = () => {
                   title={link.label}
                   className="rounded-full transition-all duration-300"
                   style={{
-                    padding: '0.875rem',
+                    padding: '1rem',
                     background: colors.cardBg,
                     border: `1.5px solid ${colors.border}`,
                     color: colors.secondary,
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    backdropFilter: 'blur(10px)',
                   }}
                   variants={itemVariants}
                   whileHover={{
-                    y: -6,
+                    y: -8,
+                    scale: 1.15,
                     background: colors.hoverBg,
                     borderColor: colors.accent,
                     color: colors.accent,
+                    boxShadow: '0 12px 32px rgba(235,139,58,0.35)',
                     transition: { type: 'spring', stiffness: 300, damping: 20 }
                   }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Icon size={22} />
+                  <Icon size={24} />
                 </motion.a>
               );
             })}
