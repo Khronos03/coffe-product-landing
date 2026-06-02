@@ -33,8 +33,8 @@ const Menu = () => {
   }, []);
 
   const navLinks = [
-    { label: 'Comprar', href: '#section1' },
-    { label: 'Perfiles', href: '#section2' },
+    { label: 'Inicio', href: '#section1' },
+    { label: 'Comprar', href: '#section2' },
     { label: 'Nosotros', href: '#section3' },
   ];
 
@@ -53,7 +53,7 @@ const Menu = () => {
         role="status"
         aria-live="polite"
       >
-        ✨ Bienvenido a Cumbre Café — Café de Especialidad Colombiano
+        ✨ Bienvenido a Cumbre Café — Café de Especialidad
       </motion.div>
 
       <motion.nav

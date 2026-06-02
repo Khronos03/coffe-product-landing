@@ -1,30 +1,31 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
-import Honey from "../EHoney.jpg";
+import Honey from "../EHoney.png";
 import Lavado from "../ELavado.jpg";
 import Cuarteron from "../cuarteron.png";
 import Satchets2 from "../satchets2.webp";
 import SatchetsBox from "../satchesBox.webp";
 import ProductCard from "../components/ProductCard";
+import { FaShoppingCart } from "react-icons/fa";
 
 /* ── Tokens dark ── */
 const C = {
-  textPrimary:   '#fff8f0',
+  textPrimary: '#fff8f0',
   textSecondary: '#fbcd86',
-  textTertiary:  '#d4a96a',
-  accent:        '#eb8b3a',
-  accentHover:   '#f5a55a',
-  border:        'rgba(235,139,58,0.18)',
-  borderHover:   'rgba(235,139,58,0.42)',
-  cardBg:        'rgba(255,248,240,0.04)',
-  cardBgHover:   'rgba(255,248,240,0.08)',
-  badgeBg:       'rgba(235,139,58,0.12)',
+  textTertiary: '#d4a96a',
+  accent: '#eb8b3a',
+  accentHover: '#f5a55a',
+  border: 'rgba(235,139,58,0.18)',
+  borderHover: 'rgba(235,139,58,0.42)',
+  cardBg: 'rgba(255,248,240,0.04)',
+  cardBgHover: 'rgba(255,248,240,0.08)',
+  badgeBg: 'rgba(235,139,58,0.12)',
 };
 
 /* ── Variantes de animación reutilizables ── */
 const fadeUp = {
   hidden: { opacity: 0, y: 36 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
 };
 
 const staggerContainer = {
@@ -34,71 +35,71 @@ const staggerContainer = {
 
 const scaleIn = {
   hidden: { opacity: 0, scale: 0.88 },
-  show:   { opacity: 1, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+  show: { opacity: 1, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
 };
 
 /* ── Datos de productos ── */
 const PRODUCTS = [
   {
-    title:    "Proceso Lavado",
-    imageSrc: Lavado,
-    tag:      "Frutos Rojos",
-    variants: [
-      { label: "454 gr", price: "$35.000", oldPrice: "$39.000" },
-      { label: "350 gr", price: "$28.000", oldPrice: "$32.000" },
-      { label: "250 gr", price: "$25.000", oldPrice: "$29.000" },
-    ],
-    details: {
-      perfil:  "Frutos rojos",
-      tostion: "Media",
-      proceso: "Lavado",
-      notas:   "Caña de azúcar, caramelo, moras, arándanos",
-    },
-  },
-  {
-    title:    "Proceso Honey",
+    title: "Proceso Honey",
     imageSrc: Honey,
-    tag:      "Miel & Panela",
+    tag: "Miel & Panela",
     variants: [
       { label: "454 gr", price: "$35.000", oldPrice: "$39.000" },
       { label: "350 gr", price: "$28.000", oldPrice: "$32.000" },
       { label: "250 gr", price: "$25.000", oldPrice: "$29.000" },
     ],
     details: {
-      perfil:  "Panela, Miel",
+      perfil: "Panela, Miel",
       tostion: "Media",
       proceso: "Honey",
-      notas:   "Caña de azúcar, apanelado con su dulzura natural.",
+      notas: "Caña de azúcar, apanelado con su dulzura natural.",
     },
   },
   {
-    title:    "Cuarterón 5 lb",
-    imageSrc: Cuarteron,
-    tag:      "Formato Familiar",
+    title: "Proceso Lavado",
+    imageSrc: Lavado,
+    tag: "Frutos Rojos",
     variants: [
-      { label: "5 lb · Honey",  price: "$165.000", oldPrice: "$179.900", imageSrc: Cuarteron },
+      { label: "454 gr", price: "$35.000", oldPrice: "$39.000" },
+      { label: "350 gr", price: "$28.000", oldPrice: "$32.000" },
+      { label: "250 gr", price: "$25.000", oldPrice: "$29.000" },
+    ],
+    details: {
+      perfil: "Frutos rojos",
+      tostion: "Media",
+      proceso: "Lavado",
+      notas: "Caña de azúcar, caramelo, moras, arándanos",
+    },
+  },
+  {
+    title: "Cuarterón 5 lb",
+    imageSrc: Cuarteron,
+    tag: "Formato Familiar",
+    variants: [
+      { label: "5 lb · Honey", price: "$165.000", oldPrice: "$179.900", imageSrc: Cuarteron },
       {
         label: "5 lb · Lavado", price: "$165.000", oldPrice: "$179.900", imageSrc: Cuarteron,
         details: { perfil: "Frutos rojos", tostion: "Media", proceso: "Lavado", notas: "Caña de azúcar, caramelo, moras, arándanos" },
       },
     ],
     details: {
-      perfil:  "Panela, Miel",
+      perfil: "Panela, Miel",
       tostion: "Media",
       proceso: "Honey",
-      notas:   "Caña de azúcar, apanelado con su dulzura natural.",
+      notas: "Caña de azúcar, apanelado con su dulzura natural.",
     },
   },
   {
-    title:    "Satchets",
+    title: "Satchets",
     imageSrc: Satchets2,
-    tag:      "Porción Individual",
+    tag: "Porción Individual",
     variants: [
-      { label: "Unidad",   price: "$2.500",  oldPrice: "$3.900",  imageSrc: Satchets2  },
+      { label: "Unidad", price: "$2.500", oldPrice: "$3.900", imageSrc: Satchets2 },
       { label: "Caja x10", price: "$25.000", oldPrice: "$39.900", imageSrc: SatchetsBox },
     ],
     details: {
-      notas:   "Pequeñas bolsas individuales, selladas herméticamente, para una sola porción.",
+      notas: "Pequeñas bolsas individuales, selladas herméticamente, para una sola porción.",
       tostion: "Media",
     },
   },
@@ -106,9 +107,9 @@ const PRODUCTS = [
 
 const BADGES = [
   { icon: '🌱', label: 'Procesos Especiales', desc: 'Lavado & Honey' },
-  { icon: '⭐', label: 'Invima',            desc: 'NSA-0376-2026' },
-  { icon: '📍', label: 'Mistrató',            desc: '1.950 m.s.n.m'  },
-  { icon: '☕', label: 'Variedades',          desc: 'Castillo & Supremo' },
+  { icon: '⭐', label: 'Variedades', desc: 'Castillo' },
+  { icon: '📍', label: 'Origen', desc: 'Belén de Umbría' },
+  { icon: '☕', label: 'Variedades', desc: 'Castillo & Supremo' },
 ];
 
 /* ────────────────────────────────────────
@@ -233,10 +234,10 @@ const ProductInfo = () => {
       className="relative w-full overflow-hidden"
       style={{
         minHeight: '100svh',
-        paddingTop:    'clamp(5rem, 10vw, 7rem)',
+        paddingTop: 'clamp(5rem, 10vw, 7rem)',
         paddingBottom: 'clamp(4rem, 8vw,  6rem)',
-        paddingLeft:   'clamp(1rem, 5vw,  2rem)',
-        paddingRight:  'clamp(1rem, 5vw,  2rem)',
+        paddingLeft: 'clamp(1rem, 5vw,  2rem)',
+        paddingRight: 'clamp(1rem, 5vw,  2rem)',
       }}
       aria-labelledby="productos-heading"
     >
@@ -278,23 +279,6 @@ const ProductInfo = () => {
           variants={staggerContainer}
           style={{ textAlign: 'center', marginBottom: 'clamp(2rem, 5vw, 3.5rem)' }}
         >
-          {/* Eyebrow */}
-          <motion.div variants={fadeUp} style={{ marginBottom: '1rem' }}>
-            <span style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-              padding: '0.35rem 1.1rem',
-              borderRadius: '9999px',
-              background: C.badgeBg,
-              border: `1px solid ${C.border}`,
-              fontSize: 'clamp(0.72rem, 1.3vw, 0.82rem)',
-              fontWeight: 700,
-              color: C.textSecondary,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-            }}>
-              <span>☕</span> Colección de Especialidad
-            </span>
-          </motion.div>
 
           {/* Título */}
           <motion.h2
@@ -305,14 +289,14 @@ const ProductInfo = () => {
               fontWeight: 900,
               lineHeight: 1.05,
               letterSpacing: '-0.03em',
-              margin: '0 0 0.6rem',
+              margin: 'clamp(1rem, 3vw, 2rem) 0 0.6rem',
               background: 'linear-gradient(135deg, #fff8f0 0%, #fbcd86 55%, #eb8b3a 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
             }}
           >
-            Nuestros Cafés
+            Tú Café de Especialidad
             <span style={{
               display: 'block',
               background: 'linear-gradient(135deg, #eb8b3a 0%, #fbcd86 100%)',
@@ -320,7 +304,7 @@ const ProductInfo = () => {
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
             }}>
-              de Especialidad
+              favorito a un clic
             </span>
           </motion.h2>
 
@@ -335,10 +319,48 @@ const ProductInfo = () => {
               margin: '0 auto',
             }}
           >
-            Cada café es una experiencia única. Seleccionados con dedicación,
-            cultivados con amor en las montañas de Risaralda.
+            Cada café es una experiencia única. Desliza para conocer más.
           </motion.p>
         </motion.div>
+
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'clamp(2rem, 4vw, 3rem)' }}>
+          <a
+            href="https://wa.me/573216363596/?text=Hola! 👋☕ Estoy interesado(a) en conocer y comprar café de especialidad Cumbre Café. ¿Podrían brindarme información sobre variedades, procesos y precios disponibles?"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center gap-3 focus-ring hover-lift"
+            style={{
+              padding: 'clamp(1rem, 2.5vw, 1.3rem) clamp(1.75rem, 4.5vw, 2.75rem)',
+              borderRadius: '1rem',
+              fontWeight: 700,
+              fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+              background: 'linear-gradient(135deg, #eb8b3a 0%, #d4700a 100%)',
+              color: '#2d1810',
+              boxShadow: '0 12px 32px rgba(235,139,58,0.35), 0 4px 12px rgba(0,0,0,0.30)',
+              transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
+              display: 'inline-flex',
+              border: '1px solid rgba(251,205,134,0.20)',
+              textDecoration: 'none',
+              flexWrap: 'nowrap',
+              whiteSpace: 'nowrap',
+              gap: 'clamp(0.5rem, 1.5vw, 0.75rem)',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, #f5a55a 0%, #eb8b3a 100%)';
+              e.currentTarget.style.boxShadow = '0 16px 48px rgba(235,139,58,0.45), 0 4px 16px rgba(0,0,0,0.30)';
+              e.currentTarget.style.color = '#1a0e08';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, #eb8b3a 0%, #d4700a 100%)';
+              e.currentTarget.style.boxShadow = '0 12px 32px rgba(235,139,58,0.35), 0 4px 12px rgba(0,0,0,0.30)';
+              e.currentTarget.style.color = '#2d1810';
+            }}
+            aria-label="Comprar café de especialidad por WhatsApp"
+          >
+            <FaShoppingCart size={20} aria-hidden="true" style={{ flexShrink: 0 }} />
+            <span style={{ whiteSpace: 'nowrap' }}>Comprar Ahora</span>
+          </a>
+        </div>
 
         {/* ── Línea decorativa ── */}
         <AnimatedRule />

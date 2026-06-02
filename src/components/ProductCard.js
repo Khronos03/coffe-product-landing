@@ -147,7 +147,7 @@ const ProductCard = ({ title, imageSrc, variants, details, compact = false }) =>
                 initial="initial"
                 whileInView="animate"
               >
-                💰 Descuento
+                💰 19% Descuento
               </motion.div>
             )}
           </motion.div>
