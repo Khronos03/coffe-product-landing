@@ -209,7 +209,7 @@ const About = () => {
                   margin: 0,
                 }}
               >
-                Nuestras prácticas son <strong style={{ color: C.textSecondary, fontWeight: 700 }}>100% sostenibles</strong>. Preservamos el medio ambiente, apoyamos a nuestras comunidades y entregamos un café responsable como delicioso.
+                Nuestras prácticas son <strong style={{ color: C.textSecondary, fontWeight: 700 }}>100% sostenibles</strong>. Preservamos el medio ambiente, apoyamos a nuestras comunidades y entregamos un café que te va a encantar.
               </p>
             </motion.div>
 

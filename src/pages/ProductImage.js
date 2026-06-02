@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { FaShoppingCart } from "react-icons/fa";
 import ProcesoHoney from "../Premium.png";
 
 /*
@@ -352,8 +351,7 @@ const ProductImage = () => {
                 }}
                 aria-label="Comprar café de especialidad por WhatsApp"
               >
-                <FaShoppingCart size={20} aria-hidden="true" />
-                <span>Comprar Ahora</span>
+                <span>💬 Consulta ahora mismo!</span>
               </a>
 
               {/* Meta info */}
@@ -365,7 +363,7 @@ const ProductImage = () => {
                   letterSpacing: '0.01em',
                 }}
               >
-                🚚 Envío a toda Colombia &nbsp;·&nbsp; 💬 Consulta sin compromiso
+                🚚 Cobertura en toda Colombia
               </p>
             </div>
 
