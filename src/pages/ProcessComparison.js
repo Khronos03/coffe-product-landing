@@ -1,34 +1,34 @@
 import { motion } from "framer-motion";
 
-/* ── Paleta de colores Dark Mode (igual a ProductInfo & About) ── */
+/* ── Paleta de colores tema claro (igual a ProductInfo & About) ── */
 const C = {
-  textPrimary:   '#fff8f0',           /* headings, texto principal */
-  textSecondary: '#fbcd86',           /* subtítulos, labels warm */
-  textTertiary:  '#d4a96a',           /* hints, meta, pequeño */
+  textPrimary:   '#2d1810',           /* headings, texto principal */
+  textSecondary: '#6f3c0b',           /* subtítulos, labels */
+  textTertiary:  '#8a6a52',           /* hints, meta, pequeño */
   accent:        '#eb8b3a',           /* CTAs, links, highlights */
-  accentHover:   '#f5a55a',
-  border:        'rgba(235,139,58,0.18)',
-  borderHover:   'rgba(235,139,58,0.40)',
-  cardBg:        'rgba(255,248,240,0.04)',
-  cardBgHover:   'rgba(255,248,240,0.08)',
-  badgeBg:       'rgba(235,139,58,0.12)',
+  accentHover:   '#d4700a',
+  border:        'rgba(167,89,17,0.18)',
+  borderHover:   'rgba(167,89,17,0.40)',
+  cardBg:        'rgba(255,255,255,0.65)',
+  cardBgHover:   'rgba(255,255,255,0.90)',
+  badgeBg:       'rgba(235,139,58,0.14)',
 };
 
-/* ── Colores distintivos para procesos (con opacidades para dark mode) ── */
+/* ── Colores distintivos para procesos (variantes oscuras para texto legible sobre claro) ── */
 const HONEY_COLOR = {
-  primary:    '#d4576b',      /* Vino tinto/rosado */
-  light:      '#e8799c',      /* Vino más claro */
-  accent:     '#f5a8b8',      /* Acento vino suave */
+  primary:    '#c0435a',      /* Vino tinto/rosado — usado en glows */
+  light:      '#a53a4d',      /* Variante oscura para texto (contraste AA) */
+  accent:     '#8f2f40',      /* Acento vino oscuro para subtítulos */
   fill:       '#d4576b',      /* Para glows y decorativos */
-  textInverted: '#fff8f0',    /* Texto en fondos oscuros */
+  textInverted: '#fff8f0',    /* Texto sobre fondos sólidos de este color */
 };
 
 const WASH_COLOR = {
-  primary:    '#4a9f7f',      /* Verde agua/menta */
-  light:      '#6ab59a',      /* Verde más claro */
-  accent:     '#8fcdad',      /* Verde menta acento */
+  primary:    '#2f7d61',      /* Verde agua/menta — usado en glows */
+  light:      '#27684f',      /* Variante oscura para texto (contraste AA) */
+  accent:     '#1f5340',      /* Acento verde oscuro para subtítulos */
   fill:       '#4a9f7f',      /* Para glows y decorativos */
-  textInverted: '#fff8f0',    /* Texto en fondos oscuros */
+  textInverted: '#fff8f0',    /* Texto sobre fondos sólidos de este color */
 };
 
 const ProcessComparison = () => {
@@ -312,8 +312,8 @@ const ProcessComparison = () => {
                 style={{
                   position: "absolute",
                   inset: 0,
-                  background: `linear-gradient(135deg, rgba(255,248,240,0.03) 0%, rgba(255,248,240,0.01) 100%)`,
-                  border: `2px solid ${process.color.primary}20`,
+                  background: `linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.30) 100%)`,
+                  border: `2px solid ${process.color.primary}30`,
                   zIndex: 0,
                   transition: "all 400ms ease",
                 }}

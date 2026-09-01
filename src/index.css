@@ -41,6 +41,14 @@
   /* Accento accesible */
   --color-accent-hover:     #7a1600;   /* oscurecido para hover */
 
+  /* ── Acentos Vivos / Modernos (badges, promos, Regalos) ── */
+  --color-badge-new:        #16a34a;   /* verde vivo — badge "Nuevo" */
+  --color-badge-new-bg:     #e9f9ef;   /* fondo suave del badge */
+  --color-gift:             #e0356f;   /* magenta/frambuesa vivo — sección Regalos */
+  --color-gift-hover:       #c22359;
+  --color-gift-subtle:      #fdeaf1;   /* fondo suave rosado */
+  --color-gold:             #d4a017;   /* dorado suave — acentos premium */
+
   /* ── Semánticos de Texto ── */
   --color-text-primary:     #2d1810;   /* 15.95:1 on light ✅ — encabezados, body principal */
   --color-text-secondary:   #5a3a2a;   /* texto secundario / subtítulos */
@@ -117,7 +125,7 @@ body {
   overflow-x: hidden;
   color: var(--color-text-primary);
   line-height: 1.6;
-  background:#131212;
+  background: linear-gradient(180deg, #fff8f0 0%, #fef3e2 45%, #fdf0d9 100%);
   background-attachment: fixed;
 }
 
@@ -1258,74 +1266,4 @@ section { scroll-margin-top: 80px; }
     box-shadow: none !important;
     text-shadow: none !important;
   }
-}
-
-/* ============================================================
-   ESTILOS PREMIUM Y ELEGANCIA VISUAL
-   ============================================================ */
-
-/* Separadores Elegantes */
-.divider-elegant {
-  height: 1px;
-  background: linear-gradient(to right, 
-    transparent 0%,
-    rgba(235,139,58,0.1) 15%,
-    rgba(235,139,58,0.25) 50%,
-    rgba(235,139,58,0.1) 85%,
-    transparent 100%
-  );
-  position: relative;
-}
-
-/* Cards Premium */
-.card-premium {
-  background: rgba(255,248,240,0.04);
-  border: 1.5px solid rgba(235,139,58,0.18);
-  border-radius: 1rem;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: all 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.card-premium::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(255,248,240,0.3), transparent);
-}
-
-.card-premium:hover {
-  background: rgba(255,248,240,0.06);
-  border-color: rgba(235,139,58,0.35);
-  box-shadow: 0 16px 40px rgba(235,139,58,0.15),
-              inset 0 1px 1px rgba(255,248,240,0.2);
-  transform: translateY(-4px);
-}
-
-/* Text Gradient */
-.text-gradient-warm {
-  background: linear-gradient(135deg, 
-    #fff8f0 0%,
-    #fbcd86 50%,
-    #eb8b3a 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Shadow Styles Premium */
-.shadow-premium {
-  box-shadow: 0 8px 24px rgba(235,139,58,0.2),
-              0 2px 8px rgba(0,0,0,0.1);
-}
-
-.shadow-premium-hover {
-  box-shadow: 0 16px 48px rgba(235,139,58,0.3),
-              0 4px 16px rgba(0,0,0,0.15);
 }

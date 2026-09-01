@@ -1,18 +1,18 @@
 import { motion } from "framer-motion";
 import Footer from "../components/Footer";
 
-/* ── Paleta de colores Dark Mode (igual a ProductImage) ── */
+/* ── Paleta de colores tema claro (igual a ProductImage) ── */
 const C = {
-  textPrimary:   '#fff8f0',           /* headings, texto principal */
-  textSecondary: '#fbcd86',           /* subtítulos, labels warm */
-  textTertiary:  '#d4a96a',           /* hints, meta, pequeño */
+  textPrimary:   '#2d1810',           /* headings, texto principal */
+  textSecondary: '#6f3c0b',           /* subtítulos, labels */
+  textTertiary:  '#8a6a52',           /* hints, meta, pequeño */
   accent:        '#eb8b3a',           /* CTAs, links, highlights */
-  accentHover:   '#f5a55a',
-  border:        'rgba(235,139,58,0.18)',
-  borderHover:   'rgba(235,139,58,0.40)',
-  cardBg:        'rgba(255,248,240,0.04)',
-  cardBgHover:   'rgba(255,248,240,0.07)',
-  badgeBg:       'rgba(235,139,58,0.12)',
+  accentHover:   '#d4700a',
+  border:        'rgba(167,89,17,0.18)',
+  borderHover:   'rgba(167,89,17,0.40)',
+  cardBg:        'rgba(255,255,255,0.65)',
+  cardBgHover:   'rgba(255,255,255,0.90)',
+  badgeBg:       'rgba(235,139,58,0.14)',
 };
 
 const About = () => {
@@ -162,7 +162,7 @@ const About = () => {
                   fontWeight: 900,
                   lineHeight: 1.1,
                   letterSpacing: '-0.03em',
-                  background: 'linear-gradient(135deg, #fff8f0 0%, #fbcd86 60%, #eb8b3a 100%)',
+                  background: 'linear-gradient(135deg, #6f3c0b 0%, #d4700a 60%, #eb8b3a 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -195,7 +195,7 @@ const About = () => {
                 style={{
                   fontSize: 'clamp(0.9rem, 1.8vw, 1.0625rem)',
                   lineHeight: 1.8,
-                  color: 'rgba(255,248,240,0.82)',
+                  color: 'rgba(45,24,16,0.78)',
                   margin: 0,
                 }}
               >
@@ -205,7 +205,7 @@ const About = () => {
                 style={{
                   fontSize: 'clamp(0.9rem, 1.8vw, 1.0625rem)',
                   lineHeight: 1.8,
-                  color: 'rgba(255,248,240,0.82)',
+                  color: 'rgba(45,24,16,0.78)',
                   margin: 0,
                 }}
               >
@@ -364,7 +364,7 @@ const About = () => {
                 borderRadius: '1.5rem',
                 background: C.cardBg,
                 border: `1.5px solid ${C.border}`,
-                boxShadow: '0 24px 80px rgba(0,0,0,0.50), 0 0 0 1px rgba(235,139,58,0.08)',
+                boxShadow: '0 24px 60px rgba(45,24,16,0.18), 0 0 0 1px rgba(235,139,58,0.10)',
               }}
               whileHover={{ y: -8 }}
             >
@@ -411,7 +411,7 @@ const About = () => {
                     <p style={{
                       fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)',
                       fontWeight: 900,
-                      background: 'linear-gradient(135deg, #fff8f0 0%, #fbcd86 100%)',
+                      background: 'linear-gradient(135deg, #6f3c0b 0%, #eb8b3a 100%)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       backgroundClip: 'text',
@@ -504,7 +504,7 @@ const About = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   {[
                     { name: 'Proceso Lavado', color: '#eb8b3a' },
-                    { name: 'Proceso Honey', color: '#fbcd86' }
+                    { name: 'Proceso Honey', color: '#d4700a' }
                   ].map((proceso, idx) => (
                     <motion.div 
                       key={idx}

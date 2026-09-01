@@ -2,46 +2,39 @@ import { motion } from "framer-motion";
 import ProcesoHoney from "../Premium.png";
 
 /*
-  TOKENS DARK BACKGROUND (#131212)
+  TOKENS TEMA CLARO (fondo crema #fff8f0)
   ─────────────────────────────────────────────────────────────
-  Sobre #131212, los roles de color se invierten completamente:
+  Sobre #fff8f0, los tonos deben oscurecerse para pasar WCAG AA:
 
-  TEXTO PRINCIPAL    → #fff8f0  (17.75:1) ✅
-  TEXTO SECUNDARIO   → #fbcd86  (12.63:1) ✅  warm — antes era solo decorativo
-  TEXTO TERCIARIO    → #d4a96a  ( 7.20:1) ✅  warm oscurecido
-  ACENTO / LINKS     → #eb8b3a  ( 7.38:1) ✅  naranja fill — ahora SÍ pasa como texto
-  ACENTO HOVER       → #f5a55a  ( 9.10:1) ✅
+  TEXTO PRINCIPAL    → #2d1810  (15.95:1) ✅
+  TEXTO SECUNDARIO   → #6f3c0b  ( 8.57:1) ✅
+  TEXTO TERCIARIO    → #8a6a52  ( 4.6:1)  ✅
+  ACENTO / LINKS     → #eb8b3a  fill decorativo — usar #d4700a como texto/CTA
+  ACENTO HOVER       → #d4700a
 
-  Fondos de cards    → rgba(255,248,240, 0.05–0.08)  — blanco muy translúcido
-  Bordes             → rgba(235,139,58, 0.15–0.25)   — naranja sutil
-  Bordes hover       → rgba(235,139,58, 0.40)
-
-  NUNCA sobre #131212:
-  ✗ #430000  (1.10:1)
-  ✗ #2d1810  (1.11:1)
-  ✗ #5a3a2a  (1.85:1)
-  ✗ #a11d00  (2.40:1)
-  ✗ #a75911  (3.63:1 — solo UI mínimo, no texto corrido)
+  Fondos de cards    → #ffffff / rgba(255,255,255,0.65–0.90) — blancas sólidas
+  Bordes             → rgba(167,89,17, 0.15–0.25) — naranja sutil
+  Bordes hover       → rgba(167,89,17, 0.40)
 */
 
-/* ── Constantes de color para dark mode ── */
+/* ── Constantes de color para el tema claro ── */
 const C = {
-  textPrimary:   '#fff8f0',           /* headings, texto principal */
-  textSecondary: '#fbcd86',           /* subtítulos, labels warm */
-  textTertiary:  '#d4a96a',           /* hints, meta, pequeño */
+  textPrimary:   '#2d1810',           /* headings, texto principal */
+  textSecondary: '#6f3c0b',           /* subtítulos, labels */
+  textTertiary:  '#8a6a52',           /* hints, meta, pequeño */
   accent:        '#eb8b3a',           /* CTAs, links, highlights */
-  accentHover:   '#f5a55a',
-  border:        'rgba(235,139,58,0.18)',
-  borderHover:   'rgba(235,139,58,0.40)',
-  cardBg:        'rgba(255,248,240,0.04)',
-  cardBgHover:   'rgba(255,248,240,0.07)',
-  badgeBg:       'rgba(235,139,58,0.12)',
+  accentHover:   '#d4700a',
+  border:        'rgba(167,89,17,0.18)',
+  borderHover:   'rgba(167,89,17,0.40)',
+  cardBg:        'rgba(255,255,255,0.65)',
+  cardBgHover:   'rgba(255,255,255,0.90)',
+  badgeBg:       'rgba(235,139,58,0.14)',
 };
 
 const ProductImage = () => {
   return (
     <section
-      id="section1"
+      id="section-product-image"
       className="relative w-full overflow-hidden flex items-center justify-center"
       style={{
         minHeight: '100svh',
@@ -50,7 +43,7 @@ const ProductImage = () => {
         paddingLeft:   'clamp(1rem, 5vw,  2rem)',
         paddingRight:  'clamp(1rem, 5vw,  2rem)',
       }}
-      aria-labelledby="hero-heading"
+      aria-labelledby="product-image-heading"
     >
 
       {/* ── Glows de fondo ────────────────── */}
@@ -130,15 +123,15 @@ const ProductImage = () => {
                 style={{
                   borderRadius: 'clamp(1rem, 3vw, 1.75rem)',
                   border: `1.5px solid ${C.border}`,
-                  background: 'rgba(255,248,240,0.04)',
-                  boxShadow: '0 24px 80px rgba(0,0,0,0.50), 0 0 0 1px rgba(235,139,58,0.08)',
+                  background: '#ffffff',
+                  boxShadow: '0 24px 60px rgba(45,24,16,0.18), 0 0 0 1px rgba(235,139,58,0.10)',
                 }}
               >
                 <div
                   className="overflow-hidden"
                   style={{
                     aspectRatio: '4 / 5',
-                    background: 'rgba(19,18,18,0.6)',
+                    background: 'rgba(254,243,226,0.6)',
                   }}
                 >
                   <img
@@ -207,13 +200,13 @@ const ProductImage = () => {
 
             {/* Título */}
             <h1
-              id="hero-heading"
+              id="product-image-heading"
               style={{
                 fontSize: 'clamp(2.4rem, 6vw, 4.5rem)',
                 fontWeight: 900,
                 lineHeight: 1.1,
                 letterSpacing: '-0.03em',
-                background: 'linear-gradient(135deg, #fff8f0 0%, #fbcd86 60%, #eb8b3a 100%)',
+                background: 'linear-gradient(135deg, #6f3c0b 0%, #d4700a 60%, #eb8b3a 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
@@ -244,7 +237,7 @@ const ProductImage = () => {
                 style={{
                   fontSize: 'clamp(0.9rem, 1.8vw, 1.0625rem)',
                   lineHeight: 1.8,
-                  color: 'rgba(255,248,240,0.82)',
+                  color: 'rgba(45,24,16,0.78)',
                   margin: 0,
                 }}
               >
@@ -258,7 +251,7 @@ const ProductImage = () => {
                 style={{
                   fontSize: 'clamp(0.9rem, 1.8vw, 1.0625rem)',
                   lineHeight: 1.8,
-                  color: 'rgba(255,248,240,0.82)',
+                  color: 'rgba(45,24,16,0.78)',
                   margin: 0,
                 }}
               >

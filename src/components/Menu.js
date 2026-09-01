@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import { IoLogoWhatsapp } from "react-icons/io";
 import { FiMenu, FiX } from "react-icons/fi";
 
@@ -11,6 +12,8 @@ const Menu = () => {
   const [activeLink, setActiveLink] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,10 +36,16 @@ const Menu = () => {
   }, []);
 
   const navLinks = [
-    { label: 'Inicio', href: '#section1' },
-    { label: 'Comprar', href: '#section2' },
-    { label: 'Nosotros', href: '#section3' },
+    { label: 'Inicio', href: '#section1', type: 'anchor' },
+    { label: 'Comprar', href: '#section2', type: 'anchor' },
+    { label: '🎁 Regalos', href: '#section-gifts', type: 'anchor' },
+    { label: '☕ Recetas de Café', href: '/recetas-cafe', type: 'route' },
+    { label: 'Nosotros', href: '#section3', type: 'anchor' },
   ];
+
+  // En rutas distintas a "/", las anclas navegan primero a home conservando el hash
+  const getHref = (link) => (link.type === 'route' || isHome ? link.href : `/${link.href}`);
+  const getIsActive = (link) => (link.type === 'route' ? location.pathname === link.href : activeLink === link.href.substring(1));
 
   return (
     <>
@@ -45,9 +54,9 @@ const Menu = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         style={{
-          background: 'var(--color-dark)',
-          color: 'var(--color-text-inverse)',
-          boxShadow: 'var(--shadow-md)',
+          background: 'linear-gradient(90deg, #eb8b3a 0%, #fbcd86 100%)',
+          color: '#2d1810',
+          boxShadow: 'var(--shadow-sm)',
         }}
         className="fixed top-0 left-0 w-full text-xs font-semibold tracking-widest uppercase py-2 text-center z-[60]"
         role="status"
@@ -63,13 +72,14 @@ const Menu = () => {
         style={
           isScrolled
             ? {
-                background: 'rgba(25, 18, 16, 0.98)',
-                borderColor: 'rgba(235, 139, 58, 0.2)',
+                background: 'rgba(255,248,240, 0.96)',
+                borderColor: 'rgba(167,89,17,0.18)',
                 borderBottom: '1px solid',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
+                boxShadow: '0 4px 20px rgba(45,24,16,0.10)',
               }
             : {
-                background: 'transparent',
+                background: 'rgba(255,248,240,0.55)',
+                backdropFilter: 'blur(6px)',
               }
         }
         aria-label="Navegación principal"
@@ -97,18 +107,18 @@ const Menu = () => {
 
           <div className="hidden md:flex items-center justify-center gap-6 lg:gap-8 flex-1 mx-6 lg:mx-8">
             {navLinks.map((link, i) => {
-              const isActive = activeLink === link.href.substring(1);
+              const isActive = getIsActive(link);
               return (
                 <motion.a
                   key={link.href}
-                  href={link.href}
+                  href={getHref(link)}
                   className="relative font-medium text-xs lg:text-sm transition-colors duration-300 focus-ring whitespace-nowrap"
                   style={{
                     color: isScrolled
                       ? isActive
-                        ? '#f5a55a'  /* Naranja claro para estado activo - 9.10:1 ✅ */
-                        : '#e8e1d7'  /* Texto claro para estado inactivo - 12.5:1 ✅ */
-                      : '#fff8f0',    /* Blanco crema en hero - 17.75:1 ✅ */
+                        ? '#d4700a'  /* Naranja oscuro para estado activo sobre claro */
+                        : '#4a3221'  /* Texto oscuro para estado inactivo */
+                      : '#2d1810',    /* Texto oscuro sobre hero claro */
                     fontWeight: isActive ? 700 : 500,
                     letterSpacing: '0.5px',
                   }}
@@ -124,9 +134,7 @@ const Menu = () => {
                     <motion.span
                       className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full"
                       style={{ 
-                        background: isScrolled 
-                          ? '#f5a55a'
-                          : '#fbcd86'
+                        background: '#eb8b3a'
                       }}
                       aria-hidden="true"
                       layoutId="activeIndicator"
@@ -155,13 +163,13 @@ const Menu = () => {
                       background: '#eb8b3a',
                       color: '#2d1810',
                       boxShadow: '0 8px 20px rgba(235, 139, 58, 0.3)',
-                      border: '1.5px solid rgba(251, 205, 134, 0.3)',
+                      border: '1.5px solid rgba(212,112,10,0.3)',
                     }
                   : {
-                      background: 'rgba(255, 248, 240, 0.18)',
-                      color: '#fff8f0',
-                      border: '1.5px solid rgba(255, 248, 240, 0.4)',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                      background: '#eb8b3a',
+                      color: '#2d1810',
+                      border: '1.5px solid rgba(212,112,10,0.3)',
+                      boxShadow: '0 4px 12px rgba(45,24,16,0.12)',
                     }
               }
               whileHover={{ scale: 1.06, y: -2 }}
@@ -179,12 +187,10 @@ const Menu = () => {
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden p-2 rounded-lg transition-all duration-300 focus-ring"
             style={{
-              color: isScrolled 
-                ? '#e8e1d7'
-                : '#fff8f0',
+              color: '#2d1810',
               background: isScrolled 
-                ? 'rgba(235, 139, 58, 0.1)'
-                : 'rgba(255, 248, 240, 0.1)',
+                ? 'rgba(235, 139, 58, 0.12)'
+                : 'rgba(235, 139, 58, 0.18)',
             }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
@@ -226,18 +232,18 @@ const Menu = () => {
               transition={{ duration: 0.3 }}
               className="md:hidden backdrop-blur-md border-t"
               style={{
-                background: 'rgba(25, 18, 16, 0.95)',
-                borderColor: 'rgba(235, 139, 58, 0.2)',
-                boxShadow: 'inset 0 4px 12px rgba(0, 0, 0, 0.3)',
+                background: 'rgba(255,248,240,0.98)',
+                borderColor: 'rgba(167,89,17,0.18)',
+                boxShadow: 'inset 0 4px 12px rgba(45,24,16,0.08)',
               }}
             >
               <div className="max-w-7xl mx-auto px-3 py-4 space-y-2">
                 {navLinks.map((link, i) => {
-                  const isActive = activeLink === link.href.substring(1);
+                  const isActive = getIsActive(link);
                   return (
                     <motion.a
                       key={link.href}
-                      href={link.href}
+                      href={getHref(link)}
                       className="block px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 focus-ring"
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -253,7 +259,7 @@ const Menu = () => {
                             }
                           : {
                               background: 'transparent',
-                              color: '#e8e1d7',
+                              color: '#4a3221',
                               borderLeft: '2px solid transparent',
                             }
                       }

@@ -1,25 +1,29 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
-import Honey from "../EHoney.png";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import Lavado from "../ELavado.jpg";
 import Cuarteron from "../cuarteron.png";
 import Satchets2 from "../satchets2.webp";
 import SatchetsBox from "../satchesBox.webp";
+import Premium from "../Premium.png";
 import ProductCard from "../components/ProductCard";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaGift, FaCoffee } from "react-icons/fa";
 
-/* ── Tokens dark ── */
+// Servido desde /public para evitar que el loader SVGR de CRA intente
+// compilar el SVG como componente React (falla por tags de namespace xlink).
+const Honey = `${process.env.PUBLIC_URL}/RedHoneyMolido.svg`;
+
+/* ── Tokens claros ── */
 const C = {
-  textPrimary: '#fff8f0',
-  textSecondary: '#fbcd86',
-  textTertiary: '#d4a96a',
+  textPrimary: '#2d1810',
+  textSecondary: '#6f3c0b',
+  textTertiary: '#8a6a52',
   accent: '#eb8b3a',
-  accentHover: '#f5a55a',
-  border: 'rgba(235,139,58,0.18)',
-  borderHover: 'rgba(235,139,58,0.42)',
-  cardBg: 'rgba(255,248,240,0.04)',
-  cardBgHover: 'rgba(255,248,240,0.08)',
-  badgeBg: 'rgba(235,139,58,0.12)',
+  accentHover: '#d4700a',
+  border: 'rgba(167,89,17,0.18)',
+  borderHover: 'rgba(167,89,17,0.40)',
+  cardBg: 'rgba(255,255,255,0.70)',
+  cardBgHover: 'rgba(255,255,255,0.92)',
+  badgeBg: 'rgba(235,139,58,0.14)',
 };
 
 /* ── Variantes de animación reutilizables ── */
@@ -31,11 +35,6 @@ const fadeUp = {
 const staggerContainer = {
   hidden: {},
   show: { transition: { staggerChildren: 0.10, delayChildren: 0.05 } },
-};
-
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.88 },
-  show: { opacity: 1, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
 };
 
 /* ── Datos de productos ── */
@@ -105,64 +104,55 @@ const PRODUCTS = [
   },
 ];
 
-const BADGES = [
-  { icon: '🌱', label: 'Procesos Especiales', desc: 'Lavado & Honey' },
-  { icon: '⭐', label: 'Variedades', desc: 'Castillo' },
-  { icon: '📍', label: 'Origen', desc: 'Belén de Umbría' },
-  { icon: '☕', label: 'Variedades', desc: 'Castillo & Supremo' },
+/* ── Productos pensados para regalar (tab "Regalos") ── */
+const GIFTS = [
+  {
+    title: "Kit Regalo Cumbre",
+    imageSrc: Cuarteron,
+    tag: "Kit de Regalo",
+    badge: "🆕 Nuevo",
+    variants: [
+      { label: "2×250 gr · Honey + Lavado", price: "$48.000", oldPrice: "$58.000" },
+      { label: "2×454 gr · Honey + Lavado", price: "$65.000", oldPrice: "$78.000" },
+    ],
+    details: {
+      perfil: "Panela, Miel y Frutos Rojos",
+      tostion: "Media",
+      proceso: "Honey + Lavado",
+      notas: "Dos procesos en un solo kit, presentado en caja lista para regalar.",
+    },
+  },
+  {
+    title: "Caja Sorpresa Satchets",
+    imageSrc: SatchetsBox,
+    tag: "Combo Especial",
+    badge: "✨ Recién llegado",
+    variants: [
+      { label: "Caja x10 porciones", price: "$25.000", oldPrice: "$32.000" },
+      { label: "Caja x20 + Taza de regalo", price: "$48.000", oldPrice: "$60.000" },
+    ],
+    details: {
+      notas: "Porciones individuales selladas herméticamente, ideales para compartir u obsequiar.",
+      tostion: "Media",
+    },
+  },
+  {
+    title: "Combo Honey & Lavado",
+    imageSrc: Premium,
+    tag: "Café Especial",
+    badge: "🎁 Ideal para regalar",
+    variants: [
+      { label: "2×250 gr", price: "$50.000", oldPrice: "$58.000" },
+      { label: "2×454 gr", price: "$68.000", oldPrice: "$78.000" },
+    ],
+    details: {
+      perfil: "Panela, Miel, Frutos Rojos",
+      tostion: "Media",
+      proceso: "Honey + Lavado",
+      notas: "Los dos perfiles más queridos de Cumbre Café, juntos en un solo combo.",
+    },
+  },
 ];
-
-/* ────────────────────────────────────────
-   Badge de calidad con efecto hover - MEJORADO
-───────────────────────────────────────── */
-const QualityBadge = ({ icon, label, desc, index }) => {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <motion.div
-      variants={scaleIn}
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
-      style={{
-        padding: 'clamp(1rem, 2.5vw, 1.35rem)',
-        borderRadius: '1.125rem',
-        background: hovered ? C.cardBgHover : C.cardBg,
-        border: `1.5px solid ${hovered ? C.borderHover : C.border}`,
-        textAlign: 'center',
-        cursor: 'pointer',
-        transition: 'all 300ms cubic-bezier(0.34, 1.56, 0.64, 1)',
-        position: 'relative',
-        overflow: 'hidden',
-        backdropFilter: 'blur(10px)',
-      }}
-      whileHover={{ y: -4, scale: 1.04 }}
-    >
-      {/* Glow interno al hover */}
-      <motion.div
-        animate={{ opacity: hovered ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
-        style={{
-          position: 'absolute', inset: 0, pointerEvents: 'none',
-          background: 'radial-gradient(circle at 50% 0%, rgba(235,139,58,0.15) 0%, transparent 70%)',
-          boxShadow: hovered ? '0 12px 32px rgba(235,139,58,0.2) inset' : 'none',
-        }}
-      />
-      <motion.p
-        animate={{ scale: hovered ? 1.25 : 1 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 18 }}
-        style={{ fontSize: 'clamp(1.3rem, 2.8vw, 1.75rem)', marginBottom: '0.6rem' }}
-      >
-        {icon}
-      </motion.p>
-      <p style={{ fontWeight: 700, fontSize: 'clamp(0.72rem, 1.3vw, 0.8rem)', color: C.textSecondary, marginBottom: '0.2rem' }}>
-        {label}
-      </p>
-      <p style={{ fontSize: 'clamp(0.65rem, 1.1vw, 0.72rem)', color: C.textTertiary }}>
-        {desc}
-      </p>
-    </motion.div>
-  );
-};
 
 /* ────────────────────────────────────────
    Línea decorativa animada
@@ -226,6 +216,19 @@ const ProductInfo = () => {
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
+  const [activeTab, setActiveTab] = useState('comprar');
+
+  // Sincroniza la pestaña activa con el enlace "🎁 Regalos" del menú (#section-gifts)
+  useEffect(() => {
+    const syncTabWithHash = () => {
+      if (window.location.hash === '#section-gifts') {
+        setActiveTab('regalos');
+      }
+    };
+    syncTabWithHash();
+    window.addEventListener('hashchange', syncTabWithHash);
+    return () => window.removeEventListener('hashchange', syncTabWithHash);
+  }, []);
 
   return (
     <section
@@ -290,7 +293,7 @@ const ProductInfo = () => {
               lineHeight: 1.05,
               letterSpacing: '-0.03em',
               margin: 'clamp(1rem, 3vw, 2rem) 0 0.6rem',
-              background: 'linear-gradient(135deg, #fff8f0 0%, #fbcd86 55%, #eb8b3a 100%)',
+              background: 'linear-gradient(135deg, #6f3c0b 0%, #d4700a 55%, #eb8b3a 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -299,7 +302,7 @@ const ProductInfo = () => {
             Tú Café de Especialidad
             <span style={{
               display: 'block',
-              background: 'linear-gradient(135deg, #eb8b3a 0%, #fbcd86 100%)',
+              background: 'linear-gradient(135deg, #eb8b3a 0%, #d4700a 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -314,7 +317,7 @@ const ProductInfo = () => {
             style={{
               fontSize: 'clamp(0.95rem, 2vw, 1.125rem)',
               lineHeight: 1.75,
-              color: 'rgba(255,248,240,0.72)',
+              color: 'rgba(45,24,16,0.72)',
               maxWidth: '38rem',
               margin: '0 auto',
             }}
@@ -362,55 +365,131 @@ const ProductInfo = () => {
           </a>
         </div>
 
+        {/* ── Tabs: Comprar / Regalos ── */}
+        <div
+          id="section-gifts"
+          role="tablist"
+          aria-label="Explorar Comprar o Regalos"
+          style={{
+            scrollMarginTop: '100px',
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '0.75rem',
+            marginBottom: 'clamp(2rem, 4vw, 3rem)',
+            flexWrap: 'wrap',
+          }}
+        >
+          {[
+            { id: 'comprar', label: 'Comprar', icon: <FaCoffee aria-hidden="true" /> },
+            { id: 'regalos', label: 'Regalos', icon: <FaGift aria-hidden="true" /> },
+          ].map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => setActiveTab(tab.id)}
+                className="focus-ring"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.65rem 1.5rem',
+                  borderRadius: '9999px',
+                  fontWeight: 700,
+                  fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',
+                  cursor: 'pointer',
+                  transition: 'all 0.25s ease',
+                  background: isActive
+                    ? 'linear-gradient(135deg, #eb8b3a 0%, #d4700a 100%)'
+                    : 'rgba(255,255,255,0.70)',
+                  color: isActive ? '#2d1810' : C.textSecondary,
+                  border: isActive ? '1px solid rgba(212,112,10,0.30)' : `1px solid ${C.border}`,
+                  boxShadow: isActive ? '0 10px 28px rgba(235,139,58,0.35)' : 'none',
+                }}
+              >
+                {tab.icon}
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+
         {/* ── Línea decorativa ── */}
         <AnimatedRule />
 
-        {/* ── BADGES DE CALIDAD ── */}
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={staggerContainer}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))',
-            gap: 'clamp(0.6rem, 1.5vw, 1rem)',
-            marginBottom: 'clamp(3rem, 6vw, 5rem)',
-            maxWidth: '48rem',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-        >
-          {BADGES.map((b, i) => (
-            <QualityBadge key={b.label} {...b} index={i} />
-          ))}
-        </motion.div>
-
-        {/* ── GRID DE PRODUCTOS ── */}
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={staggerContainer}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))',
-            gap: 'clamp(1rem, 2.5vw, 1.5rem)',
-            marginBottom: 'clamp(3rem, 6vw, 5rem)',
-          }}
-        >
-          {PRODUCTS.map((p) => (
-            <ProductWrapper key={p.title}>
-              <ProductCard
-                title={p.title}
-                imageSrc={p.imageSrc}
-                variants={p.variants}
-                details={p.details}
-                compact
-              />
-            </ProductWrapper>
-          ))}
-        </motion.div>
+        {/* ── GRID DE PRODUCTOS / REGALOS ── */}
+        <AnimatePresence mode="wait">
+          {activeTab === 'comprar' ? (
+            <motion.div
+              key="comprar"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))',
+                gap: 'clamp(1rem, 2.5vw, 1.5rem)',
+                marginBottom: 'clamp(3rem, 6vw, 5rem)',
+              }}
+            >
+              {PRODUCTS.map((p) => (
+                <ProductWrapper key={p.title}>
+                  <ProductCard
+                    title={p.title}
+                    imageSrc={p.imageSrc}
+                    variants={p.variants}
+                    details={p.details}
+                    compact
+                  />
+                </ProductWrapper>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="regalos"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))',
+                gap: 'clamp(1rem, 2.5vw, 1.5rem)',
+                marginBottom: 'clamp(3rem, 6vw, 5rem)',
+              }}
+            >
+              {GIFTS.map((g) => (
+                <ProductWrapper key={g.title}>
+                  <div style={{ padding: '0.75rem 0.75rem 0' }}>
+                    <span
+                      className="inline-block font-semibold"
+                      style={{
+                        fontSize: '0.7rem',
+                        letterSpacing: '0.04em',
+                        textTransform: 'uppercase',
+                        color: C.textSecondary,
+                      }}
+                    >
+                      {g.tag}
+                    </span>
+                  </div>
+                  <ProductCard
+                    title={g.title}
+                    imageSrc={g.imageSrc}
+                    variants={g.variants}
+                    details={g.details}
+                    badge={g.badge}
+                    compact
+                  />
+                </ProductWrapper>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* ── CTA FINAL ── */}
         <motion.div
@@ -437,14 +516,18 @@ const ProductInfo = () => {
 
           <p style={{
             fontSize: 'clamp(0.9rem, 1.8vw, 1.05rem)',
-            color: 'rgba(255,248,240,0.65)',
+            color: 'rgba(45,24,16,0.65)',
             marginBottom: '1.25rem',
           }}>
-            ¿No encuentras lo que buscas?
+            {activeTab === 'regalos' ? '¿Necesitas ayuda para elegir el regalo ideal?' : '¿No encuentras lo que buscas?'}
           </p>
 
           <motion.a
-            href="https://wa.me/573216363596/?text=¡Hola! Tengo una consulta especial sobre los cafés de Cumbre Café"
+            href={
+              activeTab === 'regalos'
+                ? "https://wa.me/573216363596/?text=¡Hola! 🎁 Quiero un consejo para elegir un regalo de café de especialidad de Cumbre Café"
+                : "https://wa.me/573216363596/?text=¡Hola! Tengo una consulta especial sobre los cafés de Cumbre Café"
+            }
             target="_blank"
             rel="noreferrer"
             whileHover={{ scale: 1.04, boxShadow: '0 20px 50px rgba(235,139,58,0.40)' }}

@@ -8,15 +8,15 @@ const Footer = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Color palette
+  // Color palette — tema claro
   const colors = {
-    primary: '#fff8f0',
-    secondary: '#fbcd86',
-    accent: '#eb8b3a',
-    dark: '#131212',
-    border: 'rgba(235,139,58,0.18)',
-    cardBg: 'rgba(255,248,240,0.04)',
-    hoverBg: 'rgba(235,139,58,0.12)',
+    primary: '#2d1810',
+    secondary: '#6f3c0b',
+    accent: '#d4700a',
+    dark: '#fdf0d9',
+    border: 'rgba(167,89,17,0.20)',
+    cardBg: 'rgba(255,255,255,0.55)',
+    hoverBg: 'rgba(235,139,58,0.14)',
   };
 
   // Animation variants
@@ -81,7 +81,7 @@ const Footer = () => {
 
   return (
     <footer 
-      className="relative bg-dark text-light py-12 md:py-20 overflow-hidden"
+      className="relative py-12 md:py-20 overflow-hidden"
       style={{ background: colors.dark }}
     >
       {/* Elemento Decorativo de Fondo Animado */}
