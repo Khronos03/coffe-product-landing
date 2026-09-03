@@ -4,8 +4,11 @@
    ============================================================ */
 
 /* ── Transiciones Base ── */
+/* Alcance limitado a elementos interactivos: aplicar la transición a "*" fuerza
+   al navegador a recalcular estilos en cada nodo del DOM (incluidos los que
+   Framer Motion ya anima por JS), lo que genera trabajo redundante y jank. */
 @media (prefers-reduced-motion: no-preference) {
-  * {
+  a, button, input, textarea, select, [role="button"], .focus-ring, .hover-lift, .hover-glow, .hover-scale {
     transition-property: background-color, border-color, color, fill, stroke, opacity;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 200ms;
@@ -27,7 +30,7 @@
 
 /* Reducir complejidad en dispositivos con mejor movimiento */
 @media (max-width: 768px) {
-  * {
+  a, button, input, textarea, select, [role="button"], .focus-ring, .hover-lift, .hover-glow, .hover-scale {
     transition-duration: 150ms !important;
   }
 }
@@ -443,7 +446,7 @@
   }
 
   /* Transiciones instantáneas */
-  * {
+  a, button, input, textarea, select, [role="button"], .focus-ring, .hover-lift, .hover-glow, .hover-scale {
     transition-duration: 100ms !important;
   }
 }

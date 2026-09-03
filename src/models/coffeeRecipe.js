@@ -8,6 +8,7 @@
  * @property {string} name          Nombre de la bebida.
  * @property {string} icon          Emoji usado como placeholder visual.
  * @property {string|null} image    Ruta de imagen real; null = usar placeholder.
+ * @property {"caliente"|"frio"|"ambos"} temperature Temperatura de servicio, usada para filtrar.
  * @property {string[]} ingredients Lista de ingredientes.
  * @property {string[]} preparation Pasos de preparación, en orden.
  * @property {string} ctaText       Texto del botón de compra.

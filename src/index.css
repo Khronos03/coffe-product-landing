@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://rsms.me/inter/inter.css');
+/* La fuente Inter se carga de forma no bloqueante desde public/index.html
+   (link rel="stylesheet" con truco media="print") para no retrasar el
+   primer render con un @import remoto y bloqueante. */
 
 /* ============================================================
    SISTEMA DE COLOR OPTIMIZADO — CONTRASTE & ACCESIBILIDAD
@@ -1189,7 +1191,7 @@ section { scroll-margin-top: 80px; }
   }
 
   /* Transiciones más rápidas */
-  * {
+  a, button, input, textarea, select, [role="button"], .focus-ring, .hover-lift, .hover-glow, .hover-scale {
     transition-duration: 150ms !important;
   }
 
@@ -1245,7 +1247,7 @@ section { scroll-margin-top: 80px; }
   .animate-pulse-glow    { animation-duration: 1s !important; }
 
   /* Transiciones instantáneas */
-  * {
+  a, button, input, textarea, select, [role="button"], .focus-ring, .hover-lift, .hover-glow, .hover-scale {
     transition-duration: 100ms !important;
   }
 

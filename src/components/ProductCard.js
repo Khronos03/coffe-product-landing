@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { motion } from "framer-motion";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { FaShoppingCart } from "react-icons/fa";
@@ -401,4 +401,4 @@ const ProductCard = ({ title, imageSrc, variants, details, compact = false, badg
   );
 };
 
-export default ProductCard;
+export default memo(ProductCard);

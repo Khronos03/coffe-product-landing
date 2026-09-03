@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import Menu from "../components/Menu";
 import Footer from "../components/Footer";
@@ -14,7 +15,22 @@ const staggerContainer = {
   show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
 };
 
+const TEMPERATURE_FILTERS = [
+  { key: "todas", label: "Todas", icon: "☕" },
+  { key: "caliente", label: "Calientes", icon: "🔥" },
+  { key: "frio", label: "Frías", icon: "🧊" },
+];
+
 const CoffeeRecipes = () => {
+  const [activeFilter, setActiveFilter] = useState("todas");
+
+  const filteredRecipes = useMemo(() => {
+    if (activeFilter === "todas") return COFFEE_RECIPES;
+    return COFFEE_RECIPES.filter(
+      (recipe) => recipe.temperature === activeFilter || recipe.temperature === "ambos"
+    );
+  }, [activeFilter]);
+
   return (
     <div
       className="relative min-h-screen flex flex-col"
@@ -72,7 +88,7 @@ const CoffeeRecipes = () => {
                   backgroundClip: "text",
                 }}
               >
-                ☕ Recetas de Café
+                Recetas de Café
               </motion.h1>
 
               <motion.p
@@ -85,12 +101,59 @@ const CoffeeRecipes = () => {
                   margin: "0 auto",
                 }}
               >
-                Cuatro preparaciones para disfrutar tu café de especialidad Cumbre
+                Más de 50 preparaciones para disfrutar tu café de especialidad Cumbre
                 Café en casa. Toca cada tarjeta para ver ingredientes y pasos.
               </motion.p>
+
+              <motion.div
+                variants={fadeUp}
+                role="group"
+                aria-label="Filtrar recetas por temperatura"
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                  gap: "0.6rem",
+                  marginTop: "1.5rem",
+                }}
+              >
+                {TEMPERATURE_FILTERS.map((filter) => {
+                  const isActive = activeFilter === filter.key;
+                  return (
+                    <button
+                      key={filter.key}
+                      type="button"
+                      onClick={() => setActiveFilter(filter.key)}
+                      aria-pressed={isActive}
+                      className="focus-ring"
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.4rem",
+                        padding: "0.55rem 1.15rem",
+                        borderRadius: "9999px",
+                        fontWeight: 700,
+                        fontSize: "0.875rem",
+                        cursor: "pointer",
+                        border: isActive ? "1px solid rgba(212,112,10,0.35)" : "1px solid rgba(167,89,17,0.20)",
+                        background: isActive
+                          ? "linear-gradient(135deg, #eb8b3a 0%, #d4700a 100%)"
+                          : "rgba(235,139,58,0.10)",
+                        color: isActive ? "#2d1810" : "#a75911",
+                        boxShadow: isActive ? "0 8px 20px rgba(235,139,58,0.30)" : "none",
+                        transition: "background 0.25s, box-shadow 0.25s, border-color 0.25s",
+                      }}
+                    >
+                      <span aria-hidden="true">{filter.icon}</span>
+                      <span>{filter.label}</span>
+                    </button>
+                  );
+                })}
+              </motion.div>
             </motion.div>
 
             <motion.div
+              key={activeFilter}
               initial="hidden"
               animate="show"
               variants={staggerContainer}
@@ -100,10 +163,22 @@ const CoffeeRecipes = () => {
                 gap: "clamp(1rem, 2.5vw, 1.5rem)",
               }}
             >
-              {COFFEE_RECIPES.map((recipe, i) => (
+              {filteredRecipes.map((recipe, i) => (
                 <RecipeCard key={recipe.id} recipe={recipe} index={i} />
               ))}
             </motion.div>
+
+            {filteredRecipes.length === 0 && (
+              <p
+                style={{
+                  textAlign: "center",
+                  color: "rgba(45,24,16,0.6)",
+                  marginTop: "2rem",
+                }}
+              >
+                No hay recetas disponibles para este filtro.
+              </p>
+            )}
           </div>
         </section>
       </main>

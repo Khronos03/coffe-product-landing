@@ -11,7 +11,13 @@
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/LogoCumbreCafe.webp" />    
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    
+
+    <!-- Carga no bloqueante de la fuente Inter: se descarga en paralelo sin
+         retrasar el primer render (truco media="print" -> "all" al cargar). -->
+    <link rel="preconnect" href="https://rsms.me" crossorigin />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://rsms.me/inter/inter.css" /></noscript>
+
     <title>Cumbre Café</title>
   </head>
   <body>

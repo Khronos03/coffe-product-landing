@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiChevronDown } from "react-icons/fi";
 import { FaShoppingCart } from "react-icons/fa";
@@ -188,4 +188,4 @@ const RecipeCard = ({ recipe, index = 0 }) => {
   );
 };
 
-export default RecipeCard;
+export default memo(RecipeCard);

@@ -16,22 +16,32 @@ const Menu = () => {
   const isHome = location.pathname === '/';
 
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = document.querySelectorAll('section');
+    const sections = document.querySelectorAll('section[id]');
+    let ticking = false;
+
+    const updateFromScroll = () => {
+      const scrollY = window.scrollY;
       let currentSection = '';
-      setIsScrolled(window.scrollY > 10);
 
       sections.forEach((section) => {
-        const sectionTop = section.offsetTop;
-        if (window.scrollY >= sectionTop - 100) {
-          currentSection = section.getAttribute('id');
+        if (scrollY >= section.offsetTop - 100) {
+          currentSection = section.id;
         }
       });
 
+      setIsScrolled(scrollY > 10);
       setActiveLink(currentSection);
+      ticking = false;
     };
 
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateFromScroll);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
