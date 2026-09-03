@@ -10,7 +10,7 @@ export const COFFEE_RECIPES = [
     id: "capuchino-clasico",
     name: "Capuchino Clásico",
     icon: "☕",
-    image: null,
+    image: "/recetario/Capuchino Clásico.jpg",
     ingredients: [
       "1 espresso",
       "120 ml de leche",
@@ -31,7 +31,7 @@ export const COFFEE_RECIPES = [
     id: "affogato",
     name: "Affogato",
     icon: "🍨",
-    image: null,
+    image: "/recetario/Affogato.jpg",
     ingredients: [
       "1 bola de helado de vainilla",
       "1 espresso caliente",
@@ -50,7 +50,7 @@ export const COFFEE_RECIPES = [
     id: "latte-vainilla",
     name: "Café Latte con Vainilla",
     icon: "🌿",
-    image: null,
+    image: "/recetario/Café Latte con Vainilla.jpg",
     ingredients: [
       "1 espresso",
       "Leche",
@@ -71,7 +71,7 @@ export const COFFEE_RECIPES = [
     id: "espresso-tonic",
     name: "Espresso Tonic",
     icon: "🧊",
-    image: null,
+    image: "/recetario/Espresso Tonic.jpg",
     ingredients: [
       "1 espresso",
       "Hielo",
@@ -93,7 +93,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-mocha",
     name: "Café Moka",
     icon: "🍫",
-    image: null,
+    image: "/recetario/Café Moka.jpg",
     ingredients: [
       "1 espresso",
       "150 ml de leche",
@@ -116,7 +116,7 @@ export const COFFEE_RECIPES = [
     id: "caramel-macchiato",
     name: "Caramel Macchiato",
     icon: "🍮",
-    image: null,
+    image: "/recetario/Caramel Macchiato.jpg",
     ingredients: [
       "1 espresso",
       "150 ml de leche",
@@ -139,7 +139,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-bombon",
     name: "Café Bombón",
     icon: "🥛",
-    image: null,
+    image: "/recetario/Café Bombón.jpg",
     ingredients: [
       "1 espresso",
       "30 ml de leche condensada",
@@ -159,7 +159,7 @@ export const COFFEE_RECIPES = [
     id: "irish-coffee",
     name: "Irish Coffee",
     icon: "🥃",
-    image: null,
+    image: "/recetario/Irish Coffee.jpg",
     ingredients: [
       "1 taza de café caliente",
       "30 ml de whisky",
@@ -182,7 +182,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-vietnamita",
     name: "Café Vietnamita",
     icon: "🇻🇳",
-    image: null,
+    image: "/recetario/Café Vietnamita.jpg",
     ingredients: [
       "2 cucharadas de café molido",
       "2 cucharadas de leche condensada",
@@ -205,7 +205,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-frances",
     name: "Café Francés",
     icon: "🥐",
-    image: null,
+    image: "/recetario/Café Francés.jpg",
     ingredients: [
       "1 taza de café filtrado",
       "50 ml de leche caliente",
@@ -227,7 +227,7 @@ export const COFFEE_RECIPES = [
     id: "iced-latte",
     name: "Iced Latte",
     icon: "🧋",
-    image: null,
+    image: "/recetario/Iced Latte.jpg",
     ingredients: [
       "1 espresso doble",
       "150 ml de leche fría",
@@ -249,7 +249,7 @@ export const COFFEE_RECIPES = [
     id: "iced-mocha",
     name: "Iced Mocha",
     icon: "🍫",
-    image: null,
+    image: "/recetario/Iced Mocha.jpg",
     ingredients: [
       "1 espresso doble",
       "150 ml de leche fría",
@@ -272,7 +272,7 @@ export const COFFEE_RECIPES = [
     id: "cold-brew",
     name: "Cold Brew",
     icon: "🧊",
-    image: null,
+    image: "/recetario/Cold Brew.jpg",
     ingredients: [
       "100 g de café molido grueso",
       "800 ml de agua fría",
@@ -294,7 +294,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-cold-foam",
     name: "Cold Foam Coffee",
     icon: "☁️",
-    image: null,
+    image: "/recetario/Cold Foam Coffee.jpg",
     ingredients: [
       "1 taza de café frío",
       "100 ml de leche fría",
@@ -317,7 +317,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-canela",
     name: "Café con Canela",
     icon: "🌰",
-    image: null,
+    image: "/recetario/Café con Canela.jpg",
     ingredients: [
       "1 taza de café filtrado",
       "½ cucharadita de canela en polvo",
@@ -340,7 +340,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-coco",
     name: "Latte de Coco",
     icon: "🥥",
-    image: null,
+    image: "/recetario/Latte de Coco.jpg",
     ingredients: [
       "1 espresso",
       "150 ml de leche de coco",
@@ -363,7 +363,7 @@ export const COFFEE_RECIPES = [
     id: "latte-caramelo",
     name: "Latte de Caramelo",
     icon: "🍯",
-    image: null,
+    image: "/recetario/Latte de Caramelo.jpg",
     ingredients: [
       "1 espresso",
       "180 ml de leche",
@@ -386,7 +386,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-miel",
     name: "Café con Miel",
     icon: "🍯",
-    image: null,
+    image: "/recetario/Café con Miel.jpg",
     ingredients: [
       "1 taza de café filtrado",
       "1 cucharada de miel",
@@ -409,7 +409,7 @@ export const COFFEE_RECIPES = [
     id: "espresso-con-panna",
     name: "Espresso Con Panna",
     icon: "☕",
-    image: null,
+    image: "/recetario/Espresso Con Panna.jpg",
     ingredients: [
       "1 espresso",
       "Crema batida",
@@ -431,7 +431,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-dalgona",
     name: "Café Dalgona",
     icon: "☁️",
-    image: null,
+    image: "/recetario/Café Dalgona.jpg",
     ingredients: [
       "2 cucharadas de café instantáneo",
       "2 cucharadas de azúcar",
@@ -455,7 +455,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-orange",
     name: "Espresso Orange",
     icon: "🍊",
-    image: null,
+    image: "/recetario/Espresso Orange.jpg",
     ingredients: [
       "1 espresso doble",
       "100 ml de jugo de naranja",
@@ -478,7 +478,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-avellana",
     name: "Latte de Avellana",
     icon: "🌰",
-    image: null,
+    image: "/recetario/Latte de Avellana.jpg",
     ingredients: [
       "1 espresso",
       "180 ml de leche",
@@ -501,7 +501,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-moca-blanco",
     name: "Moka Blanco",
     icon: "🤍",
-    image: null,
+    image: "/recetario/Moka Blanco.jpg",
     ingredients: [
       "1 espresso",
       "150 ml de leche",
@@ -524,7 +524,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-especiado",
     name: "Café Especiado",
     icon: "✨",
-    image: null,
+    image: "/recetario/Café Especiado.jpg",
     ingredients: [
       "1 taza de café filtrado",
       "¼ cucharadita de canela",
@@ -548,7 +548,7 @@ export const COFFEE_RECIPES = [
     id: "americano",
     name: "Café Americano",
     icon: "☕",
-    image: null,
+    image: "/recetario/Café Americano.jpg",
     ingredients: [
       "1 espresso doble",
       "120 ml de agua caliente",
@@ -569,7 +569,7 @@ export const COFFEE_RECIPES = [
     id: "flat-white",
     name: "Flat White",
     icon: "🥛",
-    image: null,
+    image: "/recetario/Flat White.jpg",
     ingredients: [
       "2 espressos",
       "120 ml de leche",
@@ -591,7 +591,7 @@ export const COFFEE_RECIPES = [
     id: "cortado",
     name: "Café Cortado",
     icon: "☕",
-    image: null,
+    image: "/recetario/Café Cortado.jpg",
     ingredients: [
       "1 espresso doble",
       "60 ml de leche caliente",
@@ -612,7 +612,7 @@ export const COFFEE_RECIPES = [
     id: "breve",
     name: "Café Breve",
     icon: "🥛",
-    image: null,
+    image: "/recetario/Café Breve.jpg",
     ingredients: [
       "1 espresso doble",
       "100 ml de crema de leche",
@@ -634,7 +634,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-con-leche",
     name: "Café con Leche",
     icon: "🥛",
-    image: null,
+    image: "/recetario/Café con Leche.jpg",
     ingredients: [
       "1 taza de café fuerte",
       "100 ml de leche",
@@ -656,7 +656,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-colado",
     name: "Café Colado Tradicional",
     icon: "☕",
-    image: null,
+    image: "/recetario/Café Colado Tradicional.jpg",
     ingredients: [
       "20 g de café molido",
       "300 ml de agua caliente",
@@ -677,7 +677,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-prensa-francesa",
     name: "Café en Prensa Francesa",
     icon: "🫖",
-    image: null,
+    image: "/recetario/Café en Prensa Francesa.jpg",
     ingredients: [
       "30 g de café molido grueso",
       "450 ml de agua caliente",
@@ -698,7 +698,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-moka-pot",
     name: "Café en Cafetera Moka",
     icon: "🫖",
-    image: null,
+    image: "/recetario/Café en Cafetera Moka.jpg",
     ingredients: [
       "20 g de café molido medio-fino",
       "200 ml de agua",
@@ -719,7 +719,7 @@ export const COFFEE_RECIPES = [
     id: "espresso-doble",
     name: "Espresso Doble",
     icon: "☕",
-    image: null,
+    image: "/recetario/Espresso Doble.jpg",
     ingredients: [
       "18 g de café molido",
       "36 ml de agua",
@@ -740,7 +740,7 @@ export const COFFEE_RECIPES = [
     id: "espresso-lungo",
     name: "Espresso Lungo",
     icon: "☕",
-    image: null,
+    image: "/recetario/Espresso Lungo.jpg",
     ingredients: [
       "18 g de café molido",
       "50-60 ml de agua",
@@ -761,7 +761,7 @@ export const COFFEE_RECIPES = [
     id: "ristretto",
     name: "Ristretto",
     icon: "☕",
-    image: null,
+    image: "/recetario/Ristretto.jpg",
     ingredients: [
       "18 g de café molido",
       "20-25 ml de agua",
@@ -782,7 +782,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-tiramisu",
     name: "Café Tiramisú",
     icon: "🍰",
-    image: null,
+    image: "/recetario/Café Tiramisú.jpg",
     ingredients: [
       "1 espresso",
       "100 ml de leche",
@@ -806,7 +806,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-chocolate-avellana",
     name: "Café de Chocolate y Avellana",
     icon: "🍫",
-    image: null,
+    image: "/recetario/Café de Chocolate y Avellana.jpg",
     ingredients: [
       "1 espresso",
       "150 ml de leche",
@@ -829,7 +829,7 @@ export const COFFEE_RECIPES = [
     id: "latte-canela",
     name: "Latte de Canela",
     icon: "🌿",
-    image: null,
+    image: "/recetario/Latte de Canela.jpg",
     ingredients: [
       "1 espresso",
       "180 ml de leche",
@@ -852,7 +852,7 @@ export const COFFEE_RECIPES = [
     id: "latte-pistacho",
     name: "Latte de Pistacho",
     icon: "💚",
-    image: null,
+    image: "/recetario/Latte de Pistacho.jpg",
     ingredients: [
       "1 espresso",
       "180 ml de leche",
@@ -875,7 +875,7 @@ export const COFFEE_RECIPES = [
     id: "latte-coco-vainilla",
     name: "Latte de Coco y Vainilla",
     icon: "🥥",
-    image: null,
+    image: "/recetario/Latte de Coco y Vainilla.jpg",
     ingredients: [
       "1 espresso",
       "150 ml de leche de coco",
@@ -898,7 +898,7 @@ export const COFFEE_RECIPES = [
     id: "latte-miel-canela",
     name: "Latte de Miel y Canela",
     icon: "🍯",
-    image: null,
+    image: "/recetario/Latte de Miel y Canela.jpg",
     ingredients: [
       "1 espresso",
       "180 ml de leche",
@@ -921,7 +921,7 @@ export const COFFEE_RECIPES = [
     id: "latte-chai",
     name: "Chai Latte con Café",
     icon: "🫖",
-    image: null,
+    image: "/recetario/Chai Latte con Café.jpg",
     ingredients: [
       "1 espresso",
       "100 ml de leche",
@@ -944,7 +944,7 @@ export const COFFEE_RECIPES = [
     id: "dirty-chai",
     name: "Dirty Chai",
     icon: "🌶️",
-    image: null,
+    image: "/recetario/Dirty Chai.jpg",
     ingredients: [
       "1 espresso",
       "150 ml de leche",
@@ -967,7 +967,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-cardamomo",
     name: "Café con Cardamomo",
     icon: "🌿",
-    image: null,
+    image: "/recetario/Café con Cardamomo.jpg",
     ingredients: [
       "1 taza de café filtrado",
       "2 vainas de cardamomo",
@@ -989,7 +989,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-jengibre",
     name: "Café con Jengibre",
     icon: "🫚",
-    image: null,
+    image: "/recetario/Café con Jengibre.jpg",
     ingredients: [
       "1 taza de café filtrado",
       "½ cucharadita de jengibre fresco rallado",
@@ -1012,7 +1012,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-vainilla-frio",
     name: "Café Frío con Vainilla",
     icon: "🧊",
-    image: null,
+    image: "/recetario/Café Frío con Vainilla.jpg",
     ingredients: [
       "1 taza de café frío",
       "100 ml de leche",
@@ -1035,7 +1035,7 @@ export const COFFEE_RECIPES = [
     id: "cold-brew-vainilla",
     name: "Cold Brew de Vainilla",
     icon: "🌿",
-    image: null,
+    image: "/recetario/Cold Brew de Vainilla.jpg",
     ingredients: [
       "150 ml de cold brew",
       "50 ml de leche",
@@ -1058,7 +1058,7 @@ export const COFFEE_RECIPES = [
     id: "cold-brew-caramelo",
     name: "Cold Brew de Caramelo",
     icon: "🍮",
-    image: null,
+    image: "/recetario/Cold Brew de Caramelo.jpg",
     ingredients: [
       "150 ml de cold brew",
       "50 ml de leche",
@@ -1081,7 +1081,7 @@ export const COFFEE_RECIPES = [
     id: "espresso-limon",
     name: "Espresso con Limón",
     icon: "🍋",
-    image: null,
+    image: "/recetario/Espresso con Limón.jpg",
     ingredients: [
       "1 espresso doble",
       "Hielo",
@@ -1104,7 +1104,7 @@ export const COFFEE_RECIPES = [
     id: "espresso-limonada",
     name: "Espresso Limonada",
     icon: "🍋",
-    image: null,
+    image: "/recetario/Espresso Limonada.jpg",
     ingredients: [
       "1 espresso doble",
       "120 ml de limonada",
@@ -1127,7 +1127,7 @@ export const COFFEE_RECIPES = [
     id: "espresso-frutos-rojos",
     name: "Espresso con Frutos Rojos",
     icon: "🍓",
-    image: null,
+    image: "/recetario/Espresso con Frutos Rojos.jpg",
     ingredients: [
       "1 espresso doble",
       "80 ml de jugo de frutos rojos",
@@ -1150,7 +1150,7 @@ export const COFFEE_RECIPES = [
     id: "espresso-coco-frio",
     name: "Espresso con Coco Frío",
     icon: "🥥",
-    image: null,
+    image: "/recetario/Espresso con Coco Frío.jpg",
     ingredients: [
       "1 espresso doble",
       "120 ml de agua de coco",
@@ -1173,7 +1173,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-con-azucar-moscabado",
     name: "Café con Azúcar Moscabado",
     icon: "🤎",
-    image: null,
+    image: "/recetario/Café con Azúcar Moscabado.jpg",
     ingredients: [
       "1 taza de café filtrado",
       "1 cucharadita de azúcar moscabado",
@@ -1195,7 +1195,7 @@ export const COFFEE_RECIPES = [
     id: "cafe-chocolate-menta",
     name: "Moka de Chocolate y Menta",
     icon: "🌿",
-    image: null,
+    image: "/recetario/Moka de Chocolate y Menta.jpg",
     ingredients: [
       "1 espresso",
       "150 ml de leche",
