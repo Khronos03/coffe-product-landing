@@ -9,6 +9,7 @@ import { FaShoppingCart, FaGift, FaCoffee } from "react-icons/fa";
 const Honey = `${process.env.PUBLIC_URL}/RedHoneyMolido.svg`;
 const Lavado = `${process.env.PUBLIC_URL}/LavadoMolido.svg`;
 const Natural = `${process.env.PUBLIC_URL}/NaturalMolido.svg`;
+const Whisky = `${process.env.PUBLIC_URL}/WhiskyMolido.svg`;
 const Cuarteron = `${process.env.PUBLIC_URL}/CuarteronMolido.svg`;
 const SatchetsBox = `${process.env.PUBLIC_URL}/SachetsMolido.svg`;
 
@@ -88,6 +89,22 @@ const PRODUCTS = [
     },
   },
   {
+    title: "Piña-Whisky",
+    imageSrc: Whisky,
+    tag: "Fermentación Especial",
+    variants: [
+      { label: "454 gr", price: "$60.000" },
+      { label: "350 gr", price: "$50.000" },
+      { label: "250 gr", price: "$40.000" },
+    ],
+    details: {
+      perfil: "Piña y whisky",
+      tostion: "Tostión media",
+      proceso: "Fermentación especial",
+      notas: "Fermentación con notas a piña y whisky, perfil audaz y complejo.",
+    },
+  },
+  {
     title: "Cuarterón 5 lb",
     imageSrc: Cuarteron,
     tag: "Formato Familiar",
@@ -116,6 +133,7 @@ const PRODUCTS = [
     details: {
       notas: "Pequeñas bolsas individuales, selladas herméticamente, para una sola porción.",
       tostion: "Tostión media",
+      proceso: "Lavado",
     },
   },
 ];
