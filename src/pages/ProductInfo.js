@@ -1,6 +1,5 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import Lavado from "../ELavado.jpg";
 import Cuarteron from "../cuarteron.png";
 import Satchets2 from "../satchets2.webp";
 import SatchetsBox from "../satchesBox.webp";
@@ -11,6 +10,8 @@ import { FaShoppingCart, FaGift, FaCoffee } from "react-icons/fa";
 // Servido desde /public para evitar que el loader SVGR de CRA intente
 // compilar el SVG como componente React (falla por tags de namespace xlink).
 const Honey = `${process.env.PUBLIC_URL}/RedHoneyMolido.svg`;
+const Lavado = `${process.env.PUBLIC_URL}/LavadoMolido.svg`;
+const Natural = `${process.env.PUBLIC_URL}/NaturalMolido.svg`;
 
 /* ── Tokens claros ── */
 const C = {
@@ -69,6 +70,22 @@ const PRODUCTS = [
       tostion: "Media",
       proceso: "Lavado",
       notas: "Caña de azúcar, caramelo, moras, arándanos",
+    },
+  },
+  {
+    title: "Proceso Natural",
+    imageSrc: Natural,
+    tag: "Dulzura Intensa",
+    variants: [
+      { label: "454 gr", price: "$50.000" },
+      { label: "350 gr", price: "$40.000" },
+      { label: "250 gr", price: "$35.000" },
+    ],
+    details: {
+      perfil: "Frutos rojos y vino",
+      tostion: "Media",
+      proceso: "Natural",
+      notas: "Secado en cereza, dulzura profunda y cuerpo denso.",
     },
   },
   {

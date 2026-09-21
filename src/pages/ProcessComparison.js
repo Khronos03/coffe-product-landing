@@ -31,8 +31,15 @@ const WASH_COLOR = {
   textInverted: '#fff8f0',    /* Texto sobre fondos sólidos de este color */
 };
 
+const NATURAL_COLOR = {
+  primary:    '#b3791a',      /* Dorado/ámbar tostado — usado en glows */
+  light:      '#95630f',      /* Variante oscura para texto (contraste AA) */
+  accent:     '#744c0a',      /* Acento ámbar oscuro para subtítulos */
+  fill:       '#d99a3d',      /* Para glows y decorativos */
+  textInverted: '#fff8f0',    /* Texto sobre fondos sólidos de este color */
+};
+
 const ProcessComparison = () => {
-  /* ── Variantes de animación ── */
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -140,6 +147,45 @@ const ProcessComparison = () => {
       ],
       imageAlt: "Proceso Lavado",
     },
+    {
+      id: "natural",
+      name: "Proceso Natural",
+      subtitle: "Secado en Cereza",
+      color: NATURAL_COLOR,
+      emoji: "☀️",
+      description:
+        "El proceso natural seca el fruto completo con toda su pulpa, dejando que el grano absorba la esencia de la fruta durante un secado lento al sol.",
+      steps: [
+        {
+          num: "01",
+          title: "Recolección",
+          desc: "Solo cerezas maduras y en su punto justo de dulzura",
+        },
+        {
+          num: "02",
+          title: "Secado en Cereza",
+          desc: "El fruto entero se seca al sol sin retirar la pulpa",
+        },
+        {
+          num: "03",
+          title: "Volteo Constante",
+          desc: "Se voltea varias veces al día para un secado uniforme",
+        },
+        {
+          num: "04",
+          title: "Trilla",
+          desc: "Se retira la cáscara seca para liberar el grano final",
+        },
+      ],
+      characteristics: [
+        "Dulzura intensa y profunda",
+        "Notas a frutos rojos y vino",
+        "Cuerpo denso y untuoso",
+        "Acidez baja",
+        "Perfil afrutado audaz",
+      ],
+      imageAlt: "Proceso Natural",
+    },
   ];
 
   return (
@@ -203,6 +249,32 @@ const ProcessComparison = () => {
             delay: 2,
           }}
         />
+
+        {/* Glow Natural (dorado/ámbar) */}
+        <motion.div
+          style={{
+            position: "absolute",
+            width: "clamp(300px, 40vw, 600px)",
+            height: "clamp(300px, 40vw, 600px)",
+            top: "40%",
+            left: "40%",
+            background: `radial-gradient(circle, rgba(217,154,61,0.15) 0%, transparent 70%)`,
+            borderRadius: "50%",
+            filter: "blur(100px)",
+            zIndex: 0,
+          }}
+          animate={{
+            y: [0, -40, 0],
+            x: [0, -30, 0],
+            opacity: [0.08, 0.15, 0.08],
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+        />
       </div>
 
       {/* ── Contenido Principal ── */}
@@ -259,7 +331,7 @@ const ProcessComparison = () => {
               backgroundClip: 'text',
             }}
           >
-            Honey vs Lavado
+            Honey, Lavado y Natural
           </motion.h2>
 
           {/* Subtítulo */}
@@ -277,7 +349,7 @@ const ProcessComparison = () => {
               marginRight: "auto",
             }}
           >
-            Dos métodos tradicionales que generan perfiles de sabor únicos y distintivos
+            Tres métodos tradicionales que generan perfiles de sabor únicos y distintivos
           </motion.p>
         </motion.div>
 
