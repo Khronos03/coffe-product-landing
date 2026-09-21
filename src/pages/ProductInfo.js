@@ -1,8 +1,5 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import Cuarteron from "../cuarteron.png";
-import Satchets2 from "../satchets2.webp";
-import SatchetsBox from "../satchesBox.webp";
 import Premium from "../Premium.png";
 import ProductCard from "../components/ProductCard";
 import { FaShoppingCart, FaGift, FaCoffee } from "react-icons/fa";
@@ -12,6 +9,8 @@ import { FaShoppingCart, FaGift, FaCoffee } from "react-icons/fa";
 const Honey = `${process.env.PUBLIC_URL}/RedHoneyMolido.svg`;
 const Lavado = `${process.env.PUBLIC_URL}/LavadoMolido.svg`;
 const Natural = `${process.env.PUBLIC_URL}/NaturalMolido.svg`;
+const Cuarteron = `${process.env.PUBLIC_URL}/CuarteronMolido.svg`;
+const SatchetsBox = `${process.env.PUBLIC_URL}/SachetsMolido.svg`;
 
 /* ── Tokens claros ── */
 const C = {
@@ -51,7 +50,7 @@ const PRODUCTS = [
     ],
     details: {
       perfil: "Panela, Miel",
-      tostion: "Media",
+      tostion: "Tostión media",
       proceso: "Honey",
       notas: "Caña de azúcar, apanelado con su dulzura natural.",
     },
@@ -67,7 +66,7 @@ const PRODUCTS = [
     ],
     details: {
       perfil: "Frutos rojos",
-      tostion: "Media",
+      tostion: "Tostión media",
       proceso: "Lavado",
       notas: "Caña de azúcar, caramelo, moras, arándanos",
     },
@@ -83,7 +82,7 @@ const PRODUCTS = [
     ],
     details: {
       perfil: "Frutos rojos y vino",
-      tostion: "Media",
+      tostion: "Tostión media",
       proceso: "Natural",
       notas: "Secado en cereza, dulzura profunda y cuerpo denso.",
     },
@@ -96,27 +95,27 @@ const PRODUCTS = [
       { label: "5 lb · Honey", price: "$165.000", oldPrice: "$179.900", imageSrc: Cuarteron },
       {
         label: "5 lb · Lavado", price: "$165.000", oldPrice: "$179.900", imageSrc: Cuarteron,
-        details: { perfil: "Frutos rojos", tostion: "Media", proceso: "Lavado", notas: "Caña de azúcar, caramelo, moras, arándanos" },
+        details: { perfil: "Frutos rojos", tostion: "Tostión media", proceso: "Lavado", notas: "Caña de azúcar, caramelo, moras, arándanos" },
       },
     ],
     details: {
       perfil: "Panela, Miel",
-      tostion: "Media",
+      tostion: "Tostión media",
       proceso: "Honey",
       notas: "Caña de azúcar, apanelado con su dulzura natural.",
     },
   },
   {
     title: "Satchets",
-    imageSrc: Satchets2,
+    imageSrc: SatchetsBox,
     tag: "Porción Individual",
     variants: [
-      { label: "Unidad", price: "$2.500", oldPrice: "$3.900", imageSrc: Satchets2 },
+      { label: "Unidad", price: "$2.500", oldPrice: "$3.900", imageSrc: SatchetsBox },
       { label: "Caja x10", price: "$25.000", oldPrice: "$39.900", imageSrc: SatchetsBox },
     ],
     details: {
       notas: "Pequeñas bolsas individuales, selladas herméticamente, para una sola porción.",
-      tostion: "Media",
+      tostion: "Tostión media",
     },
   },
 ];
@@ -134,7 +133,7 @@ const GIFTS = [
     ],
     details: {
       perfil: "Panela, Miel y Frutos Rojos",
-      tostion: "Media",
+      tostion: "Tostión media",
       proceso: "Honey + Lavado",
       notas: "Dos procesos en un solo kit, presentado en caja lista para regalar.",
     },
@@ -150,7 +149,7 @@ const GIFTS = [
     ],
     details: {
       notas: "Porciones individuales selladas herméticamente, ideales para compartir u obsequiar.",
-      tostion: "Media",
+      tostion: "Tostión media",
     },
   },
   {
@@ -164,7 +163,7 @@ const GIFTS = [
     ],
     details: {
       perfil: "Panela, Miel, Frutos Rojos",
-      tostion: "Media",
+      tostion: "Tostión media",
       proceso: "Honey + Lavado",
       notas: "Los dos perfiles más queridos de Cumbre Café, juntos en un solo combo.",
     },
@@ -193,34 +192,11 @@ const AnimatedRule = () => (
    Wrapper de producto con motion
 ───────────────────────────────────────── */
 const ProductWrapper = ({ children, delay }) => {
-  const [hovered, setHovered] = useState(false);
-
   return (
     <motion.div
       variants={fadeUp}
-      whileHover={{ y: -6 }}
-      transition={{ type: 'spring', stiffness: 220, damping: 20 }}
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
-      style={{
-        borderRadius: '1.25rem',
-        border: `1px solid ${hovered ? C.borderHover : C.border}`,
-        background: hovered ? C.cardBgHover : C.cardBg,
-        boxShadow: hovered
-          ? '0 24px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(235,139,58,0.12)'
-          : '0 8px 32px rgba(0,0,0,0.25)',
-        transition: 'background 0.3s, border-color 0.3s, box-shadow 0.3s',
-        overflow: 'hidden',
-        position: 'relative',
-      }}
+      style={{ position: 'relative' }}
     >
-      {/* Highlight superior */}
-      <div style={{
-        position: 'absolute', top: 0, left: '15%', right: '15%', height: '1px',
-        background: `linear-gradient(90deg, transparent, rgba(251,205,134,${hovered ? 0.5 : 0.15}), transparent)`,
-        transition: 'background 0.3s',
-        pointerEvents: 'none',
-      }} />
       {children}
     </motion.div>
   );

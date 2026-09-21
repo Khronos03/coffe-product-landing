@@ -7,7 +7,6 @@ const whatsappNumber = "573216363596";
 
 const ProductCard = ({ title, imageSrc, variants, details, compact = false, badge }) => {
   const [index, setIndex] = useState(0);
-  const [isImageHovered, setIsImageHovered] = useState(false);
 
   const prev = () => setIndex(i => (i === 0 ? variants.length - 1 : i - 1));
   const next = () => setIndex(i => (i === variants.length - 1 ? 0 : i + 1));
@@ -64,26 +63,62 @@ const ProductCard = ({ title, imageSrc, variants, details, compact = false, badg
 
   return (
     <motion.div 
-      className="group w-full max-w-md"
+      className="group w-full max-w-md flex flex-col"
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-50px' }}
+      whileHover={{ y: -8, transition: { duration: 0.3 } }}
     >
-      {/* Contenedor Principal — Card Clara */}
+      {/* Imagen Libre — sin contenedor que la recorte al hacer zoom en hover */}
+      <motion.div 
+        className="relative z-20 w-full flex items-center justify-center"
+        style={{ height: 'clamp(220px, 32vh, 320px)' }}
+      >
+        {/* Badge Nuevo/Destacado */}
+        {badge && (
+          <motion.div
+            className="absolute top-0 left-3 z-20 font-bold"
+            style={{
+              padding: '0.35rem 0.85rem',
+              borderRadius: '9999px',
+              fontSize: '0.7rem',
+              letterSpacing: '0.03em',
+              background: 'var(--color-gift, #e0356f)',
+              color: '#fff8f0',
+              boxShadow: '0 6px 16px rgba(224,53,111,0.40)',
+              border: '1.5px solid rgba(255,255,255,0.35)',
+            }}
+            initial={{ opacity: 0, scale: 0.7, y: -8 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 260, damping: 18, delay: 0.15 }}
+          >
+            {badge}
+          </motion.div>
+        )}
+
+        {/* Imagen Principal */}
+        <motion.img
+          src={displayImageSrc}
+          alt={title}
+          loading="lazy"
+          decoding="async"
+          className="relative h-full w-full object-contain"
+          variants={imageVariants}
+          initial="initial"
+          whileHover="hover"
+        />
+      </motion.div>
+
+      {/* Contenedor Principal — Card Clara (solo nombre, precio y compra) */}
       <motion.div 
         className="relative rounded-2xl overflow-hidden"
         style={{
           background: '#ffffff',
           border: '1.5px solid rgba(167,89,17,0.16)',
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-          height: 'clamp(400px, 55vh, 550px)',
-          display: 'flex',
-          flexDirection: 'column',
           boxShadow: '0 4px 20px rgba(45,24,16,0.08)',
         }}
-        whileHover={{ y: -8, transition: { duration: 0.3 } }}
       >
         {/* Glow Background Animado */}
         <motion.div 
@@ -101,66 +136,10 @@ const ProductCard = ({ title, imageSrc, variants, details, compact = false, badg
           }}
         />
 
-        {/* Contenido Principal */}
-        <div className="relative h-full flex flex-col overflow-hidden">
+        {/* Contenido Bajo la Imagen */}
+        <div className="relative flex flex-col gap-2 px-5 py-3">
           
-          {/* Badge Nuevo/Destacado */}
-          {badge && (
-            <motion.div
-              className="absolute top-3 left-3 z-20 font-bold"
-              style={{
-                padding: '0.35rem 0.85rem',
-                borderRadius: '9999px',
-                fontSize: '0.7rem',
-                letterSpacing: '0.03em',
-                background: 'var(--color-gift, #e0356f)',
-                color: '#fff8f0',
-                boxShadow: '0 6px 16px rgba(224,53,111,0.40)',
-                border: '1.5px solid rgba(255,255,255,0.35)',
-              }}
-              initial={{ opacity: 0, scale: 0.7, y: -8 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ type: 'spring', stiffness: 260, damping: 18, delay: 0.15 }}
-            >
-              {badge}
-            </motion.div>
-          )}
-
-          {/* Sección de Imagen Premium */}
-          <motion.div 
-            className="relative w-full flex-1 overflow-hidden flex items-center justify-center"
-            style={{
-              background: 'linear-gradient(135deg, #fef3e2 0%, #fdf0d9 100%)',
-            }}
-            onHoverStart={() => setIsImageHovered(true)}
-            onHoverEnd={() => setIsImageHovered(false)}
-          >
-            {/* Overlay Sutil Animado */}
-            <motion.div 
-              className="absolute inset-0 bg-gradient-to-t from-black/5 via-transparent to-transparent"
-              animate={{ opacity: isImageHovered ? 0.5 : 0.2 }}
-              transition={{ duration: 0.4 }}
-            />
-
-            {/* Imagen Principal */}
-            <motion.img
-              src={displayImageSrc}
-              alt={title}
-              loading="lazy"
-              decoding="async"
-              className="relative z-10 h-full w-full object-contain"
-              variants={imageVariants}
-              initial="initial"
-              whileHover="hover"
-            />
-
-          </motion.div>
-
-          {/* Contenido Bajo la Imagen */}
-          <div className="flex-shrink-0 flex flex-col gap-2 px-5 py-3 overflow-y-auto">
-            
-            {/* Título Premium */}
+          {/* Título Premium */}
             <motion.h3 
               className="font-bold text-center text-base"
               style={{
@@ -395,7 +374,6 @@ const ProductCard = ({ title, imageSrc, variants, details, compact = false, badg
               <span>Comprar Ahora</span>
             </motion.a>
           </div>
-        </div>
       </motion.div>
     </motion.div>
   );
