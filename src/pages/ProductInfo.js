@@ -45,9 +45,9 @@ const PRODUCTS = [
     imageSrc: Honey,
     tag: "Miel & Panela",
     variants: [
-      { label: "454 gr", price: "$35.000", oldPrice: "$39.000" },
-      { label: "350 gr", price: "$28.000", oldPrice: "$32.000" },
-      { label: "250 gr", price: "$25.000", oldPrice: "$29.000" },
+      { label: "454 gr", price: "$35.000" },
+      { label: "350 gr", price: "$28.000" },
+      { label: "250 gr", price: "$25.000" },
     ],
     details: {
       perfil: "Panela, Miel",
@@ -61,9 +61,9 @@ const PRODUCTS = [
     imageSrc: Lavado,
     tag: "Frutos Rojos",
     variants: [
-      { label: "454 gr", price: "$35.000", oldPrice: "$39.000" },
-      { label: "350 gr", price: "$28.000", oldPrice: "$32.000" },
-      { label: "250 gr", price: "$25.000", oldPrice: "$29.000" },
+      { label: "454 gr", price: "$35.000" },
+      { label: "350 gr", price: "$28.000" },
+      { label: "250 gr", price: "$25.000" },
     ],
     details: {
       perfil: "Frutos rojos",
@@ -109,9 +109,9 @@ const PRODUCTS = [
     imageSrc: Cuarteron,
     tag: "Formato Familiar",
     variants: [
-      { label: "5 lb · Honey", price: "$165.000", oldPrice: "$179.900", imageSrc: Cuarteron },
+      { label: "5 lb · Honey", price: "$175.000", imageSrc: Cuarteron },
       {
-        label: "5 lb · Lavado", price: "$165.000", oldPrice: "$179.900", imageSrc: Cuarteron,
+        label: "5 lb · Lavado", price: "$175.000", imageSrc: Cuarteron,
         details: { perfil: "Frutos rojos", tostion: "Tostión media", proceso: "Lavado", notas: "Caña de azúcar, caramelo, moras, arándanos" },
       },
     ],
@@ -127,8 +127,8 @@ const PRODUCTS = [
     imageSrc: SatchetsBox,
     tag: "Porción Individual",
     variants: [
-      { label: "Unidad", price: "$2.500", oldPrice: "$3.900", imageSrc: SatchetsBox },
-      { label: "Caja x10", price: "$25.000", oldPrice: "$39.900", imageSrc: SatchetsBox },
+      { label: "Unidad", price: "$2.500", imageSrc: SatchetsBox },
+      { label: "Caja x10", price: "$20.000", oldPrice: "$25.000", imageSrc: SatchetsBox },
     ],
     details: {
       notas: "Pequeñas bolsas individuales, selladas herméticamente, para una sola porción.",

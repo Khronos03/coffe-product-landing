@@ -5,7 +5,7 @@ function ImageModal({ isOpen, onClose }) {
   const WHATSAPP_NUMBER = "573216363596";
   
   const handleImageClick = () => {
-    const message = "Hola, me interesa el producto Cuarteron 5 lbs";
+    const message = "Hola, quisiera comprar";
     const waLink = `https://wa.me/${WHATSAPP_NUMBER}/?text=${encodeURIComponent(message)}`;
     window.open(waLink, '_blank');
   };
@@ -101,7 +101,7 @@ function ImageModal({ isOpen, onClose }) {
               {/* Modal Image */}
               <div className="modal-image-container">
                 <img 
-                  src={require('../ImageModal.png')} 
+                  src={require('../SachetsModal.png')} 
                   alt="Oferta especial de café Cuarteron 5 lbs - Haz clic para solicitar"
                   className="modal-image"
                   onClick={handleImageClick}
