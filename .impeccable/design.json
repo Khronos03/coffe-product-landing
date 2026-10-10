@@ -1,0 +1,626 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-09T19:06:57+00:00",
+  "title": "Design System: Cumbre Café",
+  "extensions": {
+    "colorMeta": {
+      "honey-field": {
+        "role": "secondary",
+        "displayName": "Ocre Honey",
+        "canonical": "#8a540c",
+        "cssVar": "--honey-field",
+        "tonalRamp": [
+          "oklch(15.0% 0.051 66.1)",
+          "oklch(26.4% 0.089 66.1)",
+          "oklch(37.9% 0.106 66.1)",
+          "oklch(49.3% 0.106 66.1)",
+          "oklch(60.7% 0.106 66.1)",
+          "oklch(72.1% 0.094 66.1)",
+          "oklch(83.6% 0.056 66.1)",
+          "oklch(95.0% 0.017 66.1)"
+        ]
+      },
+      "honey-stock": {
+        "role": "secondary",
+        "displayName": "Papel Crema",
+        "canonical": "#f7e7be",
+        "cssVar": "--honey-stock",
+        "tonalRamp": [
+          "oklch(15.0% 0.027 89.2)",
+          "oklch(26.4% 0.047 89.2)",
+          "oklch(37.9% 0.056 89.2)",
+          "oklch(49.3% 0.056 89.2)",
+          "oklch(60.7% 0.056 89.2)",
+          "oklch(72.1% 0.050 89.2)",
+          "oklch(83.6% 0.030 89.2)",
+          "oklch(95.0% 0.009 89.2)"
+        ]
+      },
+      "honey-ink": {
+        "role": "secondary",
+        "displayName": "Tinta Tabaco",
+        "canonical": "#4a2a05",
+        "cssVar": "--honey-ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.032 63.9)",
+          "oklch(26.4% 0.057 63.9)",
+          "oklch(37.9% 0.067 63.9)",
+          "oklch(49.3% 0.067 63.9)",
+          "oklch(60.7% 0.067 63.9)",
+          "oklch(72.1% 0.060 63.9)",
+          "oklch(83.6% 0.035 63.9)",
+          "oklch(95.0% 0.011 63.9)"
+        ]
+      },
+      "honey-ink2": {
+        "role": "secondary",
+        "displayName": "Azul Índigo",
+        "canonical": "#2f3b86",
+        "cssVar": "--honey-ink2",
+        "tonalRamp": [
+          "oklch(15.0% 0.060 272.3)",
+          "oklch(26.4% 0.106 272.3)",
+          "oklch(37.9% 0.125 272.3)",
+          "oklch(49.3% 0.125 272.3)",
+          "oklch(60.7% 0.125 272.3)",
+          "oklch(72.1% 0.112 272.3)",
+          "oklch(83.6% 0.066 272.3)",
+          "oklch(95.0% 0.020 272.3)"
+        ]
+      },
+      "lavado-field": {
+        "role": "secondary",
+        "displayName": "Verde Billete Lavado",
+        "canonical": "#1e6b4b",
+        "cssVar": "--lavado-field",
+        "tonalRamp": [
+          "oklch(15.0% 0.044 161.5)",
+          "oklch(26.4% 0.077 161.5)",
+          "oklch(37.9% 0.091 161.5)",
+          "oklch(49.3% 0.091 161.5)",
+          "oklch(60.7% 0.091 161.5)",
+          "oklch(72.1% 0.081 161.5)",
+          "oklch(83.6% 0.048 161.5)",
+          "oklch(95.0% 0.015 161.5)"
+        ]
+      },
+      "lavado-stock": {
+        "role": "secondary",
+        "displayName": "Papel Menta",
+        "canonical": "#d9ecd9",
+        "cssVar": "--lavado-stock",
+        "tonalRamp": [
+          "oklch(15.0% 0.016 145.3)",
+          "oklch(26.4% 0.027 145.3)",
+          "oklch(37.9% 0.032 145.3)",
+          "oklch(49.3% 0.032 145.3)",
+          "oklch(60.7% 0.032 145.3)",
+          "oklch(72.1% 0.029 145.3)",
+          "oklch(83.6% 0.017 145.3)",
+          "oklch(95.0% 0.005 145.3)"
+        ]
+      },
+      "lavado-ink": {
+        "role": "secondary",
+        "displayName": "Tinta Bosque",
+        "canonical": "#0c3524",
+        "cssVar": "--lavado-ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.026 162.0)",
+          "oklch(26.4% 0.047 162.0)",
+          "oklch(37.9% 0.055 162.0)",
+          "oklch(49.3% 0.055 162.0)",
+          "oklch(60.7% 0.055 162.0)",
+          "oklch(72.1% 0.049 162.0)",
+          "oklch(83.6% 0.029 162.0)",
+          "oklch(95.0% 0.009 162.0)"
+        ]
+      },
+      "lavado-ink2": {
+        "role": "secondary",
+        "displayName": "Ciruela",
+        "canonical": "#7a2252",
+        "cssVar": "--lavado-ink2",
+        "tonalRamp": [
+          "oklch(15.0% 0.063 351.0)",
+          "oklch(26.4% 0.111 351.0)",
+          "oklch(37.9% 0.131 351.0)",
+          "oklch(49.3% 0.131 351.0)",
+          "oklch(60.7% 0.131 351.0)",
+          "oklch(72.1% 0.117 351.0)",
+          "oklch(83.6% 0.069 351.0)",
+          "oklch(95.0% 0.021 351.0)"
+        ]
+      },
+      "natural-field": {
+        "role": "secondary",
+        "displayName": "Azul Natural",
+        "canonical": "#26478f",
+        "cssVar": "--natural-field",
+        "tonalRamp": [
+          "oklch(15.0% 0.060 263.4)",
+          "oklch(26.4% 0.106 263.4)",
+          "oklch(37.9% 0.126 263.4)",
+          "oklch(49.3% 0.126 263.4)",
+          "oklch(60.7% 0.126 263.4)",
+          "oklch(72.1% 0.112 263.4)",
+          "oklch(83.6% 0.066 263.4)",
+          "oklch(95.0% 0.020 263.4)"
+        ]
+      },
+      "natural-stock": {
+        "role": "secondary",
+        "displayName": "Papel Celeste",
+        "canonical": "#dce4f5",
+        "cssVar": "--natural-stock",
+        "tonalRamp": [
+          "oklch(15.0% 0.012 265.6)",
+          "oklch(26.4% 0.021 265.6)",
+          "oklch(37.9% 0.025 265.6)",
+          "oklch(49.3% 0.025 265.6)",
+          "oklch(60.7% 0.025 265.6)",
+          "oklch(72.1% 0.022 265.6)",
+          "oklch(83.6% 0.013 265.6)",
+          "oklch(95.0% 0.004 265.6)"
+        ]
+      },
+      "natural-ink": {
+        "role": "secondary",
+        "displayName": "Tinta Marino",
+        "canonical": "#0f2251",
+        "cssVar": "--natural-ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.043 264.5)",
+          "oklch(26.4% 0.076 264.5)",
+          "oklch(37.9% 0.090 264.5)",
+          "oklch(49.3% 0.090 264.5)",
+          "oklch(60.7% 0.090 264.5)",
+          "oklch(72.1% 0.080 264.5)",
+          "oklch(83.6% 0.047 264.5)",
+          "oklch(95.0% 0.014 264.5)"
+        ]
+      },
+      "natural-ink2": {
+        "role": "secondary",
+        "displayName": "Óxido",
+        "canonical": "#8a3a0c",
+        "cssVar": "--natural-ink2",
+        "tonalRamp": [
+          "oklch(15.0% 0.058 44.9)",
+          "oklch(26.4% 0.103 44.9)",
+          "oklch(37.9% 0.122 44.9)",
+          "oklch(49.3% 0.122 44.9)",
+          "oklch(60.7% 0.122 44.9)",
+          "oklch(72.1% 0.108 44.9)",
+          "oklch(83.6% 0.064 44.9)",
+          "oklch(95.0% 0.019 44.9)"
+        ]
+      },
+      "pina-field": {
+        "role": "primary",
+        "displayName": "Rojo Piña-Whisky",
+        "canonical": "#a8292a",
+        "cssVar": "--pina-field",
+        "tonalRamp": [
+          "oklch(15.0% 0.079 25.4)",
+          "oklch(26.4% 0.138 25.4)",
+          "oklch(37.9% 0.164 25.4)",
+          "oklch(49.3% 0.164 25.4)",
+          "oklch(60.7% 0.164 25.4)",
+          "oklch(72.1% 0.146 25.4)",
+          "oklch(83.6% 0.086 25.4)",
+          "oklch(95.0% 0.026 25.4)"
+        ]
+      },
+      "pina-stock": {
+        "role": "primary",
+        "displayName": "Papel Rosa Pálido",
+        "canonical": "#f8d9d2",
+        "cssVar": "--pina-stock",
+        "tonalRamp": [
+          "oklch(15.0% 0.017 32.8)",
+          "oklch(26.4% 0.030 32.8)",
+          "oklch(37.9% 0.036 32.8)",
+          "oklch(49.3% 0.036 32.8)",
+          "oklch(60.7% 0.036 32.8)",
+          "oklch(72.1% 0.032 32.8)",
+          "oklch(83.6% 0.019 32.8)",
+          "oklch(95.0% 0.006 32.8)"
+        ]
+      },
+      "pina-ink": {
+        "role": "primary",
+        "displayName": "Tinta Granate",
+        "canonical": "#5a0f10",
+        "cssVar": "--pina-ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.051 25.6)",
+          "oklch(26.4% 0.091 25.6)",
+          "oklch(37.9% 0.107 25.6)",
+          "oklch(49.3% 0.107 25.6)",
+          "oklch(60.7% 0.107 25.6)",
+          "oklch(72.1% 0.095 25.6)",
+          "oklch(83.6% 0.056 25.6)",
+          "oklch(95.0% 0.017 25.6)"
+        ]
+      },
+      "pina-ink2": {
+        "role": "primary",
+        "displayName": "Azul Pizarra",
+        "canonical": "#1f3d6b",
+        "cssVar": "--pina-ink2",
+        "tonalRamp": [
+          "oklch(15.0% 0.042 258.7)",
+          "oklch(26.4% 0.074 258.7)",
+          "oklch(37.9% 0.088 258.7)",
+          "oklch(49.3% 0.088 258.7)",
+          "oklch(60.7% 0.088 258.7)",
+          "oklch(72.1% 0.078 258.7)",
+          "oklch(83.6% 0.046 258.7)",
+          "oklch(95.0% 0.014 258.7)"
+        ]
+      },
+      "violet-field": {
+        "role": "tertiary",
+        "displayName": "Violeta de Seguridad",
+        "canonical": "#4b3f8c",
+        "cssVar": "--violet-field",
+        "tonalRamp": [
+          "oklch(15.0% 0.059 287.0)",
+          "oklch(26.4% 0.104 287.0)",
+          "oklch(37.9% 0.123 287.0)",
+          "oklch(49.3% 0.123 287.0)",
+          "oklch(60.7% 0.123 287.0)",
+          "oklch(72.1% 0.110 287.0)",
+          "oklch(83.6% 0.065 287.0)",
+          "oklch(95.0% 0.020 287.0)"
+        ]
+      },
+      "violet-stock": {
+        "role": "tertiary",
+        "displayName": "Papel Lila",
+        "canonical": "#e6e2f3",
+        "cssVar": "--violet-stock",
+        "tonalRamp": [
+          "oklch(15.0% 0.011 296.7)",
+          "oklch(26.4% 0.020 296.7)",
+          "oklch(37.9% 0.023 296.7)",
+          "oklch(49.3% 0.023 296.7)",
+          "oklch(60.7% 0.023 296.7)",
+          "oklch(72.1% 0.021 296.7)",
+          "oklch(83.6% 0.012 296.7)",
+          "oklch(95.0% 0.004 296.7)"
+        ]
+      },
+      "violet-ink": {
+        "role": "tertiary",
+        "displayName": "Tinta Noche",
+        "canonical": "#211a4a",
+        "cssVar": "--violet-ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.041 285.3)",
+          "oklch(26.4% 0.072 285.3)",
+          "oklch(37.9% 0.086 285.3)",
+          "oklch(49.3% 0.086 285.3)",
+          "oklch(60.7% 0.086 285.3)",
+          "oklch(72.1% 0.076 285.3)",
+          "oklch(83.6% 0.045 285.3)",
+          "oklch(95.0% 0.014 285.3)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Número de serie",
+        "purpose": "El número gigante del billete, en color de campo; uno por billete."
+      },
+      "headline": {
+        "displayName": "Nombre de lote",
+        "purpose": "El h1: nombre del lote en mayúsculas condensadas."
+      },
+      "headline-section": {
+        "displayName": "Título de sección",
+        "purpose": "Reverso, finca, serie especial; recetario y cierre a menor escala."
+      },
+      "title": {
+        "displayName": "Título de desprendible",
+        "purpose": "Título del desprendible y nombre de cada mini billete."
+      },
+      "numeral-price": {
+        "displayName": "Numeral de precio",
+        "purpose": "Valor del pedido y numerales de pasos y datos de finca, en cifras tabulares."
+      },
+      "body": {
+        "displayName": "Texto",
+        "purpose": "Párrafos de lectura, medida 48–56ch."
+      },
+      "body-lede": {
+        "displayName": "Línea de lote",
+        "purpose": "La frase bajo el nombre del lote, máximo 34ch."
+      },
+      "label": {
+        "displayName": "Rótulo impreso",
+        "purpose": "Etiquetas de campos, leyendas, encabezados de tabla, pie del billete; opacidad 0.8."
+      },
+      "label-nav": {
+        "displayName": "Navegación",
+        "purpose": "Enlaces del encabezado y botón Pedir."
+      },
+      "button": {
+        "displayName": "Botón",
+        "purpose": "Botón de desprender, en caja normal."
+      }
+    },
+    "inkFamilies": {
+      "mechanism": "Los tokens viven en .bt; data-ink=\"honey|lavado|natural|pina\" asigna --field, --stock, --ink, --ink2. Las secciones violetas reasignan --field/--stock/--ink localmente.",
+      "families": [
+        "honey",
+        "lavado",
+        "natural",
+        "pina",
+        "violet"
+      ],
+      "default": "pina"
+    },
+    "shadows": [
+      {
+        "name": "paper-on-field",
+        "value": "0 30px 60px -28px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.18)",
+        "purpose": "El billete principal sobre el campo de tinta."
+      },
+      {
+        "name": "mini-ticket",
+        "value": "0 20px 36px -24px rgba(0,0,0,0.6)",
+        "purpose": "Mini billetes de formatos y regalos."
+      },
+      {
+        "name": "tear-button",
+        "value": "0 10px 18px -12px rgba(0,0,0,0.6)",
+        "purpose": "Botón de desprender en reposo."
+      },
+      {
+        "name": "tear-button-hover",
+        "value": "0 14px 22px -12px rgba(0,0,0,0.6)",
+        "purpose": "Botón de desprender al pasar el cursor, con translateY(-2px)."
+      },
+      {
+        "name": "order-bar",
+        "value": "0 12px 28px -8px rgba(0,0,0,0.45)",
+        "purpose": "Barra de pedido fija en móvil."
+      },
+      {
+        "name": "pack-cutout",
+        "value": "drop-shadow(0 18px 18px rgba(0,0,0,0.28))",
+        "purpose": "filter para fotos de empaque recortadas dentro de la roseta."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Única curva del sistema, para toda transición."
+      },
+      {
+        "name": "control",
+        "value": "0.2s",
+        "purpose": "Hover y selección de botones, chips y enlaces."
+      },
+      {
+        "name": "tab",
+        "value": "0.25s",
+        "purpose": "Fondo y borde de pestañas de serie."
+      },
+      {
+        "name": "ink-change",
+        "value": "0.5s",
+        "purpose": "Repintado del campo, encabezado, billete y reverso al cambiar de serie."
+      },
+      {
+        "name": "tear",
+        "value": "rotate 7deg, translate(18px, 90px), opacity 0 over 0.7s ease-out",
+        "purpose": "El desprendible cae al pulsar el botón; con reduced motion no hay rasgado."
+      },
+      {
+        "name": "order-bar-in",
+        "value": "translateY(140%) → 0 over 0.35s ease-out",
+        "purpose": "Entrada de la barra de pedido móvil."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition/animation-duration 0.01ms",
+        "purpose": "prefers-reduced-motion: cambios instantáneos, sin rasgado ni deslizamiento."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "tablet",
+        "value": "1023px",
+        "purpose": "max-width: desprendible bajo el cuerpo, perforación horizontal."
+      },
+      {
+        "name": "mobile",
+        "value": "767px",
+        "purpose": "max-width: una columna, menú, barra de pedido fija."
+      }
+    ],
+    "textures": [
+      {
+        "name": "perforation",
+        "value": "radial-gradient(circle, var(--field) 3.2px, transparent 3.6px) every 12px; 22px end punches",
+        "purpose": "Frontera entre información y pedido."
+      },
+      {
+        "name": "stub-hatch",
+        "value": "repeating-linear-gradient(-45deg, color-mix(in srgb, var(--field) 9%, transparent) 0 1px, transparent 1px 7px)",
+        "purpose": "Rayado del desprendible."
+      },
+      {
+        "name": "wave-field",
+        "value": "SVG 34+34 sinusoides, stroke 0.5, opacity 0.13",
+        "purpose": "Fondo del campo de la primera pantalla."
+      },
+      {
+        "name": "rosette",
+        "value": "SVG 3 hipotrocoides + 2 círculos; curva central en --ink2",
+        "purpose": "Marco de la viñeta del empaque y del sello del reverso."
+      },
+      {
+        "name": "microtext",
+        "value": "SVG pattern, Archivo 600 5.6px, --ink2 al 75%",
+        "purpose": "Bordes superior e inferior del billete y del cierre."
+      }
+    ],
+    "scope": {
+      "migrated": [
+        "/"
+      ],
+      "legacy": [
+        {
+          "route": "/recetas-cafe",
+          "stylesheet": "src/index.css",
+          "note": "Aún usa el look heredado; no migrado."
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "name": "Botón de desprender",
+      "kind": "button",
+      "refersTo": "tear-button",
+      "description": "Acción primaria única: abre WhatsApp con el pedido completo.",
+      "html": "<a class=\"ds-tear\" href=\"#\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" fill=\"currentColor\"><path d=\"M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z\"/></svg><span>Desprender y pedir por WhatsApp</span></a>",
+      "css": ".ds-tear{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:12px 18px;background:#5a0f10;color:#f8d9d2;border-radius:6px;font-family:'Archivo Variable','Archivo',system-ui,sans-serif;font-weight:800;font-variation-settings:'wdth' 110;font-size:1rem;line-height:1.2;text-decoration:none;box-shadow:0 10px 18px -12px rgba(0,0,0,.6);transition:transform .2s cubic-bezier(0.16,1,0.3,1),box-shadow .2s cubic-bezier(0.16,1,0.3,1);}.ds-tear:hover{transform:translateY(-2px);box-shadow:0 14px 22px -12px rgba(0,0,0,.6);}.ds-tear:active{transform:translateY(0);}.ds-tear:focus-visible{outline:2px solid #5a0f10;outline-offset:3px;}"
+    },
+    {
+      "name": "Botón de contorno",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secundario para ir a otra sección (recetario).",
+      "html": "<a class=\"ds-outline\" href=\"#\">Ver el recetario</a>",
+      "css": ".ds-outline{display:inline-flex;align-items:center;min-height:52px;padding:0 22px;border:2px solid #5a0f10;border-radius:6px;background:#f8d9d2;color:#5a0f10;font-family:'Archivo Variable','Archivo',system-ui,sans-serif;font-weight:800;text-decoration:none;transition:background-color .2s cubic-bezier(0.16,1,0.3,1),color .2s cubic-bezier(0.16,1,0.3,1);}.ds-outline:hover{background:#5a0f10;color:#f8d9d2;}.ds-outline:focus-visible{outline:2px solid #5a0f10;outline-offset:3px;}"
+    },
+    {
+      "name": "Chips de tamaño",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Radio de presentación con precio; el elegido se invierte a tinta.",
+      "html": "<div class=\"ds-chips\"><label class=\"ds-chip is-on\"><input type=\"radio\" name=\"ds-s\" checked><b>250 g</b><span>$40.000</span></label><label class=\"ds-chip\"><input type=\"radio\" name=\"ds-s\"><b>350 g</b><span>$50.000</span></label><label class=\"ds-chip\"><input type=\"radio\" name=\"ds-s\"><b>454 g</b><span>$60.000</span></label></div>",
+      "css": ".ds-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:12px;background:#f8d9d2;}.ds-chip{position:relative;display:flex;flex-direction:column;justify-content:center;gap:2px;min-height:52px;padding:8px 10px;border:1px solid color-mix(in srgb,#5a0f10 45%,transparent);border-radius:6px;background:#f8d9d2;color:#5a0f10;font-family:'Archivo Variable','Archivo',system-ui,sans-serif;cursor:pointer;transition:background-color .2s cubic-bezier(0.16,1,0.3,1),color .2s cubic-bezier(0.16,1,0.3,1);}.ds-chip input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer;}.ds-chip b{font-weight:750;font-size:.9375rem;}.ds-chip span{font-size:.8125rem;font-variant-numeric:tabular-nums;opacity:.85;}.ds-chip:hover{border-color:#5a0f10;}.ds-chip.is-on{background:#5a0f10;color:#f8d9d2;border-color:#5a0f10;}.ds-chip:has(input:focus-visible){outline:2px solid #5a0f10;outline-offset:2px;}"
+    },
+    {
+      "name": "Select de presentación",
+      "kind": "input",
+      "refersTo": "select",
+      "description": "Grano entero o molienda a pedido, sin apariencia nativa.",
+      "html": "<label class=\"ds-field\"><span>Presentación</span><span class=\"ds-sel\"><select><option>Grano entero</option><option>Molido para filtro</option><option>Molido para prensa</option></select></span></label>",
+      "css": ".ds-field{display:grid;gap:8px;padding:12px;background:#f8d9d2;color:#5a0f10;font-family:'Archivo Variable','Archivo',system-ui,sans-serif;}.ds-field>span:first-child{font-variation-settings:'wdth' 125;font-weight:700;font-size:.6875rem;letter-spacing:.16em;text-transform:uppercase;opacity:.8;}.ds-sel{position:relative;display:block;}.ds-sel::after{content:'';position:absolute;right:14px;top:50%;width:8px;height:8px;border-right:2px solid #5a0f10;border-bottom:2px solid #5a0f10;transform:translateY(-70%) rotate(45deg);pointer-events:none;}.ds-sel select{width:100%;min-height:48px;padding:0 40px 0 12px;appearance:none;-webkit-appearance:none;background:#f8d9d2;color:#5a0f10;border:1px solid color-mix(in srgb,#5a0f10 45%,transparent);border-radius:6px;font:inherit;font-weight:600;font-size:.9375rem;}.ds-sel select:focus-visible{outline:2px solid #5a0f10;outline-offset:3px;}"
+    },
+    {
+      "name": "Pestañas de serie",
+      "kind": "nav",
+      "refersTo": "serie-tab",
+      "description": "Selector de proceso; cada pestaña anuncia su tinta con una barra.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button class=\"ds-tab\" role=\"tab\" style=\"--t:#8a540c\"><b>01</b><span>Honey</span></button><button class=\"ds-tab\" role=\"tab\" style=\"--t:#1e6b4b\"><b>02</b><span>Lavado</span></button><button class=\"ds-tab\" role=\"tab\" style=\"--t:#26478f\"><b>03</b><span>Natural</span></button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"true\" style=\"--t:#a8292a\"><b>04</b><span>Piña-Whisky</span></button></div>",
+      "css": ".ds-tabs{display:flex;gap:8px;padding:16px;background:#a8292a;}.ds-tab{flex:1 1 0;display:flex;align-items:baseline;gap:10px;min-height:52px;padding:8px 14px;background:transparent;color:#f8d9d2;border:1px solid color-mix(in srgb,#f8d9d2 40%,transparent);border-radius:6px;cursor:pointer;text-align:left;font-family:'Archivo Variable','Archivo',system-ui,sans-serif;transition:background-color .25s cubic-bezier(0.16,1,0.3,1),border-color .25s cubic-bezier(0.16,1,0.3,1);}.ds-tab::before{content:'';align-self:stretch;width:6px;border-radius:2px;background:var(--t);box-shadow:0 0 0 1px color-mix(in srgb,#f8d9d2 55%,transparent);}.ds-tab:hover{border-color:#f8d9d2;}.ds-tab[aria-selected=true]{background:#f8d9d2;color:#5a0f10;border-color:#f8d9d2;}.ds-tab:focus-visible{outline:2px solid #f8d9d2;outline-offset:3px;}.ds-tab b{font-family:'Big Shoulders Display Variable','Big Shoulders Display','Arial Narrow',sans-serif;font-weight:800;font-size:1.75rem;line-height:1;font-variant-numeric:tabular-nums;}.ds-tab span{font-weight:700;font-variation-settings:'wdth' 112;font-size:.9375rem;}"
+    },
+    {
+      "name": "Encabezado",
+      "kind": "nav",
+      "refersTo": "header-order",
+      "description": "Barra fija en color de campo con rótulos expandidos y botón Pedir.",
+      "html": "<header class=\"ds-head\"><strong>CUMBRE CAFÉ</strong><nav><a href=\"#\">Serie</a><a href=\"#\">Proceso</a><a href=\"#\">Finca</a></nav><a class=\"ds-order\" href=\"#\">Pedir</a></header>",
+      "css": ".ds-head{display:flex;align-items:center;gap:24px;min-height:60px;padding:8px 24px;background:#a8292a;color:#f8d9d2;border-bottom:1px solid color-mix(in srgb,#f8d9d2 28%,transparent);font-family:'Archivo Variable','Archivo',system-ui,sans-serif;}.ds-head strong{font-family:'Big Shoulders Display Variable','Big Shoulders Display','Arial Narrow',sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:.04em;}.ds-head nav{margin-left:auto;display:flex;gap:4px;}.ds-head nav a,.ds-order{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;color:inherit;font-variation-settings:'wdth' 118;font-weight:600;font-size:.8125rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;}.ds-head nav a:hover{text-decoration:underline;}.ds-order{padding:0 20px;background:#f8d9d2;color:#5a0f10;font-weight:800;letter-spacing:.14em;border-radius:6px;transition:transform .2s cubic-bezier(0.16,1,0.3,1);}.ds-order:hover{transform:translateY(-1px);}.ds-head a:focus-visible{outline:2px solid currentColor;outline-offset:3px;}"
+    },
+    {
+      "name": "Billete con desprendible",
+      "kind": "card",
+      "refersTo": "ticket",
+      "description": "Contenedor firma: campos impresos, perforación y fracción de pedido.",
+      "html": "<div class=\"ds-field-bg\"><article class=\"ds-ticket\"><div class=\"ds-body\"><div class=\"ds-issuer\"><span>Cumbre Café</span><span>Serie 04</span></div><p class=\"ds-serial\">04</p><h3 class=\"ds-lot\">Piña-Whisky</h3><dl class=\"ds-dl\"><div><dt>Variedad</dt><dd>Castillo</dd></div><div><dt>Altitud</dt><dd>1.950 m s.n.m.</dd></div><div><dt>Tostión</dt><dd>Media</dd></div></dl></div><div class=\"ds-perf\"></div><div class=\"ds-stub\"><span class=\"ds-lbl\">Valor</span><b class=\"ds-amt\">$40.000</b></div></article></div>",
+      "css": ".ds-field-bg{padding:24px;background:#a8292a;}.ds-ticket{display:grid;grid-template-columns:minmax(0,1fr) 16px 180px;background:#f8d9d2;color:#5a0f10;border-radius:10px;box-shadow:0 30px 60px -28px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.18);font-family:'Archivo Variable','Archivo',system-ui,sans-serif;}.ds-body{margin:8px 0 8px 8px;padding:16px 20px;border:1px solid color-mix(in srgb,#5a0f10 22%,transparent);border-right:0;border-radius:10px 0 0 10px;}.ds-issuer{display:flex;justify-content:space-between;padding-bottom:8px;border-bottom:2px solid #1f3d6b;font-variation-settings:'wdth' 125;font-weight:700;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;}.ds-serial{margin:12px 0 0;font-family:'Big Shoulders Display Variable','Big Shoulders Display','Arial Narrow',sans-serif;font-weight:900;font-size:4.5rem;line-height:.78;letter-spacing:-.02em;color:#a8292a;}.ds-lot{margin:4px 0 12px;font-family:'Big Shoulders Display Variable','Big Shoulders Display','Arial Narrow',sans-serif;font-weight:800;font-size:2.6rem;line-height:.92;text-transform:uppercase;}.ds-dl{display:grid;grid-template-columns:repeat(3,1fr);margin:0;border-top:1px solid color-mix(in srgb,#5a0f10 30%,transparent);}.ds-dl div{padding:8px 8px 8px 0;border-bottom:1px solid color-mix(in srgb,#5a0f10 30%,transparent);}.ds-dl dt,.ds-lbl{font-variation-settings:'wdth' 125;font-weight:700;font-size:.6875rem;letter-spacing:.16em;text-transform:uppercase;opacity:.8;}.ds-dl dd{margin:4px 0 0;font-weight:650;font-size:.9375rem;}.ds-perf{position:relative;margin:8px 0;background-image:radial-gradient(circle,#a8292a 3.2px,transparent 3.6px);background-size:100% 12px;background-repeat:repeat-y;background-position:center;}.ds-perf::before,.ds-perf::after{content:'';position:absolute;left:50%;width:22px;height:22px;border-radius:50%;background:#a8292a;transform:translateX(-50%);}.ds-perf::before{top:-19px;}.ds-perf::after{bottom:-19px;}.ds-stub{margin:8px 8px 8px 0;padding:18px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;border:1px dashed color-mix(in srgb,#5a0f10 40%,transparent);border-left:0;border-radius:0 10px 10px 0;background-image:repeating-linear-gradient(-45deg,color-mix(in srgb,#a8292a 9%,transparent) 0 1px,transparent 1px 7px);}.ds-amt{font-family:'Big Shoulders Display Variable','Big Shoulders Display','Arial Narrow',sans-serif;font-weight:800;font-size:2.5rem;line-height:1;font-variant-numeric:tabular-nums;}"
+    },
+    {
+      "name": "Sello",
+      "kind": "custom",
+      "refersTo": "stamp",
+      "description": "Marca de caucho para certificar origen o confirmar el envío.",
+      "html": "<div class=\"ds-stamp-bg\"><p class=\"ds-stamp\">Lote de la finca<span>Mistrató · 1.950 m</span></p></div>",
+      "css": ".ds-stamp-bg{padding:32px;background:#f8d9d2;}.ds-stamp{display:inline-grid;gap:4px;margin:0;padding:8px 14px;border:3px double #1f3d6b;border-radius:4px;color:#1f3d6b;font-family:'Big Shoulders Display Variable','Big Shoulders Display','Arial Narrow',sans-serif;font-weight:900;font-size:1.125rem;letter-spacing:.06em;line-height:1;text-transform:uppercase;text-align:center;transform:rotate(-7deg);opacity:.85;}.ds-stamp span{font-family:'Archivo Variable','Archivo',system-ui,sans-serif;font-variation-settings:'wdth' 125;font-weight:700;font-size:.625rem;letter-spacing:.14em;}"
+    },
+    {
+      "name": "Mini billete violeta",
+      "kind": "card",
+      "refersTo": "mini-ticket",
+      "description": "Formatos y regalos en tinta institucional violeta.",
+      "html": "<div class=\"ds-mini-bg\"><article class=\"ds-mini\"><p class=\"ds-code\">E-01</p><h3>Cuarterón</h3><p>5 lb para casa u oficina.</p><div class=\"ds-mperf\"></div><div class=\"ds-mbuy\"><b>Precio en catálogo</b></div></article></div>",
+      "css": ".ds-mini-bg{padding:24px;background:#4b3f8c;}.ds-mini{position:relative;max-width:320px;background:#e6e2f3;color:#211a4a;border-radius:8px;box-shadow:0 20px 36px -24px rgba(0,0,0,.6);padding:18px 18px 0;font-family:'Archivo Variable','Archivo',system-ui,sans-serif;}.ds-code{position:absolute;top:12px;right:16px;margin:0;font-family:'Big Shoulders Display Variable','Big Shoulders Display','Arial Narrow',sans-serif;font-weight:800;font-size:.9375rem;letter-spacing:.04em;color:#4b3f8c;}.ds-mini h3{margin:0;font-family:'Big Shoulders Display Variable','Big Shoulders Display','Arial Narrow',sans-serif;font-weight:800;font-size:1.75rem;line-height:1;text-transform:uppercase;}.ds-mini p{margin:6px 0 12px;font-size:.9375rem;line-height:1.45;}.ds-mperf{height:16px;margin:0 -10px;background-image:radial-gradient(circle,#4b3f8c 3.2px,transparent 3.6px);background-size:12px 100%;background-repeat:repeat-x;}.ds-mbuy{padding:12px 0 18px;}.ds-mbuy b{font-family:'Big Shoulders Display Variable','Big Shoulders Display','Arial Narrow',sans-serif;font-weight:800;font-size:2rem;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "El billete de serie",
+    "overview": "**Creative North Star: \"El billete de serie\"**\n\nCada lote de la finca es un impreso de seguridad numerado, y el pedido es su fracción desprendible. El sistema toma su gramática de la impresión de valores colombiana: rosetas de guilloche, campos de líneas onduladas, bordes de microtexto, numerales condensados enormes, etiquetas en versalitas expandidas, sellos de caucho y perforaciones con agujeros troquelados. Nada de eso es ilustración suelta; todo se dibuja como SVG ligero generado en código, para que el billete se vea completo aunque la red móvil sea lenta.\n\nEl color funciona como en una imprenta de dos tintas. Cada proceso (Honey, Lavado, Natural, Piña-Whisky) es una familia de tinta con cuatro valores: el **campo** saturado que inunda la región, el **papel** (stock) teñido donde se imprime el billete, la **tinta** profunda del texto y una **segunda tinta** de contraste para los elementos de seguridad. Al cambiar de serie, la página entera cambia de tinta. El violeta de seguridad es la tinta institucional: formatos, finca y cierre.\n\nLa densidad es la de un documento impreso: campos rotulados en rejilla con filetes finos, mucha información compacta dentro del billete, y amplitud generosa fuera de él. El sistema rechaza la página de café oscura con crema y serif, la plantilla de héroe más tarjetas iguales, el vidrio, los orbes, los degradados como lavado de color y los emojis.",
+    "keyCharacteristics": [
+      "Una tinta por región; la serie activa repinta el campo, el encabezado y el reverso.",
+      "El billete es el único objeto elevado; todo lo demás es impresión plana sobre papel.",
+      "Numerales y nombres de lote en Big Shoulders Display, condensada y en mayúsculas.",
+      "Etiquetas en Archivo expandida (`wdth` 125) con tracking amplio.",
+      "La perforación separa información de pedido; el pedido se \"desprende\" hacia WhatsApp.",
+      "Texturas de seguridad (guilloche, ondas, microtexto) en SVG, siempre `aria-hidden`."
+    ],
+    "rules": [
+      {
+        "name": "La Regla de una tinta por región",
+        "body": "Cada región de la página está impresa con una sola familia. El campo inunda; el papel lleva el tinte de esa misma tinta. Nunca mezcles dos procesos en la misma superficie: las únicas excepciones son las barras de color de las pestañas de serie y los puntos de tinta de la tabla, que anuncian otras tintas a propósito.",
+        "section": "colors"
+      },
+      {
+        "name": "La Regla del contraste de imprenta",
+        "body": "Toda familia nueva debe cumplir lo que cumplen las cinco actuales: papel sobre campo y campo sobre papel ≥ 5:1 (hoy 5,1–6,9:1), tinta sobre papel ≥ 10:1 (hoy 10,5–12,6:1) y segunda tinta sobre papel ≥ 6:1. Si una tinta nueva no lo alcanza, se oscurece el campo, no se aclara el texto.",
+        "section": "colors"
+      },
+      {
+        "name": "La Regla de la segunda tinta",
+        "body": "`ink2` es solo para elementos de seguridad: microtexto, el filete doble bajo la línea del emisor, la curva intermedia de la roseta y los sellos. Nunca para texto de lectura ni para acciones.",
+        "section": "colors"
+      },
+      {
+        "name": "La Regla del numeral condensado",
+        "body": "Big Shoulders es solo para cifras, nombres de lote, títulos de sección y sellos, siempre en mayúsculas o numerales. Nunca para párrafos, etiquetas ni botones.",
+        "section": "typography"
+      },
+      {
+        "name": "La Regla del ancho como jerarquía",
+        "body": "Lo que en otra marca sería cambio de familia aquí es cambio de ancho: lectura en `wdth` 100, acciones en 110, navegación en 118, rótulos en 125. No introduzcas una tercera familia.",
+        "section": "typography"
+      },
+      {
+        "name": "La Regla del único papel",
+        "body": "Solo los billetes (principal y mini), el botón de desprender y la barra de pedido proyectan sombra. Paneles, tablas, pestañas y chips son planos.",
+        "section": "elevation"
+      },
+      {
+        "name": "La Regla de la perforación",
+        "body": "Entre la información de un lote y su pedido siempre hay una perforación. Ningún formulario de pedido aparece sin ella, y ninguna perforación aparece donde no hay algo que desprender.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "**Do** monta toda superficie nueva dentro de `.bt` con `data-ink` y usa `var(--field)`, `var(--stock)`, `var(--ink)` y `var(--ink2)`, nunca hex sueltos.",
+      "**Do** asigna a cada proceso nuevo una familia completa (campo, papel, tinta, segunda tinta) que cumpla la Regla del contraste de imprenta.",
+      "**Do** separa siempre información y pedido con una perforación, y haz que todo pedido termine en el botón de desprender con producto, tamaño, presentación y precio.",
+      "**Do** rotula los datos de un lote como campos impresos: etiqueta en Archivo `wdth` 125 a 0.6875rem con tracking 0.16em, valor debajo.",
+      "**Do** usa `cubic-bezier(0.16, 1, 0.3, 1)` para toda transición (0.2s en controles, 0.5s en cambios de tinta) y reduce todo a instantáneo con `prefers-reduced-motion`.",
+      "**Do** dibuja las texturas de seguridad en SVG generado; el rayado del desprendible y los agujeros de la perforación con funciones de degradado repetido son textura de imprenta, no decoración."
+    ],
+    "donts": [
+      "**Don't** uses degradados como lavado de color, vidrio, orbes, desenfoques de fondo ni emojis.",
+      "**Don't** pongas sombra a paneles, tablas, chips o pestañas; solo el papel de los billetes y la acción de desprender se elevan.",
+      "**Don't** uses Big Shoulders para párrafos, rótulos o botones, ni añadas una tercera familia tipográfica.",
+      "**Don't** uses la segunda tinta (`ink2`) para texto de lectura o acciones.",
+      "**Don't** uses el violeta para un proceso; es la tinta de formatos, finca y cierre.",
+      "**Don't** mezcles dos tintas de proceso en una misma región, salvo los indicadores de color de pestañas y tabla.",
+      "**Don't** reutilices nada de `src/index.css` (look heredado de `/recetas-cafe`) en superficies nuevas."
+    ]
+  }
+}

@@ -1,0 +1,603 @@
+/* ==========================================================================
+   Recetario · "Talonario de recetas"
+   Extiende el sistema "Billete de serie" (billete.css). La tinta de cada hoja
+   la decide la temperatura: caliente = honey, fría = natural, ambas = lavado.
+   ========================================================================== */
+
+.tal-main {
+  position: relative;
+  overflow: clip;
+  color: var(--stock);
+  padding: clamp(24px, 4vw, 48px) var(--gutter) clamp(56px, 8vw, 96px);
+}
+
+.tal-intro,
+.tal-layout {
+  position: relative;
+}
+.tal-intro {
+  max-width: 1280px;
+  margin: 0 auto clamp(20px, 3vw, 32px);
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: clamp(16px, 3vw, 40px);
+  row-gap: 6px;
+}
+.tal-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+.tal-lede {
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  line-height: 1.5;
+  max-width: 46ch;
+}
+
+.tal-layout {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 40px);
+  align-items: start;
+}
+
+/* Índice (pestañas del talonario) */
+.tal-aside {
+  position: sticky;
+  top: 76px;
+  display: grid;
+  gap: 12px;
+  max-height: calc(100vh - 96px);
+  grid-template-rows: auto auto minmax(0, 1fr);
+}
+
+.tal-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+.tal-filter {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-height: 52px;
+  padding: 6px 10px;
+  background: transparent;
+  color: var(--stock);
+  border: 1px solid color-mix(in srgb, var(--stock) 45%, transparent);
+  border-radius: var(--radius);
+  font: inherit;
+  font-weight: 750;
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .tal-filter:hover {
+    border-color: var(--stock);
+  }
+}
+.tal-filter[aria-pressed="true"] {
+  background: var(--stock);
+  color: var(--ink);
+  border-color: var(--stock);
+}
+.tal-filter-count {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.125rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.tal-index-toggle {
+  display: none;
+}
+
+.tal-index-panel {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: color-mix(in srgb, var(--ink) 35%, transparent);
+  border-radius: 8px;
+  padding: 6px 6px 10px;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--stock) 50%, transparent) transparent;
+}
+
+.tal-index-group + .tal-index-group {
+  margin-top: 10px;
+}
+.tal-index-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 10px 10px 6px;
+  font-family: var(--font-text);
+  font-variation-settings: "wdth" 125;
+  font-weight: 700;
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--stock);
+  border-bottom: 2px solid var(--field);
+}
+.tal-index-count {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  letter-spacing: 0;
+}
+.tal-index ul {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+}
+.tal-index-item {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-height: 40px;
+  padding: 8px 10px;
+  background: transparent;
+  color: var(--stock);
+  border: 0;
+  border-radius: 4px;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 550;
+  text-align: left;
+  cursor: pointer;
+}
+@media (hover: hover) and (pointer: fine) {
+  .tal-index-item:hover {
+    background: color-mix(in srgb, var(--stock) 12%, transparent);
+  }
+}
+.tal-index-item[aria-current="true"] {
+  background: var(--stock);
+  color: var(--ink);
+  font-weight: 750;
+}
+.tal-index-serial {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  min-width: 2ch;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, currentColor 70%, var(--field));
+}
+
+/* Hoja */
+.tal-stage {
+  min-width: 0;
+  scroll-margin-top: 72px;
+  outline: none;
+}
+
+.tal-sheet {
+  display: flex;
+  flex-direction: column;
+  background: var(--stock);
+  color: var(--ink);
+  border-radius: 10px;
+  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.18);
+  transform-origin: 50% 0%;
+}
+.tal-sheet-body {
+  margin: 8px 8px 0;
+  padding: 16px clamp(16px, 3vw, 36px) 14px;
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  display: grid;
+  gap: 14px;
+}
+.tal-micro {
+  display: block;
+  color: var(--ink2);
+  opacity: 0.75;
+}
+.tal-issuer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--ink2);
+  font-variation-settings: "wdth" 125;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.tal-head {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2.5vw, 28px);
+}
+.tal-serial {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(4rem, 8vw, 6.5rem);
+  line-height: 0.78;
+  color: var(--field);
+  font-variant-numeric: tabular-nums;
+}
+.tal-head-copy {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.tal-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.25rem, 4.6vw, 3.75rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+.stamp.tal-temp {
+  justify-self: start;
+  margin-top: 4px;
+  padding: 5px 10px;
+  border-color: var(--ink2);
+  color: var(--ink2);
+  font-size: 1rem;
+  transform: rotate(-4deg);
+}
+.tal-serial-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: clamp(96px, 11vw, 140px);
+  aspect-ratio: 1;
+}
+.tal-rosette {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--field);
+  opacity: 0.55;
+}
+.tal-serial-wrap .tal-serial {
+  position: relative;
+}
+
+.tal-photo {
+  margin: 0;
+  border: 1px solid var(--ink);
+  outline: 4px double color-mix(in srgb, var(--ink) 50%, transparent);
+  outline-offset: -9px;
+  border-radius: 4px;
+  overflow: hidden;
+  aspect-ratio: 960 / 524;
+  background: color-mix(in srgb, var(--field) 25%, var(--stock));
+}
+.tal-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tal-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(18px, 3vw, 40px);
+  padding-top: 4px;
+}
+.tal-col-title {
+  font-family: var(--font-text);
+  font-variation-settings: "wdth" 125;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding-bottom: 8px;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 35%, transparent);
+  margin-bottom: 4px;
+}
+.tal-ingredients,
+.tal-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tal-ingredients li {
+  padding: 9px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
+.tal-steps {
+  counter-reset: paso;
+}
+.tal-steps li {
+  counter-increment: paso;
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 62ch;
+}
+.tal-steps li::before {
+  content: counter(paso);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--field);
+  padding-top: 1px;
+}
+
+.tal-perf {
+  --field: var(--tal-ground);
+}
+.tal-stub {
+  margin: 0 8px 8px;
+  padding: 14px clamp(16px, 3vw, 36px) 16px;
+  border: 1px dashed color-mix(in srgb, var(--ink) 40%, transparent);
+  border-top: 0;
+  border-radius: 0 0 10px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  flex-wrap: wrap;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    color-mix(in srgb, var(--field) 9%, transparent) 0 1px,
+    transparent 1px 7px
+  );
+}
+.tal-stub-copy {
+  font-size: 0.9375rem;
+  max-width: 48ch;
+}
+
+/* La perforación toma el color del fondo de página, no de la hoja */
+.tal {
+  --tal-ground: var(--field);
+}
+.tal-sheet .perforation::before,
+.tal-sheet .perforation::after {
+  background: var(--tal-ground);
+}
+.tal-sheet .perforation {
+  background-image: radial-gradient(circle, var(--tal-ground) 3.2px, transparent 3.6px);
+}
+
+/* Paginador */
+.tal-pager {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+.tal-page-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 14px;
+  background: transparent;
+  color: var(--stock);
+  border: 1px solid color-mix(in srgb, var(--stock) 45%, transparent);
+  border-radius: var(--radius);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  min-width: 0;
+  transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
+}
+.tal-page-btn svg {
+  flex-shrink: 0;
+  font-size: 1.25rem;
+}
+.tal-page-btn > span {
+  display: grid;
+  min-width: 0;
+}
+.tal-page-btn.is-next {
+  justify-content: flex-end;
+  text-align: right;
+}
+@media (hover: hover) and (pointer: fine) {
+  .tal-page-btn:hover {
+    background: var(--stock);
+    color: var(--ink);
+  }
+}
+.tal-page-label {
+  font-variation-settings: "wdth" 125;
+  font-weight: 700;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.tal-page-name {
+  font-weight: 700;
+  font-size: 0.9375rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tal-page-pos {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tal .site-nav a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 1023px) {
+  .tal-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tal-aside {
+    position: relative;
+    top: 0;
+    max-height: none;
+    grid-template-rows: none;
+  }
+  .tal-index-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 0 16px;
+    background: var(--stock);
+    color: var(--ink);
+    border: 0;
+    border-radius: var(--radius);
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .tal-index-panel {
+    display: none;
+    max-height: 60vh;
+  }
+  .tal-index-panel.is-open {
+    display: block;
+  }
+}
+
+@media (max-width: 767px) {
+  .tal-main {
+    padding-top: 16px;
+  }
+  .tal-title {
+    font-size: 2.75rem;
+  }
+  .tal-lede {
+    font-size: 0.9375rem;
+  }
+  .tal-aside {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tal-filter {
+    min-height: 48px;
+  }
+  .tal-sheet-body {
+    padding: 12px 14px;
+    gap: 12px;
+  }
+  .tal-issuer {
+    font-size: 0.625rem;
+    letter-spacing: 0.12em;
+  }
+  .tal-issuer span {
+    white-space: nowrap;
+  }
+  .tal-issuer-long {
+    display: none;
+  }
+  .tal-serial-wrap {
+    width: 84px;
+  }
+  .stamp.tal-temp {
+    font-size: 0.8125rem;
+  }
+  .tal-page-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .tal-page-btn {
+    min-height: 48px;
+  }
+  .tal-serial {
+    font-size: 3.25rem;
+  }
+  .tal-name {
+    font-size: 2rem;
+  }
+  .tal-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tal-stub {
+    padding: 12px 14px 14px;
+  }
+  .tal-stub .tear-button {
+    width: 100%;
+  }
+  .tal-pager {
+    position: sticky;
+    bottom: 10px;
+    z-index: 20;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 8px;
+    padding: 6px;
+    background: var(--stock);
+    border-radius: 10px;
+    box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.45);
+  }
+  .tal-page-pos {
+    display: none;
+  }
+  .tal-page-btn {
+    color: var(--ink);
+    border-color: color-mix(in srgb, var(--ink) 35%, transparent);
+    padding: 6px 10px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .tal-page-btn:hover {
+      background: var(--ink);
+      color: var(--stock);
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .tal-page-name {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size: 0.875rem;
+    line-height: 1.2;
+  }
+}
+
+/* Respuesta al presionar en los controles del recetario */
+.tal-filter,
+.tal-page-btn,
+.tal-index-toggle,
+.tal-index-item {
+  transition-property: background-color, color, border-color, transform;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease-out);
+}
+.tal-filter:active,
+.tal-page-btn:active,
+.tal-index-toggle:active {
+  transform: scale(0.97);
+}
+.tal-index-item:active {
+  transform: scale(0.98);
+}
