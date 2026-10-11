@@ -2,7 +2,7 @@
 
 import { IoLogoWhatsapp } from "react-icons/io";
 import { SERIES, formatCOP, whatsappUrl } from "../../data/catalog";
-import { Rosette } from "./Security";
+import { Rosette, Star } from "./Security";
 
 export default function Reverso({ active, onSelect }) {
   const serie = SERIES.find((s) => s.id === active);
@@ -88,7 +88,15 @@ export default function Reverso({ active, onSelect }) {
                     <span className="ink-dot" aria-hidden="true" />
                     {s.serial}
                   </td>
-                  <th scope="row">{s.name}</th>
+                  <th scope="row">
+                    {s.name}
+                    {s.badge && (
+                      <span className="row-badge">
+                        <Star className="row-badge-star" />
+                        <span className="sr-only">, {s.badge.toLowerCase()}</span>
+                      </span>
+                    )}
+                  </th>
                   <td>{s.perfil}</td>
                   <td className="num">{formatCOP(s.sizes[0].price)}</td>
                   <td className="action">
@@ -100,7 +108,14 @@ export default function Reverso({ active, onSelect }) {
               ))}
             </tbody>
           </table>
-          <p className="fine">Precios por 250 g. Todos en variedad Castillo, tostión media, en grano o molidos a pedido.</p>
+          <p className="fine">
+            Precios por 250 g. Todos en variedad Castillo, tostión media, en grano o molidos a pedido.{" "}
+            {SERIES.filter((s) => s.badge).map((s) => (
+              <span key={s.id} className="fine-badge">
+                <Star className="row-badge-star" /> {s.badge}.
+              </span>
+            ))}
+          </p>
         </div>
       </div>
     </section>

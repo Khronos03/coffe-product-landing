@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ORIGIN, SERIES } from "../../data/catalog";
-import { Microtext, Perforation, Rosette, WaveField } from "./Security";
+import { Microtext, Perforation, Rosette, Star, WaveField } from "./Security";
 import OrderStub from "./OrderStub";
 
 export default function SerieHero({ active, source = "pointer", onSelect, onOrderChange }) {
@@ -64,6 +64,12 @@ export default function SerieHero({ active, source = "pointer", onSelect, onOrde
             >
               <span className="serie-tab-num">{s.serial}</span>
               <span className="serie-tab-name">{s.name}</span>
+              {s.badge && (
+                <>
+                  <Star className="serie-tab-star" />
+                  <span className="sr-only">, {s.badge.toLowerCase()}</span>
+                </>
+              )}
             </button>
           ))}
         </div>
@@ -79,9 +85,18 @@ export default function SerieHero({ active, source = "pointer", onSelect, onOrde
 
             <motion.div className="billete-main" key={serie.id} {...entry}>
                 <div className="billete-copy">
-                  <p className="billete-serial" aria-hidden="true">
-                    {serie.serial}
-                  </p>
+                  <div className="billete-serial-row">
+                    <p className="billete-serial" aria-hidden="true">
+                      {serie.serial}
+                    </p>
+                    {serie.badge && (
+                      <p className="billete-badge">
+                        <Star className="billete-badge-star" />
+                        <span className="billete-badge-lead">{serie.badge.split(" ")[0]} </span>
+                        {serie.badge.split(" ").slice(1).join(" ")}
+                      </p>
+                    )}
+                  </div>
                   <h1 className="billete-name">
                     <span className="sr-only">Cumbre Café, café de especialidad de Mistrató. Lote </span>
                     {serie.lot}

@@ -1,26 +1,36 @@
 // Serie especial: formatos (Cuarterón, drips) y regalos, como billetes pequeños.
 
 import { useId, useState } from "react";
-import { GIFTS, GRIND_OPTIONS, SPECIAL_SERIES, formatCOP, imageFor, whatsappUrl } from "../../data/catalog";
-import { buildOrderMessage, TearButton } from "./OrderStub";
+import { GIFTS, SPECIAL_SERIES, formatCOP, imageFor, whatsappUrl } from "../../data/catalog";
+import { buildOrderMessage, focusField, grindLabelOf, GrindField, TearButton } from "./OrderStub";
 import { Perforation } from "./Security";
 
 function MiniTicket({ item, code }) {
   const uid = useId();
   const [optId, setOptId] = useState(item.options[0].id);
-  const [grind, setGrind] = useState(GRIND_OPTIONS[0].id);
+  const [grind, setGrind] = useState("");
+  const [grindError, setGrindError] = useState(false);
   const opt = item.options.find((o) => o.id === optId);
   const hasGrind = item.grind || (item.pair && item.pair.some((p) => p !== "drips"));
-  const grindLabel = hasGrind ? GRIND_OPTIONS.find((g) => g.id === grind).label : null;
+  const grindLabel = hasGrind ? grindLabelOf(grind) : null;
+  const ready = !hasGrind || Boolean(grindLabel);
   const images = item.image ? [item.image] : item.pair.map(imageFor);
-  const href = whatsappUrl(
-    buildOrderMessage({
-      product: item.name,
-      sizeLabel: opt.label,
-      grindLabel,
-      price: opt.price,
-    })
-  );
+  const href = ready
+    ? whatsappUrl(
+        buildOrderMessage({
+          product: item.name,
+          sizeLabel: opt.label,
+          grindLabel,
+          price: opt.price,
+        })
+      )
+    : `#${uid}-grind`;
+  const onTear = (e) => {
+    if (ready) return;
+    e.preventDefault();
+    setGrindError(true);
+    focusField(document.getElementById(`${uid}-grind`));
+  };
 
   return (
     <li className="mini">
@@ -55,45 +65,47 @@ function MiniTicket({ item, code }) {
         <Perforation className="mini-perf" />
 
         <div className="mini-stub">
-          <fieldset className="mini-options">
-            <legend className="sr-only">Opción de {item.name}</legend>
-            <div className="chips is-compact">
-              {item.options.map((o) => (
-                <label key={o.id} className={`chip ${o.id === optId ? "is-on" : ""}`}>
-                  <input
-                    type="radio"
-                    name={`${uid}-opt`}
-                    value={o.id}
-                    checked={o.id === optId}
-                    onChange={() => setOptId(o.id)}
-                  />
-                  <span className="chip-size">{o.label}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
+          {item.options.length > 1 ? (
+            <fieldset className="mini-options">
+              <legend className="sr-only">Opción de {item.name}</legend>
+              <div className="chips is-compact">
+                {item.options.map((o) => (
+                  <label key={o.id} className={`chip ${o.id === optId ? "is-on" : ""}`}>
+                    <input
+                      type="radio"
+                      name={`${uid}-opt`}
+                      value={o.id}
+                      checked={o.id === optId}
+                      onChange={() => setOptId(o.id)}
+                    />
+                    <span className="chip-size">{o.label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ) : (
+            <p className="mini-single">{opt.label}</p>
+          )}
 
           {hasGrind && (
-            <label className="stub-field is-compact" htmlFor={`${uid}-grind`}>
-              <span className="stub-label">Molienda</span>
-              <span className="select-wrap">
-                <select id={`${uid}-grind`} value={grind} onChange={(e) => setGrind(e.target.value)}>
-                  {GRIND_OPTIONS.map((g) => (
-                    <option key={g.id} value={g.id}>
-                      {g.label}
-                    </option>
-                  ))}
-                </select>
-              </span>
-            </label>
+            <GrindField
+              id={`${uid}-grind`}
+              value={grind}
+              onChange={(v) => {
+                setGrind(v);
+                setGrindError(false);
+              }}
+              error={grindError}
+              compact
+            />
           )}
 
           <div className="mini-buy">
             <p className="mini-price" aria-live="polite">
               <span className="stub-amount">{formatCOP(opt.price)}</span>
             </p>
-            <TearButton href={href} className="is-compact">
-              Pedir
+            <TearButton href={href} className="is-compact" onTorn={onTear}>
+              Pedir<span className="sr-only"> {item.name} por WhatsApp</span>
             </TearButton>
           </div>
         </div>

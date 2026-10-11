@@ -128,3 +128,15 @@ export function Microtext({ text, className = "" }) {
 export function Perforation({ vertical = false, className = "" }) {
   return <div className={`perforation ${vertical ? "is-vertical" : ""} ${className}`} aria-hidden="true" />;
 }
+
+/** Estrella de cinco puntas para el distintivo del lote preferido. Decorativa. */
+export function Star({ className = "" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path
+        fill="currentColor"
+        d="M12 2.5l2.94 6.1 6.7.8-4.95 4.6 1.3 6.62L12 17.33l-5.99 3.29 1.3-6.62L2.36 9.4l6.7-.8z"
+      />
+    </svg>
+  );
+}

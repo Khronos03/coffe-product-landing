@@ -24,6 +24,13 @@ export const ORIGIN = {
   anos: "+45 años",
 };
 
+// Condiciones de compra confirmadas por el productor. Se muestran junto al botón de pedido.
+export const ORDER_TERMS = {
+  pago: "Bancolombia, Llave, Nequi o contra entrega",
+  entrega: "3 a 5 días hábiles, a toda Colombia",
+  tostion: "Tostamos cada semana",
+};
+
 export const GRIND_OPTIONS = [
   { id: "grano", label: "Grano entero" },
   { id: "filtro", label: "Molido para filtro (V60, Chemex, goteo)" },
@@ -48,6 +55,8 @@ export const SERIES = [
     ink: "honey",
     name: "Honey",
     lot: "Honey",
+    // Distintivo de la serie: solo un lote lo lleva.
+    badge: "El más pedido",
     line: "El grano se seca con su propio mucílago.",
     perfil: "Panela y miel",
     notas: "Caña de azúcar, apanelado, dulzor natural",
@@ -129,7 +138,7 @@ export const SERIES = [
     ink: "pina",
     name: "Piña-Whisky",
     lot: "Piña-Whisky",
-    line: "Fermentación diseñada en nuestra finca.",
+    line: "Fermentado con piña de verdad en nuestra finca.",
     perfil: "Piña y whisky",
     notas: "Piña y whisky; perfil audaz y complejo",
     image: img(pina440, pina880),
@@ -141,7 +150,7 @@ export const SERIES = [
     ],
     protocol: {
       summary:
-        "Un protocolo propio de la finca: fermentación con notas a piña y whisky, terminada de forma artesanal. Es el lote que solo puede salir de nuestro beneficio.",
+        "Fermentamos el café con piña de verdad, en nuestro propio beneficio: no es una infusión. Es el protocolo que diseñamos en la finca y el lote que solo puede salir de ella.",
       steps: null,
       ownProtocol: true,
     },

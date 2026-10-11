@@ -5,17 +5,23 @@ import "../styles/billete.css";
 import { SERIES } from "../data/catalog";
 import { COFFEE_RECIPES } from "../data/coffeeRecipes";
 import SerieHero from "../components/billete/SerieHero";
+import { readDraft } from "../components/billete/orderMemory";
 import Reverso from "../components/billete/Reverso";
 import Finca from "../components/billete/Finca";
 import SerieEspecial from "../components/billete/SerieEspecial";
 import { MobileOrderBar, RecetarioBand, SiteFooter, SiteHeader } from "../components/billete/Chrome";
 
-// Abre con el lote 01 (Honey): el mejor explicado y el de precio de entrada.
+// Abre con el lote 01 (Honey): el más pedido y el de precio de entrada.
+// Si la pestaña se recargó (p. ej. al volver de WhatsApp), vuelve al lote que se estaba eligiendo.
 const DEFAULT_SERIE = "honey";
+const initialSerie = () => {
+  const d = readDraft();
+  return d && SERIES.some((s) => s.id === d.serieId) ? d.serieId : DEFAULT_SERIE;
+};
 
 function Home() {
   // `source` distingue teclado de puntero: con teclado el cambio de lote no se anima.
-  const [selection, setSelection] = useState({ id: DEFAULT_SERIE, source: "pointer" });
+  const [selection, setSelection] = useState(() => ({ id: initialSerie(), source: "pointer" }));
   const active = selection.id;
   const setActive = useCallback((id, source = "pointer") => setSelection({ id, source }), []);
   const [order, setOrder] = useState(null);

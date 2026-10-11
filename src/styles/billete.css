@@ -829,7 +829,7 @@
   font-family: var(--font-text);
   font-variation-settings: "wdth" 125;
   font-weight: 700;
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   letter-spacing: 0.14em;
 }
 
@@ -1228,6 +1228,13 @@
   height: 100%;
   display: block;
   color: var(--violet-field);
+}
+.vignette-photo {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: 2px;
 }
 .vignette figcaption {
   display: grid;
@@ -1770,7 +1777,7 @@
   }
   .billete-more {
     font-size: 0.875rem;
-    min-height: 40px;
+    min-height: 44px;
   }
 
   .stub {
@@ -2219,5 +2226,204 @@ html:has(.bt) {
   .billete-fields > div + div:nth-child(3):not(.is-wide) {
     padding-left: 0;
     border-left: 0;
+  }
+}
+
+/* ── Distintivo "El más pedido" (01 Honey) ─────────────────────────────── */
+/* Estático y sin movimiento. No añade altura: va en la línea del número de serie. */
+.serie-tab {
+  position: relative;
+}
+.serie-tab-star {
+  position: absolute;
+  top: 7px;
+  right: 9px;
+  width: 15px;
+  height: 15px;
+}
+.serie-tab[aria-selected="true"] .serie-tab-star {
+  color: var(--field);
+}
+.billete-serial-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+.billete-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 11px 7px 9px;
+  border-radius: 3px;
+  background: var(--field);
+  color: var(--stock);
+  font-family: var(--font-text);
+  font-weight: 700;
+  font-variation-settings: "wdth" 125;
+  font-size: 0.75rem;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background-color var(--dur-ink) ease;
+}
+.billete-badge-star {
+  width: 1.25em;
+  height: 1.25em;
+  flex-shrink: 0;
+}
+.row-badge {
+  display: inline-flex;
+  margin-left: 6px;
+  vertical-align: -0.12em;
+  /* Sobre el reverso oscuro la tinta pura se pierde: se aclara con el papel. */
+  color: color-mix(in srgb, var(--field) 45%, var(--stock));
+}
+.row-badge-star {
+  width: 1em;
+  height: 1em;
+}
+@media (max-width: 767px) {
+  .serie-tab-star {
+    top: 6px;
+    right: 6px;
+    width: 12px;
+    height: 12px;
+  }
+  .billete-serial-row {
+    gap: 10px;
+  }
+  .billete-badge {
+    gap: 4px;
+    padding: 5px 7px 5px 6px;
+    font-size: 0.6875rem; /* 11 px: piso de legibilidad de las etiquetas */
+    font-variation-settings: "wdth" 100;
+    letter-spacing: 0.06em;
+  }
+}
+@media (max-width: 349px) {
+  /* En pantallas muy estrechas la bolsa ocupa ese espacio: "★ Más pedido"; el lector oye la frase completa. */
+  .billete-badge-lead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+/* ── Confianza al pedir: condiciones confirmadas bajo el botón ───────────── */
+.stub-terms {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 10px 0 0;
+  border-top: 1px dashed color-mix(in srgb, var(--ink) 35%, transparent);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+.stub-terms > div {
+  display: grid;
+  grid-template-columns: 5.6rem minmax(0, 1fr);
+  gap: 8px;
+  align-items: baseline;
+}
+.stub-terms dt {
+  font-weight: 800;
+  font-variation-settings: "wdth" 125;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.stub-terms dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Molienda obligatoria: el error aparece bajo el campo, sin bloquear el resto. */
+@media (max-width: 767px) {
+  /* En móvil la etiqueta y el selector van en fila: el aviso ocupa la línea siguiente */
+  .stub-field {
+    flex-wrap: wrap;
+  }
+  .field-error {
+    flex-basis: 100%;
+  }
+}
+.field-error {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+  padding-left: 10px;
+  border-left: 3px solid var(--field);
+}
+.stub-field.has-error select {
+  border: 2px solid var(--field);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--field) 22%, transparent);
+}
+.select-wrap select:invalid {
+  color: color-mix(in srgb, var(--ink) 72%, var(--stock));
+}
+
+/* Al volver de WhatsApp: el botón principal manda; reabrir es secundario. */
+.bt .stub-sent .stub-sent-action[href] {
+  background: transparent;
+  color: var(--ink);
+}
+.bt .stub-sent .stub-sent-action.is-quiet {
+  border-color: transparent;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.stub-sent.is-elsewhere p strong {
+  font-weight: 800;
+}
+/* Enlace dentro del texto con zona táctil de 44 px sin alterar el párrafo */
+.inline-target {
+  display: inline-block;
+  padding: 12px 0;
+  margin: -12px 0;
+}
+
+.mini-single {
+  margin: 0;
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+.fine-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.fine-badge .row-badge-star {
+  color: color-mix(in srgb, var(--field) 45%, var(--stock));
+}
+.order-bar-grind.is-missing {
+  font-weight: 700;
+}
+
+/* Móvil: "Pedir" visible en el encabezado y en el menú */
+.mobile-nav .mobile-nav-order {
+  font-weight: 800;
+}
+@media (max-width: 767px) {
+  .site-header-inner .header-order {
+    display: inline-flex;
+    margin-left: auto;
+    margin-right: 10px;
+    min-height: 44px;
+    padding: 0 14px;
+    font-size: 0.75rem;
+  }
+  /* El sello acompaña a la bolsa sin pisar la rejilla de datos */
+  .stamp.stamp-mini {
+    bottom: 10px;
   }
 }

@@ -58,7 +58,7 @@ export function SiteHeader({ onHome = true, current = null, skipTo = "#serie-ped
         </nav>
 
         <a className="header-order" href={prefix + "#serie-pedido"}>
-          Pedir
+          Pedir<span className="sr-only"> café: ir al formulario de pedido</span>
         </a>
         <button
           type="button"
@@ -90,6 +90,11 @@ export function SiteHeader({ onHome = true, current = null, skipTo = "#serie-ped
               Recetas
             </Link>
           </li>
+          <li>
+            <a className="mobile-nav-order" href={prefix + "#serie-pedido"} onClick={() => setOpen(false)}>
+              Pedir café
+            </a>
+          </li>
         </ul>
       </nav>
     </header>
@@ -112,21 +117,34 @@ export function MobileOrderBar({ serie, order }) {
   }, []);
 
   if (!order) return null;
+  // Sin molienda, el botón lleva al selector; con un pedido ya abierto, ofrece reabrirlo.
+  const onClick = (e) => {
+    if (!order.ready) {
+      e.preventDefault();
+      order.requestGrind();
+      return;
+    }
+    order.markOpened();
+  };
   return (
     <div className={`order-bar ${show ? "is-visible" : ""}`} data-ink={serie.ink} aria-hidden={!show}>
       <span className="order-bar-text">
         <span className="order-bar-serial">{serie.name}</span> · {order.size.label} · {formatCOP(order.size.price)}
-        <span className="order-bar-grind">{order.grindLabel}</span>
+        <span className={`order-bar-grind ${order.ready ? "" : "is-missing"}`}>
+          {order.opened ? "Abierto en WhatsApp, falta enviarlo" : order.grindLabel || "Falta elegir la molienda"}
+        </span>
       </span>
       <a
         className="order-bar-button"
         href={order.href}
-        target="_blank"
-        rel="noopener noreferrer"
+        target={order.ready ? "_blank" : undefined}
+        rel={order.ready ? "noopener noreferrer" : undefined}
         tabIndex={show ? 0 : -1}
-        onClick={order.markOpened}
+        onClick={onClick}
       >
-        <IoLogoWhatsapp aria-hidden="true" /> Pedir
+        {order.ready && <IoLogoWhatsapp aria-hidden="true" />}
+        {!order.ready ? "Elegir molienda" : order.opened ? "Reabrir" : "Pedir"}
+        <span className="sr-only"> {serie.name} por WhatsApp</span>
       </a>
     </div>
   );

@@ -1,11 +1,21 @@
-// La finca: origen y familia, con viñetas grabadas provisionales.
+// La finca: origen y familia, con la foto real de la cosecha en el marco de viñeta.
 
 import { ORIGIN } from "../../data/catalog";
-import { Engraving } from "./Engraving";
+import cosecha640 from "../../assets/finca/cosecha-640.webp";
+import cosecha960 from "../../assets/finca/cosecha-960.webp";
+import cosecha1280 from "../../assets/finca/cosecha-1280.webp";
 
-// Ilustración grabada de Mistrató mientras llegan las fotos reales de la finca
-// y la familia. Al tenerlas, reemplazar esta viñeta por la foto.
-const VIGNETTES = [{ kind: "montana", caption: "Mistrató, Risaralda, a 1.950 m s.n.m." }];
+const VIGNETTES = [
+  {
+    kind: "cosecha",
+    src: cosecha640,
+    srcSet: `${cosecha640} 640w, ${cosecha960} 960w, ${cosecha1280} 1280w`,
+    width: 640,
+    height: 416,
+    alt: "Manos recogiendo cerezas de café maduras de una rama, entre granos aún verdes.",
+    caption: "Cosecha a mano en la finca, Mistrató, Risaralda",
+  },
+];
 
 export default function Finca() {
   return (
@@ -28,7 +38,7 @@ export default function Finca() {
           <div className="finca-aside">
           <dl className="finca-facts">
             <div>
-              <dt>Finca</dt>
+              <dt>Origen</dt>
               <dd>{ORIGIN.finca}</dd>
             </div>
             <div>
@@ -49,7 +59,17 @@ export default function Finca() {
               <li key={v.kind} className="vignette">
                 <figure>
                   <div className="vignette-frame">
-                    <Engraving kind={v.kind} className="vignette-art" />
+                    <img
+                      className="vignette-photo"
+                      src={v.src}
+                      srcSet={v.srcSet}
+                      sizes="(min-width: 768px) 40vw, 92vw"
+                      width={v.width}
+                      height={v.height}
+                      alt={v.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
                   <figcaption>
                     <span className="vignette-caption">{v.caption}</span>

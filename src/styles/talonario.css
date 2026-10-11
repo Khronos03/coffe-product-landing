@@ -172,7 +172,8 @@
   font-size: 1rem;
   min-width: 2ch;
   font-variant-numeric: tabular-nums;
-  color: color-mix(in srgb, currentColor 70%, var(--field));
+  /* 85 % del color del texto: los números mantienen 4,5:1 sobre cualquier tinta. */
+  color: color-mix(in srgb, currentColor 85%, var(--field));
 }
 
 /* Hoja */

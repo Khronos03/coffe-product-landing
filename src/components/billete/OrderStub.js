@@ -3,7 +3,8 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { IoLogoWhatsapp } from "react-icons/io";
-import { GRIND_OPTIONS, formatCOP, whatsappUrl } from "../../data/catalog";
+import { GRIND_OPTIONS, ORDER_TERMS, formatCOP, whatsappUrl } from "../../data/catalog";
+import { readDraft, readPending, writeDraft, writePending } from "./orderMemory";
 
 export function buildOrderMessage({ product, serial, details, sizeLabel, grindLabel, price }) {
   const lines = ["¡Hola, Cumbre Café! Quiero hacer este pedido:", `• ${product}${serial ? ` (lote ${serial})` : ""}`];
@@ -15,14 +16,19 @@ export function buildOrderMessage({ product, serial, details, sizeLabel, grindLa
   return lines;
 }
 
-/** Botón-desprendible: abre WhatsApp con el enlace nativo, sin retrasos. */
+/**
+ * Botón-desprendible: abre WhatsApp con el enlace nativo, sin retrasos.
+ * Mientras el pedido no está completo (falta la molienda), `href` apunta al campo pendiente
+ * y no abre otra pestaña; `onTorn` decide qué hacer con el clic.
+ */
 export function TearButton({ href, children, className = "", onTorn }) {
+  const external = /^https?:/.test(href);
   return (
     <a
       className={`tear-button ${className}`}
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
       onClick={onTorn}
     >
       <IoLogoWhatsapp aria-hidden="true" className="tear-button-icon" />
@@ -31,32 +37,61 @@ export function TearButton({ href, children, className = "", onTorn }) {
   );
 }
 
-// Pedido abierto en WhatsApp, guardado por si el navegador recarga la pestaña al volver.
-const PENDING_KEY = "cumbre:pedido-abierto";
-const PENDING_TTL = 30 * 60 * 1000;
-function readPending() {
-  try {
-    const raw = window.sessionStorage.getItem(PENDING_KEY);
-    const p = raw && JSON.parse(raw);
-    return p && Date.now() - p.at < PENDING_TTL ? p : null;
-  } catch (e) {
-    return null;
-  }
+/** Molienda sin valor por defecto: el cliente elige según su método. Compartido con los mini-billetes. */
+export function GrindField({ id, value, onChange, error, compact = false }) {
+  return (
+    <div className={`stub-field ${compact ? "is-compact" : ""} ${error ? "has-error" : ""}`}>
+      <label className="stub-label" htmlFor={id}>
+        Molienda
+      </label>
+      <span className="select-wrap">
+        <select
+          id={id}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          aria-invalid={error || undefined}
+          aria-describedby={error ? `${id}-error` : undefined}
+          required
+        >
+          <option value="" disabled>
+            ¿Cómo lo preparas?
+          </option>
+          {GRIND_OPTIONS.map((g) => (
+            <option key={g.id} value={g.id}>
+              {g.label}
+            </option>
+          ))}
+        </select>
+      </span>
+      {error && (
+        <p className="field-error" id={`${id}-error`}>
+          Elige la molienda para tu método y te lo enviamos listo.
+        </p>
+      )}
+    </div>
+  );
 }
-function writePending(p) {
-  try {
-    if (p) window.sessionStorage.setItem(PENDING_KEY, JSON.stringify(p));
-    else window.sessionStorage.removeItem(PENDING_KEY);
-  } catch (e) {
-    /* sin almacenamiento: la confirmación vive solo en memoria */
-  }
+
+export const grindLabelOf = (grind) => (GRIND_OPTIONS.find((g) => g.id === grind) || {}).label || null;
+
+/** Lleva el foco al selector de molienda sin saltos bruscos. */
+export function focusField(el) {
+  if (!el) return;
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  el.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
+  el.focus({ preventScroll: true });
 }
 
 export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
   const uid = useId();
-  const [sizeId, setSizeId] = useState(serie.sizes[0].id);
-  const [grind, setGrind] = useState(GRIND_OPTIONS[0].id);
-  // Pedido abierto en WhatsApp: { href, at, returned }. No significa que se haya enviado.
+  const grindId = `${uid}-grind`;
+  const [draft] = useState(readDraft);
+  const [sizeId, setSizeId] = useState(() =>
+    draft && draft.serieId === serie.id && serie.sizes.some((s) => s.id === draft.sizeId) ? draft.sizeId : serie.sizes[0].id
+  );
+  const [grind, setGrind] = useState(() => (draft && grindLabelOf(draft.grind) ? draft.grind : ""));
+  const [grindError, setGrindError] = useState(false);
+  // Pedido abierto en WhatsApp. No significa que se haya enviado.
   const [pending, setPending] = useState(() => {
     const p = readPending();
     return p ? { ...p, returned: true } : null;
@@ -72,29 +107,41 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
   }, [serie, sizeId]);
 
   const size = serie.sizes.find((s) => s.id === sizeId) || serie.sizes[0];
-  const grindLabel = GRIND_OPTIONS.find((g) => g.id === grind).label;
-  const href = whatsappUrl(
-    buildOrderMessage({
-      product: `Café ${serie.name}`,
-      serial: serie.serial,
-      details: `Proceso ${serie.name} · Castillo · Tostión media`,
-      sizeLabel: size.label,
-      grindLabel,
-      price: size.price,
-    })
-  );
+  const grindLabel = grindLabelOf(grind);
+  const ready = Boolean(grindLabel);
+  const href = ready
+    ? whatsappUrl(
+        buildOrderMessage({
+          product: `Café ${serie.name}`,
+          serial: serie.serial,
+          details: `Proceso ${serie.name} · Castillo · Tostión media`,
+          sizeLabel: size.label,
+          grindLabel,
+          price: size.price,
+        })
+      )
+    : `#${grindId}`;
+
+  // La selección sobrevive a una recarga de la pestaña.
+  useEffect(() => {
+    writeDraft({ serieId: serie.id, sizeId: size.id, grind });
+  }, [serie.id, size.id, grind]);
+
+  const requestGrind = useCallback(() => {
+    setGrindError(true);
+    focusField(document.getElementById(grindId));
+  }, [grindId]);
 
   // Se registra al pulsar; el enlace nativo abre WhatsApp en el mismo instante, sin esperas.
-  const markOpened = useCallback((openedHref) => {
-    const p = { href: openedHref, at: Date.now() };
+  const markOpened = useCallback(() => {
+    const p = {
+      href,
+      label: `${serie.name} · ${size.label} · ${grindLabel}`,
+      at: Date.now(),
+    };
     writePending(p);
     setPending({ ...p, returned: false });
-  }, []);
-
-  // La barra de pedido móvil refleja exactamente lo elegido aquí.
-  useEffect(() => {
-    onOrderChange && onOrderChange({ size, grindLabel, href, markOpened: () => markOpened(href) });
-  }, [size, grindLabel, href, onOrderChange, markOpened]);
+  }, [href, serie.name, size.label, grindLabel]);
 
   // Al volver a la pestaña después de irse a WhatsApp, se ofrece reabrirlo o cambiar el pedido.
   const isPending = pending !== null;
@@ -108,12 +155,30 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, [isPending]);
 
-  // La confirmación solo describe el pedido que se abrió; si cambia, desaparece.
-  const status = pending && pending.href === href ? (pending.returned ? "returned" : "opened") : null;
+  // "opened"/"returned" describen el pedido en pantalla; "elsewhere", uno abierto con otra selección.
+  const status = !pending ? null : pending.href === href ? (pending.returned ? "returned" : "opened") : "elsewhere";
 
-  const changeOrder = () => {
+  // La barra de pedido móvil refleja exactamente lo elegido aquí.
+  useEffect(() => {
+    onOrderChange &&
+      onOrderChange({
+        size,
+        grindLabel,
+        href,
+        ready,
+        opened: status === "opened" || status === "returned",
+        markOpened,
+        requestGrind,
+      });
+  }, [size, grindLabel, href, ready, status, onOrderChange, markOpened, requestGrind]);
+
+  const clearPending = () => {
     writePending(null);
     setPending(null);
+  };
+
+  const changeOrder = () => {
+    clearPending();
     const first = formRef.current && formRef.current.querySelector('input[type="radio"]:checked');
     first && first.focus();
   };
@@ -124,6 +189,21 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
     if (viaPointer.current) setPriceTick((t) => t + 1);
   };
 
+  const onGrindChange = (value) => {
+    setGrind(value);
+    setGrindError(false);
+  };
+
+  const onTear = (e) => {
+    if (!ready) {
+      e.preventDefault();
+      requestGrind();
+      return;
+    }
+    setTearing(true);
+    markOpened();
+  };
+
   return (
     <div className="stub-wrap" id={`${idPrefix}-pedido`}>
       <form
@@ -132,6 +212,7 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
         aria-labelledby={`${uid}-title`}
         onSubmit={(e) => e.preventDefault()}
         onAnimationEnd={(e) => e.target === e.currentTarget && setTearing(false)}
+        noValidate
       >
         <h2 className="stub-title" id={`${uid}-title`}>
           Tu pedido
@@ -160,18 +241,7 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
           </div>
         </fieldset>
 
-        <label className="stub-field" htmlFor={`${uid}-grind`}>
-          <span className="stub-label">Molienda</span>
-          <span className="select-wrap">
-            <select id={`${uid}-grind`} value={grind} onChange={(e) => setGrind(e.target.value)}>
-              {GRIND_OPTIONS.map((g) => (
-                <option key={g.id} value={g.id}>
-                  {g.label}
-                </option>
-              ))}
-            </select>
-          </span>
-        </label>
+        <GrindField id={grindId} value={grind} onChange={onGrindChange} error={grindError} />
 
         <p className="stub-price" aria-live="polite">
           <span className="stub-label">Valor</span>
@@ -180,15 +250,24 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
           </span>
         </p>
 
-        <TearButton
-          href={href}
-          onTorn={() => {
-            setTearing(true);
-            markOpened(href);
-          }}
-        >
+        <TearButton href={href} onTorn={onTear}>
           Pedir por WhatsApp
         </TearButton>
+
+        <dl className="stub-terms">
+          <div>
+            <dt>Pago</dt>
+            <dd>{ORDER_TERMS.pago}</dd>
+          </div>
+          <div>
+            <dt>Entrega</dt>
+            <dd>{ORDER_TERMS.entrega}</dd>
+          </div>
+          <div>
+            <dt>Tostión</dt>
+            <dd>{ORDER_TERMS.tostion}</dd>
+          </div>
+        </dl>
 
         <div className="stub-status" role="status" aria-live="polite">
           {status === "opened" && (
@@ -196,7 +275,7 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
               <span className="stamp">Listo en WhatsApp</span>
               <p>
                 Tu pedido ya está escrito en WhatsApp: solo falta enviarlo.{" "}
-                <a href={href} target="_blank" rel="noopener noreferrer">
+                <a className="inline-target" href={href} target="_blank" rel="noopener noreferrer">
                   ¿No se abrió? Ábrelo aquí
                 </a>{" "}
                 o escríbenos al <span className="nowrap">+57 321 636 3596</span>.
@@ -219,10 +298,26 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
               </div>
             </div>
           )}
+          {status === "elsewhere" && (
+            <div className="stub-sent is-elsewhere" key="elsewhere">
+              <p>
+                Tienes abierto en WhatsApp otro pedido: <strong>{pending.label}</strong>. Si este es aparte,
+                pídelo también.
+              </p>
+              <div className="stub-sent-actions">
+                <a className="stub-sent-action" href={pending.href} target="_blank" rel="noopener noreferrer">
+                  <IoLogoWhatsapp aria-hidden="true" /> Abrir ese pedido
+                </a>
+                <button type="button" className="stub-sent-action is-quiet" onClick={clearPending}>
+                  Quitar aviso
+                </button>
+              </div>
+            </div>
+          )}
         </div>
         {!status && (
           <p className="stub-note">
-            Te respondemos con el costo de envío a toda Colombia. ¿Sin WhatsApp aquí? Escríbenos al{" "}
+            Te confirmamos disponibilidad y costo de envío por WhatsApp. ¿Sin WhatsApp aquí? Escríbenos al{" "}
             <span className="nowrap">+57 321 636 3596</span>.
           </p>
         )}
