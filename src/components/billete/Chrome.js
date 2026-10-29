@@ -9,6 +9,7 @@ import { FiMail, FiArrowUp } from "react-icons/fi";
 import logo from "../../assets/logo-cumbre.webp";
 import { WHATSAPP_NUMBER, formatCOP, whatsappUrl } from "../../data/catalog";
 import { Microtext } from "./Security";
+import { trackAttrs } from "./OrderStub";
 
 const NAV = [
   { href: "#serie", label: "Serie" },
@@ -121,7 +122,7 @@ export function MobileOrderBar({ serie, order }) {
   const onClick = (e) => {
     if (!order.ready) {
       e.preventDefault();
-      order.requestGrind();
+      order.requestGrind("barra_movil");
       return;
     }
     order.markOpened();
@@ -141,6 +142,7 @@ export function MobileOrderBar({ serie, order }) {
         rel={order.ready ? "noopener noreferrer" : undefined}
         tabIndex={show ? 0 : -1}
         onClick={onClick}
+        {...trackAttrs({ source: "barra_movil", ...order.track })}
       >
         {order.ready && <IoLogoWhatsapp aria-hidden="true" />}
         {!order.ready ? "Elegir molienda" : order.opened ? "Reabrir" : "Pedir"}

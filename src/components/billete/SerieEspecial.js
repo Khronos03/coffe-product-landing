@@ -3,6 +3,7 @@
 import { useId, useState } from "react";
 import { GIFTS, SPECIAL_SERIES, formatCOP, imageFor, whatsappUrl } from "../../data/catalog";
 import { buildOrderMessage, focusField, grindLabelOf, GrindField, TearButton } from "./OrderStub";
+import { track } from "../../analytics";
 import { Perforation } from "./Security";
 
 function MiniTicket({ item, code }) {
@@ -28,6 +29,7 @@ function MiniTicket({ item, code }) {
   const onTear = (e) => {
     if (ready) return;
     e.preventDefault();
+    track("molienda_faltante", { origen: "formatos", producto: item.name });
     setGrindError(true);
     focusField(document.getElementById(`${uid}-grind`));
   };
@@ -104,7 +106,12 @@ function MiniTicket({ item, code }) {
             <p className="mini-price" aria-live="polite">
               <span className="stub-amount">{formatCOP(opt.price)}</span>
             </p>
-            <TearButton href={href} className="is-compact" onTorn={onTear}>
+            <TearButton
+              href={href}
+              className="is-compact"
+              onTorn={onTear}
+              trackData={{ source: "formatos", product: item.name, size: opt.label, grind: grindLabel, price: opt.price }}
+            >
               Pedir<span className="sr-only"> {item.name} por WhatsApp</span>
             </TearButton>
           </div>

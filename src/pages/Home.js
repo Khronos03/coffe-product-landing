@@ -6,6 +6,7 @@ import { SERIES } from "../data/catalog";
 import { COFFEE_RECIPES } from "../data/coffeeRecipes";
 import SerieHero from "../components/billete/SerieHero";
 import { readDraft } from "../components/billete/orderMemory";
+import { track } from "../analytics";
 import { HOME_META, SITE_NAME, SITE_URL, useDocumentMeta, useJsonLd } from "../seo";
 import Reverso from "../components/billete/Reverso";
 import Finca from "../components/billete/Finca";
@@ -49,7 +50,10 @@ function Home() {
   // `source` distingue teclado de puntero: con teclado el cambio de lote no se anima.
   const [selection, setSelection] = useState(() => ({ id: initialSerie(), source: "pointer" }));
   const active = selection.id;
-  const setActive = useCallback((id, source = "pointer") => setSelection({ id, source }), []);
+  const setActive = useCallback((id, source = "pointer") => {
+    setSelection({ id, source });
+    track("select_lote", { lote: id, metodo: source === "keyboard" ? "teclado" : "puntero" });
+  }, []);
   const [order, setOrder] = useState(null);
   const serie = SERIES.find((s) => s.id === active);
   const onOrderChange = useCallback((o) => setOrder(o), []);

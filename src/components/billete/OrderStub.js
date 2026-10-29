@@ -5,6 +5,7 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { GRIND_OPTIONS, ORDER_TERMS, formatCOP, whatsappUrl } from "../../data/catalog";
 import { readDraft, readPending, writeDraft, writePending } from "./orderMemory";
+import { track } from "../../analytics";
 
 export function buildOrderMessage({ product, serial, details, sizeLabel, grindLabel, price }) {
   const lines = ["¡Hola, Cumbre Café! Quiero hacer este pedido:", `• ${product}${serial ? ` (lote ${serial})` : ""}`];
@@ -21,12 +22,13 @@ export function buildOrderMessage({ product, serial, details, sizeLabel, grindLa
  * Mientras el pedido no está completo (falta la molienda), `href` apunta al campo pendiente
  * y no abre otra pestaña; `onTorn` decide qué hacer con el clic.
  */
-export function TearButton({ href, children, className = "", onTorn }) {
+export function TearButton({ href, children, className = "", onTorn, trackData }) {
   const external = /^https?:/.test(href);
   return (
     <a
       className={`tear-button ${className}`}
       href={href}
+      {...trackAttrs(trackData)}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
       onClick={onTorn}
@@ -35,6 +37,18 @@ export function TearButton({ href, children, className = "", onTorn }) {
       <span>{children}</span>
     </a>
   );
+}
+
+/** Atributos data-* que la analítica lee al hacer clic en un enlace de WhatsApp. */
+export function trackAttrs(t) {
+  if (!t) return {};
+  return {
+    "data-source": t.source,
+    "data-product": t.product,
+    "data-size": t.size || undefined,
+    "data-grind": t.grind || undefined,
+    "data-price": t.price || undefined,
+  };
 }
 
 /** Molienda sin valor por defecto: el cliente elige según su método. Compartido con los mini-billetes. */
@@ -127,10 +141,11 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
     writeDraft({ serieId: serie.id, sizeId: size.id, grind });
   }, [serie.id, size.id, grind]);
 
-  const requestGrind = useCallback(() => {
+  const requestGrind = useCallback((source = "desprendible") => {
+    track("molienda_faltante", { origen: source, producto: serie.name });
     setGrindError(true);
     focusField(document.getElementById(grindId));
-  }, [grindId]);
+  }, [grindId, serie.name]);
 
   // Se registra al pulsar; el enlace nativo abre WhatsApp en el mismo instante, sin esperas.
   const markOpened = useCallback(() => {
@@ -169,8 +184,9 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
         opened: status === "opened" || status === "returned",
         markOpened,
         requestGrind,
+        track: { product: `Café ${serie.name}`, size: size.label, grind: grindLabel, price: size.price },
       });
-  }, [size, grindLabel, href, ready, status, onOrderChange, markOpened, requestGrind]);
+  }, [size, grindLabel, href, ready, status, onOrderChange, markOpened, requestGrind, serie.name]);
 
   const clearPending = () => {
     writePending(null);
@@ -250,7 +266,11 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
           </span>
         </p>
 
-        <TearButton href={href} onTorn={onTear}>
+        <TearButton
+          href={href}
+          onTorn={onTear}
+          trackData={{ source: "desprendible", product: `Café ${serie.name}`, size: size.label, grind: grindLabel, price: size.price }}
+        >
           Pedir por WhatsApp
         </TearButton>
 
@@ -289,7 +309,13 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
                 de nuevo o cambiar el pedido.
               </p>
               <div className="stub-sent-actions">
-                <a className="stub-sent-action" href={href} target="_blank" rel="noopener noreferrer">
+                <a
+                  className="stub-sent-action"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  {...trackAttrs({ source: "reabrir", product: `Café ${serie.name}`, size: size.label, grind: grindLabel, price: size.price })}
+                >
                   <IoLogoWhatsapp aria-hidden="true" /> Abrir WhatsApp de nuevo
                 </a>
                 <button type="button" className="stub-sent-action is-quiet" onClick={changeOrder}>
