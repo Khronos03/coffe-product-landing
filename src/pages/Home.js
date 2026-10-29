@@ -6,6 +6,7 @@ import { SERIES } from "../data/catalog";
 import { COFFEE_RECIPES } from "../data/coffeeRecipes";
 import SerieHero from "../components/billete/SerieHero";
 import { readDraft } from "../components/billete/orderMemory";
+import { HOME_META, SITE_NAME, SITE_URL, useDocumentMeta, useJsonLd } from "../seo";
 import Reverso from "../components/billete/Reverso";
 import Finca from "../components/billete/Finca";
 import SerieEspecial from "../components/billete/SerieEspecial";
@@ -19,7 +20,32 @@ const initialSerie = () => {
   return d && SERIES.some((s) => s.id === d.serieId) ? d.serieId : DEFAULT_SERIE;
 };
 
+// Cada proceso como producto con su rango de precios real (del catálogo), para resultados enriquecidos.
+const PRODUCTS_LD = {
+  "@context": "https://schema.org",
+  "@graph": SERIES.map((s) => ({
+    "@type": "Product",
+    "@id": `${SITE_URL}/#cafe-${s.id}`,
+    name: `Café ${s.name} · ${SITE_NAME}`,
+    description: `${s.line} Café de especialidad variedad Castillo, tostión media, de Mistrató, Risaralda. Perfil: ${s.perfil}. Notas: ${s.notas}.`,
+    image: SITE_URL + s.image.src,
+    brand: { "@type": "Brand", name: SITE_NAME },
+    category: "Café de especialidad",
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: "COP",
+      lowPrice: Math.min(...s.sizes.map((z) => z.price)),
+      highPrice: Math.max(...s.sizes.map((z) => z.price)),
+      offerCount: s.sizes.length,
+      url: `${SITE_URL}/#serie`,
+      seller: { "@id": `${SITE_URL}/#organizacion` },
+    },
+  })),
+};
+
 function Home() {
+  useDocumentMeta(HOME_META);
+  useJsonLd("ld-productos", PRODUCTS_LD);
   // `source` distingue teclado de puntero: con teclado el cambio de lote no se anima.
   const [selection, setSelection] = useState(() => ({ id: initialSerie(), source: "pointer" }));
   const active = selection.id;

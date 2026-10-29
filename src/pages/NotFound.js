@@ -1,7 +1,6 @@
 // Página 404: un billete anulado. La ruta no existe en la serie; el desprendible
 // ofrece volver a los cafés, abrir el recetario o escribir por WhatsApp.
 
-import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { IoLogoWhatsapp } from "react-icons/io";
 import "@fontsource-variable/archivo/wdth";
@@ -9,6 +8,7 @@ import "@fontsource-variable/big-shoulders-display";
 import "../styles/billete.css";
 import "../styles/notfound.css";
 import { whatsappUrl } from "../data/catalog";
+import { useDocumentMeta } from "../seo";
 import { SiteFooter, SiteHeader } from "../components/billete/Chrome";
 import { Microtext, Perforation, WaveField } from "../components/billete/Security";
 
@@ -19,18 +19,11 @@ export default function NotFound() {
   const shownPath = pathname.length > MAX_PATH ? `${pathname.slice(0, MAX_PATH - 1)}…` : pathname;
 
   // Título propio y fuera del índice de buscadores: la app responde 200 a cualquier ruta.
-  useEffect(() => {
-    const prevTitle = document.title;
-    document.title = "Página no encontrada · Cumbre Café";
-    const robots = document.createElement("meta");
-    robots.name = "robots";
-    robots.content = "noindex";
-    document.head.appendChild(robots);
-    return () => {
-      document.title = prevTitle;
-      robots.remove();
-    };
-  }, []);
+  useDocumentMeta({
+    title: "Página no encontrada | Cumbre Café",
+    description: "Esta página no existe. Vuelve a la serie de cafés de especialidad de Cumbre Café o abre el recetario.",
+    noindex: true,
+  });
 
   const help = whatsappUrl([
     `¡Hola, Cumbre Café! Llegué a una página de la web que no existe (${shownPath}). ¿Me ayudan a encontrar lo que buscaba?`,

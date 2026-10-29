@@ -6,6 +6,7 @@ import "@fontsource-variable/big-shoulders-display";
 import "../styles/billete.css";
 import "../styles/talonario.css";
 import { COFFEE_RECIPES } from "../data/coffeeRecipes";
+import { useDocumentMeta } from "../seo";
 import { SiteFooter, SiteHeader } from "../components/billete/Chrome";
 import { Microtext, Perforation, Rosette, WaveField } from "../components/billete/Security";
 
@@ -23,6 +24,12 @@ const FILTERS = [
 ];
 
 const TOTAL = COFFEE_RECIPES.length;
+
+const RECETARIO_META = {
+  title: `${TOTAL} recetas de café para preparar en casa | Cumbre Café`,
+  description: `${TOTAL} recetas de café con ingredientes y pasos: capuchino, cold brew, espresso tonic, prensa francesa y más, calientes y frías. Por Cumbre Café.`,
+  path: "/recetas-cafe",
+};
 const SERIAL = Object.fromEntries(COFFEE_RECIPES.map((r, i) => [r.id, String(i + 1).padStart(2, "0")]));
 
 const imageFor = (id) => ({
@@ -181,6 +188,7 @@ function Sheet({ recipe, direction }) {
 }
 
 const CoffeeRecipes = () => {
+  useDocumentMeta(RECETARIO_META);
   const [filter, setFilter] = useState("todas");
   const [currentId, setCurrentId] = useState(() => readHash() || COFFEE_RECIPES[0].id);
   const [direction, setDirection] = useState(1);
@@ -199,8 +207,12 @@ const CoffeeRecipes = () => {
     if (!list.some((r) => r.id === currentId)) setCurrentId(list[0].id);
   }, [list, currentId]);
 
+  // Sin receta en la URL al entrar, la página conserva su título (es el que indexa Google);
+  // al elegir una receta, o al llegar con #receta, el título nombra esa receta.
+  const titleFromRecipe = useRef(Boolean(readHash()));
   useEffect(() => {
-    document.title = `${recipe.name} · Recetario · Cumbre Café`;
+    if (titleFromRecipe.current) document.title = `${recipe.name}: receta de café | Cumbre Café`;
+    titleFromRecipe.current = true;
     if (window.location.hash !== `#${recipe.id}`) {
       window.history.replaceState(null, "", `#${recipe.id}`);
     }

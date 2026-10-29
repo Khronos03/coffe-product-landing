@@ -1,21 +1,101 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-CO">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.png" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#8a540c" />
+
+    <!-- Metadatos de la portada. Cada ruta los actualiza en el navegador (src/seo.js). -->
+    <title>Café de especialidad de Mistrató, Risaralda | Cumbre Café</title>
     <meta
       name="description"
-      content="Cumbre Café: café de especialidad de una familia caficultora de Mistrató, Risaralda, a 1.950 m. Honey, Lavado, Natural y Piña-Whisky. Pedidos por WhatsApp, envíos a toda Colombia."
+      content="Café de especialidad de una familia caficultora de Mistrató, Risaralda. Honey, Lavado, Natural y Piña-Whisky, tostado cada semana. Envíos a toda Colombia."
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.png" />    
+    <link rel="canonical" href="https://www.cumbrecafe.shop/" />
+
+    <!-- Vista previa al compartir (WhatsApp, Facebook, Instagram, X) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Cumbre Café" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:url" content="https://www.cumbrecafe.shop/" />
+    <meta property="og:title" content="Café de especialidad de Mistrató, Risaralda | Cumbre Café" />
+    <meta
+      property="og:description"
+      content="Café de especialidad de una familia caficultora de Mistrató, Risaralda. Honey, Lavado, Natural y Piña-Whisky, tostado cada semana. Envíos a toda Colombia."
+    />
+    <meta property="og:image" content="https://www.cumbrecafe.shop/og-cumbre-cafe.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Manos recogiendo cerezas de café maduras en la finca de Cumbre Café, en Mistrató" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Café de especialidad de Mistrató, Risaralda | Cumbre Café" />
+    <meta
+      name="twitter:description"
+      content="Café de especialidad de una familia caficultora de Mistrató, Risaralda. Honey, Lavado, Natural y Piña-Whisky, tostado cada semana. Envíos a toda Colombia."
+    />
+    <meta name="twitter:image" content="https://www.cumbrecafe.shop/og-cumbre-cafe.jpg" />
+
+    <link rel="icon" href="%PUBLIC_URL%/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-    <title>Cumbre Café</title>
+    <!-- Quién vende: el negocio, su origen y sus canales -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://www.cumbrecafe.shop/#organizacion",
+            "name": "Cumbre Café",
+            "url": "https://www.cumbrecafe.shop/",
+            "logo": "https://www.cumbrecafe.shop/favicon.png",
+            "image": "https://www.cumbrecafe.shop/og-cumbre-cafe.jpg",
+            "description": "Familia caficultora de Mistrató, Risaralda, que cultiva, procesa y tuesta su propio café de especialidad y lo vende directo.",
+            "email": "cafesaboracampo@gmail.com",
+            "telephone": "+57 321 636 3596",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Mistrató",
+              "addressRegion": "Risaralda",
+              "addressCountry": "CO"
+            },
+            "areaServed": { "@type": "Country", "name": "Colombia" },
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+57 321 636 3596",
+              "contactType": "sales",
+              "availableLanguage": "es"
+            },
+            "sameAs": [
+              "https://www.instagram.com/cumbre.cafe",
+              "https://www.tiktok.com/@cumbre.caf"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://www.cumbrecafe.shop/#sitio",
+            "name": "Cumbre Café",
+            "url": "https://www.cumbrecafe.shop/",
+            "inLanguage": "es-CO",
+            "publisher": { "@id": "https://www.cumbrecafe.shop/#organizacion" }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>    
+    <noscript>
+      <h1>Cumbre Café: café de especialidad de Mistrató, Risaralda</h1>
+      <p>
+        Somos una familia caficultora de Mistrató, Risaralda, a 1.950 m s.n.m. Cultivamos, procesamos y tostamos cada
+        semana café Honey, Lavado, Natural y Piña-Whisky. Envíos a toda Colombia.
+      </p>
+      <p>
+        Pide por WhatsApp: <a href="https://wa.me/573216363596">+57 321 636 3596</a>. Para ver la tienda completa,
+        activa JavaScript.
+      </p>
+    </noscript>
+    <div id="root"></div>
   </body>
 </html>
