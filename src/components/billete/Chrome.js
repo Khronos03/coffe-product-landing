@@ -109,13 +109,34 @@ export function MobileOrderBar({ serie, order }) {
 
   useEffect(() => {
     const target = document.getElementById("serie-pedido");
+    const especial = document.getElementById("especial");
     if (!target || !("IntersectionObserver" in window)) return undefined;
+    let pastStub = false;
+    let inFormats = false;
+    const update = () => setShow(pastStub && !inFormats);
     const io = new IntersectionObserver(
-      ([entry]) => setShow(!entry.isIntersecting && entry.boundingClientRect.top < 0),
+      ([entry]) => {
+        pastStub = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        update();
+      },
       { threshold: 0 }
     );
     io.observe(target);
-    return () => io.disconnect();
+    // En Formatos y regalos cada producto tiene su propio "Pedir": la barra no compite con ellos.
+    const io2 =
+      especial &&
+      new IntersectionObserver(
+        ([entry]) => {
+          inFormats = entry.isIntersecting;
+          update();
+        },
+        { rootMargin: "0px 0px -35% 0px" }
+      );
+    io2 && io2.observe(especial);
+    return () => {
+      io.disconnect();
+      io2 && io2.disconnect();
+    };
   }, []);
 
   if (!order) return null;

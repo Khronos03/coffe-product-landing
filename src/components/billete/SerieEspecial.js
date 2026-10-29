@@ -6,9 +6,9 @@ import { buildOrderMessage, focusField, grindLabelOf, GrindField, TearButton } f
 import { track } from "../../analytics";
 import { Perforation } from "./Security";
 
-function MiniTicket({ item, code }) {
+function MiniTicket({ item }) {
   const uid = useId();
-  const [optId, setOptId] = useState(item.options[0].id);
+  const [optId, setOptId] = useState(item.defaultOption || item.options[0].id);
   const [grind, setGrind] = useState("");
   const [grindError, setGrindError] = useState(false);
   const opt = item.options.find((o) => o.id === optId);
@@ -53,9 +53,6 @@ function MiniTicket({ item, code }) {
               />
             ))}
           </div>
-          <p className="mini-code" aria-hidden="true">
-            Nº {code}
-          </p>
           <div className="mini-copy">
             <h4 className="mini-name" id={`${uid}-name`}>
               {item.name}
@@ -134,8 +131,8 @@ export default function SerieEspecial() {
         <div className="especial-group">
           <h3 className="especial-group-title">Formatos</h3>
           <ul className="mini-grid is-two">
-            {SPECIAL_SERIES.map((item, i) => (
-              <MiniTicket key={item.id} item={item} code={`E·${i + 1}`} />
+            {SPECIAL_SERIES.map((item) => (
+              <MiniTicket key={item.id} item={item} />
             ))}
           </ul>
         </div>
@@ -143,8 +140,8 @@ export default function SerieEspecial() {
         <div className="especial-group">
           <h3 className="especial-group-title">Para regalar</h3>
           <ul className="mini-grid is-two">
-            {GIFTS.map((item, i) => (
-              <MiniTicket key={item.id} item={item} code={`R·${i + 1}`} />
+            {GIFTS.map((item) => (
+              <MiniTicket key={item.id} item={item} />
             ))}
           </ul>
         </div>

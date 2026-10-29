@@ -1368,17 +1368,6 @@
 .mini-body {
   position: relative;
 }
-.mini-code {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.9375rem;
-  letter-spacing: 0.04em;
-  color: var(--violet-field);
-  line-height: 1;
-}
 .mini-name {
   font-family: var(--font-display);
   font-weight: 800;
@@ -2374,6 +2363,14 @@ html:has(.bt) {
 }
 
 /* Molienda obligatoria: el error aparece bajo el campo, sin bloquear el resto. */
+@media (max-width: 374px) {
+  /* Pantallas muy estrechas: etiqueta encima para que la molienda elegida se lea completa */
+  #serie-pedido .stub-field {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+}
 @media (max-width: 767px) {
   /* En móvil la etiqueta y el selector van en fila: el aviso ocupa la línea siguiente */
   .stub-field {
@@ -2384,17 +2381,29 @@ html:has(.bt) {
   }
 }
 .field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   margin: 0;
-  font-size: 0.8125rem;
+  padding: 8px 10px;
+  border: 1.5px solid var(--ink2);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--ink2) 10%, var(--stock));
+  color: var(--ink);
+  font-size: 0.875rem;
   font-weight: 700;
   line-height: 1.35;
-  color: var(--ink);
-  padding-left: 10px;
-  border-left: 3px solid var(--field);
+}
+.field-error-icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  color: var(--ink2);
 }
 .stub-field.has-error select {
-  border: 2px solid var(--field);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--field) 22%, transparent);
+  border: 2px solid var(--ink2);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ink2) 20%, transparent);
 }
 .select-wrap select:invalid {
   color: color-mix(in srgb, var(--ink) 72%, var(--stock));
@@ -2457,4 +2466,197 @@ html:has(.bt) {
   .stamp.stamp-mini {
     bottom: 10px;
   }
+}
+
+/* ── El viaje del café: de la siembra a la taza ─────────────────────────── */
+/* Toma la tinta del lote activo: el campo saturado de fondo y estampillas en papel. */
+.viaje {
+  background: var(--field);
+  color: var(--stock);
+  padding: clamp(64px, 9vw, 112px) var(--gutter);
+  transition: background-color var(--dur-ink) ease;
+}
+.viaje-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.viaje-head {
+  display: grid;
+  gap: 14px;
+  max-width: 640px;
+  margin-bottom: clamp(36px, 5vw, 56px);
+}
+.viaje-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.viaje-lede {
+  font-size: clamp(1rem, 1.4vw, 1.1875rem);
+  line-height: 1.5;
+  font-weight: 500;
+  max-width: 52ch;
+}
+
+/* Móvil primero: ruta vertical, estampilla a la izquierda */
+.viaje-route {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 28px;
+}
+.viaje-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  column-gap: 18px;
+  align-items: start;
+  align-content: start; /* las paradas de una fila comparten altura: el contenido no se reparte */
+}
+.viaje-step::before {
+  /* tramo punteado hasta la siguiente parada */
+  content: "";
+  position: absolute;
+  left: 31px;
+  top: 72px;
+  bottom: -24px;
+  border-left: 2px dashed color-mix(in srgb, var(--stock) 55%, transparent);
+}
+.viaje-step.is-last::before {
+  display: none;
+}
+.viaje-stamp {
+  grid-row: 1 / span 4;
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  background: var(--stock);
+  color: var(--ink);
+  border-radius: 6px;
+  outline: 3px double color-mix(in srgb, var(--ink) 45%, transparent);
+  outline-offset: -7px;
+  box-shadow: 0 10px 18px -12px rgba(0, 0, 0, 0.55);
+}
+.viaje-icon {
+  width: 28px;
+  height: 28px;
+}
+.viaje-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+.viaje-step-title {
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.viaje-step-text {
+  margin-top: 8px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  max-width: 34ch;
+}
+.viaje-step.is-last .viaje-stamp {
+  background: var(--ink);
+  color: var(--stock);
+  outline-color: color-mix(in srgb, var(--stock) 55%, transparent);
+}
+.bt a.viaje-cta {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  margin-top: 14px;
+  padding: 0 20px;
+  background: var(--stock);
+  color: var(--ink);
+  border-radius: var(--radius);
+  font-weight: 800;
+  font-variation-settings: "wdth" 110;
+  text-decoration: none;
+  touch-action: manipulation;
+  transition: transform 160ms var(--ease-out);
+}
+.bt a.viaje-cta:active {
+  transform: scale(0.97);
+}
+
+/* Escritorio: dos filas de cuatro paradas, la ruta corre en horizontal */
+@media (min-width: 1024px) {
+  .viaje-route {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 32px;
+    row-gap: 48px;
+  }
+  .viaje-step {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0;
+  }
+  .viaje-stamp {
+    grid-row: auto;
+    margin-bottom: 18px;
+  }
+  .viaje-step::before {
+    left: 80px;
+    right: -20px;
+    top: 31px;
+    bottom: auto;
+    border-left: 0;
+    border-top: 2px dashed color-mix(in srgb, var(--stock) 55%, transparent);
+  }
+  .viaje-step:nth-child(3n)::before {
+    display: none;
+  }
+}
+/* Pantallas anchas: las seis paradas en una sola fila */
+@media (min-width: 1200px) {
+  .viaje-route {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    column-gap: 24px;
+  }
+  .viaje-step:nth-child(3n)::before {
+    display: block;
+  }
+  .viaje-step.is-last::before {
+    display: none;
+  }
+  .viaje-step::before {
+    right: -12px;
+  }
+  .viaje-step-title {
+    font-size: 1.375rem;
+  }
+}
+.bt a.viaje-link {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* Entrada escalonada, una sola vez (solo si la sección empezó fuera de pantalla) */
+.viaje.is-ready .viaje-step {
+  opacity: 0;
+  transform: translateY(14px);
+}
+.viaje.is-in .viaje-step {
+  opacity: 1;
+  transform: none;
+  transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out);
+  transition-delay: calc(var(--i) * 60ms);
 }

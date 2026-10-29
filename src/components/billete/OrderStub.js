@@ -3,6 +3,7 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { IoLogoWhatsapp } from "react-icons/io";
+import { FiAlertCircle } from "react-icons/fi";
 import { GRIND_OPTIONS, ORDER_TERMS, formatCOP, whatsappUrl } from "../../data/catalog";
 import { readDraft, readPending, writeDraft, writePending } from "./orderMemory";
 import { track } from "../../analytics";
@@ -79,7 +80,8 @@ export function GrindField({ id, value, onChange, error, compact = false }) {
       </span>
       {error && (
         <p className="field-error" id={`${id}-error`}>
-          Elige la molienda para tu método y te lo enviamos listo.
+          <FiAlertCircle aria-hidden="true" className="field-error-icon" />
+          <span>Falta la molienda: elige cómo preparas tu café.</span>
         </p>
       )}
     </div>

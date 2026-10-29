@@ -35,7 +35,7 @@ Una marca revendedora o tostadora urbana no puede reclamar con verdad los proces
 - Compra 100 % por WhatsApp (+57 321 636 3596). No hay carrito, checkout ni pasarela de pago. Cada ficha genera un mensaje prellenado con producto, presentación, perfil, tostión, proceso, notas y precio.
 - Envíos a toda Colombia.
 - Tráfico principalmente móvil, que llega desde Instagram (@cumbre.cafe), TikTok y Facebook.
-- El sitio incluye un recetario (`/recetas-cafe`) con unas 60 recetas fotografiadas, como contenido de valor para quien prepara en casa.
+- El sitio incluye un recetario (`/recetas-cafe`) con 54 recetas fotografiadas, como contenido de valor para quien prepara en casa.
 - Correo de contacto: cafesaboracampo@gmail.com.
 
 ## Capabilities and Constraints
@@ -72,6 +72,9 @@ Confirmadas por el productor:
 - 98 % de clientes recomiendan el café (dato del productor).
 - Ubicación: Mistrató, Risaralda, Colombia.
 - Formas de pago: Bancolombia, Llave, Nequi o pago contra entrega.
+- Drips: sachets sellados herméticamente, con café Lavado.
+- Natural: se seca al sol durante semanas y se voltea varias veces al día (se seca en cereza, sin despulpar).
+- Cuarterón 5 lb: $175.000.
 - Entrega: de 3 a 5 días hábiles, a toda Colombia.
 - Tostión: cada semana.
 - Honey (Red Honey) es el lote más pedido. Se muestra como "El más pedido".

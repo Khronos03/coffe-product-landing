@@ -11,6 +11,7 @@ import { HOME_META, SITE_NAME, SITE_URL, useDocumentMeta, useJsonLd } from "../s
 import Reverso from "../components/billete/Reverso";
 import Finca from "../components/billete/Finca";
 import SerieEspecial from "../components/billete/SerieEspecial";
+import Viaje from "../components/billete/Viaje";
 import { MobileOrderBar, RecetarioBand, SiteFooter, SiteHeader } from "../components/billete/Chrome";
 
 // Abre con el lote 01 (Honey): el más pedido y el de precio de entrada.
@@ -66,6 +67,7 @@ function Home() {
         <Reverso active={active} onSelect={setActive} />
         <Finca />
         <SerieEspecial />
+        <Viaje recipes={COFFEE_RECIPES.length} />
         <RecetarioBand count={COFFEE_RECIPES.length} />
       </main>
       <SiteFooter />

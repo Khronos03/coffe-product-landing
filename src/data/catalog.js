@@ -33,10 +33,10 @@ export const ORDER_TERMS = {
 
 export const GRIND_OPTIONS = [
   { id: "grano", label: "Grano entero" },
-  { id: "filtro", label: "Molido para filtro (V60, Chemex, goteo)" },
-  { id: "prensa", label: "Molido para prensa francesa" },
-  { id: "moka", label: "Molido para moka" },
-  { id: "espresso", label: "Molido para espresso" },
+  { id: "filtro", label: "Filtro (V60, Chemex)" },
+  { id: "prensa", label: "Prensa francesa" },
+  { id: "moka", label: "Moka" },
+  { id: "espresso", label: "Espresso" },
 ];
 
 const img = (w440, w880) => ({
@@ -180,6 +180,7 @@ export const SPECIAL_SERIES = [
       { id: "unidad", label: "Unidad", price: 2500 },
       { id: "caja10", label: "Caja x10", price: 20000 },
     ],
+    defaultOption: "caja10",
   },
 ];
 
