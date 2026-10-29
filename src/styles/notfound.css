@@ -4,14 +4,6 @@
    sello rojo "Anulado". Un solo momento de movimiento: el sello se estampa.
    ========================================================================== */
 
-.bt[data-ink="violet"],
-.bt [data-ink="violet"] {
-  --field: var(--violet-field);
-  --stock: var(--violet-stock);
-  --ink: var(--violet-ink);
-  --ink2: var(--pina-field);
-}
-
 .nf-field {
   position: relative;
   overflow: hidden;

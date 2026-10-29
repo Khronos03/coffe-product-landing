@@ -1,0 +1,206 @@
+/* Política de privacidad: una hoja de lectura en papel violeta sobre el campo de seguridad. */
+
+.pv-field {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(24px, 5vh, 64px) var(--gutter) clamp(48px, 8vh, 88px);
+}
+
+.pv-sheet {
+  position: relative;
+  z-index: 1;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 56px);
+  background: var(--stock);
+  color: var(--ink);
+  border-radius: 10px;
+  box-shadow: 0 28px 48px -30px rgba(10, 6, 30, 0.6);
+  outline: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  outline-offset: -9px;
+}
+
+.pv-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+.pv-updated {
+  margin-top: 10px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.pv-lede {
+  margin-top: 22px;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  font-weight: 500;
+  max-width: 62ch;
+}
+
+.pv-sheet h2 {
+  margin-top: 40px;
+  padding-top: 14px;
+  border-top: 2px solid var(--ink2);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.75rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.pv-sheet h3 {
+  margin-top: 22px;
+  font-weight: 800;
+  font-size: 1.0625rem;
+}
+.pv-sheet p,
+.pv-sheet li {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 68ch;
+}
+.pv-sheet p {
+  margin-top: 10px;
+}
+.pv-sheet ul {
+  margin: 10px 0 0;
+  padding-left: 1.2em;
+}
+.pv-sheet li + li {
+  margin-top: 4px;
+}
+.pv-sheet a {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.pv-facts {
+  margin: 16px 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid color-mix(in srgb, var(--ink) 30%, transparent);
+}
+.pv-facts > div {
+  padding: 12px 12px 12px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 30%, transparent);
+  min-width: 0;
+}
+.pv-facts dt,
+.pv-table thead th {
+  font-weight: 700;
+  font-variation-settings: "wdth" 125;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.pv-facts dd {
+  margin: 4px 0 0;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.pv-table-wrap {
+  margin-top: 16px;
+  overflow-x: auto;
+}
+.pv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+.pv-table th,
+.pv-table td {
+  padding: 12px 12px 12px 0;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+}
+.pv-table tbody th {
+  font-weight: 700;
+  min-width: 11rem;
+}
+.pv-table code {
+  display: block;
+  font-family: var(--font-text);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+.pv-table tbody th span {
+  display: block;
+  margin-top: 2px;
+  font-weight: 500;
+  font-size: 0.8125rem;
+}
+
+.pv-change {
+  margin-top: 18px;
+  padding: 16px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  border: 1px dashed color-mix(in srgb, var(--ink) 40%, transparent);
+  border-radius: 8px;
+}
+.pv-change p {
+  margin: 0;
+  max-width: 46ch;
+}
+.pv-btn {
+  min-height: 46px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--stock);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 160ms var(--ease-out);
+}
+.pv-btn:active {
+  transform: scale(0.97);
+}
+
+/* Móvil: la tabla pasa a fichas, sin desplazamiento horizontal */
+@media (max-width: 640px) {
+  .pv-facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pv-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .pv-table,
+  .pv-table tbody,
+  .pv-table tr,
+  .pv-table th,
+  .pv-table td {
+    display: block;
+  }
+  .pv-table tr {
+    padding: 12px 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  }
+  .pv-table th,
+  .pv-table td {
+    padding: 2px 0;
+    border: 0;
+  }
+  .pv-table td:nth-of-type(2)::before {
+    content: "Duración: ";
+    font-weight: 700;
+  }
+  .pv-table td:nth-of-type(3)::before {
+    content: "Cuándo: ";
+    font-weight: 700;
+  }
+}

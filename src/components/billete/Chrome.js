@@ -10,6 +10,7 @@ import logo from "../../assets/logo-cumbre.webp";
 import { WHATSAPP_NUMBER, formatCOP, whatsappUrl } from "../../data/catalog";
 import { Microtext } from "./Security";
 import { trackAttrs } from "./OrderStub";
+import { openConsent } from "../../consent";
 
 const NAV = [
   { href: "#serie", label: "Serie" },
@@ -233,6 +234,12 @@ export function SiteFooter({ onHome = true }) {
 
       <Microtext className="footer-micro" text="CUMBRE CAFÉ CAFÉ DE ESPECIALIDAD MISTRATÓ RISARALDA COLOMBIA" />
       <div className="footer-legal">
+        <p className="footer-privacy">
+          <Link to="/privacidad">Privacidad y cookies</Link>
+          <button type="button" onClick={openConsent}>
+            Configurar cookies
+          </button>
+        </p>
         <p>
           Cumbre Café · Café de especialidad de productor · Pedidos por WhatsApp · Envíos a toda Colombia ·{" "}
           {new Date().getFullYear()}

@@ -75,6 +75,15 @@
   --ink2: var(--pina-ink2);
 }
 
+/* Violeta de seguridad como tinta de página completa (404, privacidad), con rojo de anulación */
+.bt[data-ink="violet"],
+.bt [data-ink="violet"] {
+  --field: var(--violet-field);
+  --stock: var(--violet-stock);
+  --ink: var(--violet-ink);
+  --ink2: var(--pina-field);
+}
+
 .bt *,
 .bt *::before,
 .bt *::after {
@@ -1541,6 +1550,27 @@
   color: var(--violet-stock);
   opacity: 0.5;
 }
+.footer-privacy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 18px;
+}
+.bt .footer-privacy a,
+.footer-privacy button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
 .footer-legal {
   max-width: 1180px;
   margin: 0 auto;
@@ -1909,7 +1939,8 @@
     position: fixed;
     left: max(10px, env(safe-area-inset-left, 0px));
     right: max(10px, env(safe-area-inset-right, 0px));
-    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    /* Si el aviso de cookies está abierto, la barra se apoya encima (--consent-h) */
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px) + var(--consent-h, 0px));
     z-index: 50;
     display: flex;
     align-items: center;
