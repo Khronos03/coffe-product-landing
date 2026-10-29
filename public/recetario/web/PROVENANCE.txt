@@ -1,0 +1,1 @@
+Origen de estas imágenes: fotos de recetas suministradas por Cumbre Café (public/recetario/*.jpg), redimensionadas a 480 y 960 px y recodificadas a WebP calidad 74 durante el rediseño de octubre de 2026. No fueron generadas en el rediseño.

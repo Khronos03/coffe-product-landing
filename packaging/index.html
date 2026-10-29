@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Etiquetas Cumbre Café</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  :root{
+    --field:#8a540c; --ink:#4a2a05; --ink2:#2f3b86; --stock:#f7e7be; --bg:#efe6d6; --card:#fffaf0; --muted:#6b4a44;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Archivo,system-ui,sans-serif;line-height:1.5}
+  header{background:var(--field);color:var(--stock);padding:28px 16px 24px}
+  header .wrap,main{max-width:1180px;margin:0 auto}
+  main{padding:0 16px 64px}
+  h1{font-family:'Big Shoulders Display','Big Shoulders','Arial Narrow',sans-serif;font-weight:900;font-size:clamp(2.2rem,6vw,3.6rem);line-height:.9;margin:6px 0 10px;text-transform:uppercase}
+  .kicker{font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-stretch:125%;opacity:.85}
+  header p{max-width:62ch;margin:0;opacity:.92}
+  h2{font-family:'Big Shoulders Display','Big Shoulders','Arial Narrow',sans-serif;font-weight:800;font-size:2rem;text-transform:uppercase;margin:40px 0 12px;line-height:1}
+  .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;background:var(--card);border:1px solid #d8c7a8;border-radius:10px;padding:16px;margin-top:-14px;position:relative}
+  label.f{display:flex;flex-direction:column;gap:4px;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-stretch:125%}
+  select,input{font:inherit;font-size:.95rem;letter-spacing:0;text-transform:none;font-stretch:100%;padding:10px;border:1px solid #b9a17c;border-radius:6px;background:#fff;color:var(--ink);min-height:44px}
+  .btns{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+  button{font:inherit;font-weight:800;border:0;border-radius:6px;padding:12px 16px;min-height:44px;cursor:pointer;background:var(--ink);color:var(--stock)}
+  button.sec{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+  .sheet{background:#fff;border-radius:4px;box-shadow:0 20px 40px -24px rgba(0,0,0,.5);max-width:720px}
+  .sheet svg{display:block;width:100%;height:auto}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+  .piece{background:var(--card);border:1px solid #d8c7a8;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
+  .piece .art{display:flex;justify-content:center;align-items:flex-start;min-height:120px}
+  .piece svg{max-width:100%;height:auto;box-shadow:0 8px 18px -10px rgba(0,0,0,.45)}
+  .piece h3{margin:0;font-size:1rem}
+  .piece .meta{font-size:.82rem;color:var(--muted)}
+  .note{background:#fff3d6;border:1px solid #d8b98a;padding:12px 14px;border-radius:4px;max-width:80ch;font-size:.92rem}
+  ol.steps{max-width:80ch;padding-left:20px} ol.steps li{margin-bottom:8px}
+  .pend{color:var(--field);font-weight:700}
+  .hq{background:var(--card);border:1px solid #d8c7a8;border-radius:10px;padding:16px 18px;max-width:920px}
+  .hq h3{margin:0 0 6px;font-size:1.05rem}
+  .hq .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+  .hq ul{margin:6px 0 0;padding-left:18px} .hq li{margin-bottom:4px}
+  .hq kbd{font:inherit;font-weight:700;border:1px solid #b9a17c;border-radius:4px;padding:0 5px;background:#fff}
+  .hq .why{color:var(--muted);font-size:.86rem}
+  #printStatus{font-size:.9rem;color:var(--muted);min-height:1.4em}
+  button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--ink2);outline-offset:2px}
+  #printArea{display:none}
+  @media print{
+    @page{size:8.5in 11in;margin:0}
+    html,body{margin:0;padding:0;background:#fff}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    body > *:not(#printArea){display:none !important}
+    #printArea{display:block}
+    #printArea svg{width:215.9mm;height:279.4mm;display:block;text-rendering:geometricPrecision;shape-rendering:geometricPrecision}
+  }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>Etiquetas para imprimir</h1>
+  <p>Siete piezas rectangulares a escala real (milímetros) para la bolsa de grano (4 caras) y la de molido (2 caras). Molido: 1 hoja por bolsa. Grano: la hoja 1 viste una bolsa y la hoja 2 trae las traseras de dos bolsas.</p>
+</div></header>
+
+<main>
+  <div class="controls">
+    <label class="f">Hoja a imprimir
+      <select id="sheet"><option value="grano1">Grano · hoja 1: frontal + laterales + desprendible</option><option value="grano2">Grano · hoja 2: 2 reversos + 6 desprendibles</option><option value="molido">Molido: frontal + reverso + 6 desprendibles</option><option value="laterales">Laterales + desprendibles</option><option value="prueba">Prueba de calidad de impresión</option></select>
+    </label>
+    <label class="f">Desprendible
+      <select id="stub"><option value="auto">Según la hoja</option><option value="grano">En grano</option><option value="molido">Molido</option></select>
+    </label>
+    <label class="f">Contenido neto
+      <select id="peso"><option>250</option><option>350</option><option selected>454</option><option>500</option></select>
+    </label>
+    <label class="f">Color del papel
+      <select id="paper"><option value="cream">Crema (identidad)</option><option value="white">Blanco (ahorra tinta)</option></select>
+    </label>
+    <label class="f">Responsable (nombre y dirección)
+      <input id="resp" value="Finca La Cumbre · Mistrató, Risaralda">
+    </label>
+    <label class="f">Enlace del QR
+      <input id="qr" value="https://cumbrecafe.shop/recetas-cafe">
+    </label>
+  </div>
+
+  <h2>Hoja carta</h2>
+  <div class="btns">
+    <button id="print">Imprimir en alta calidad</button>
+    <button class="sec" id="printTest">Imprimir prueba de calidad</button>
+    <button class="sec" id="dlSheet">Descargar hoja .svg</button>
+  </div>
+  <p id="printStatus" role="status"></p>
+  <section class="hq" aria-labelledby="hq-title">
+    <h3 id="hq-title">Configuración para HP Smart Tank 750 con adhesivo mate Ritrama</h3>
+    <p class="why">La página envía la hoja en vectores a tamaño carta exacto y sin márgenes, así el controlador la imprime a la máxima resolución de la impresora (hasta 4800 × 1200 ppp en color). La calidad, el tipo de papel y el modo de color los decide el controlador de HP; ningún sitio web puede cambiarlos por ti, así que márcalos una vez con esta lista.</p>
+    <div class="cols">
+      <div>
+        <b>1. Vista de impresión del navegador (Chrome o Edge)</b>
+        <ul>
+          <li>Destino: <b>HP Smart Tank 750</b></li>
+          <li>Tamaño del papel: <b>Carta</b></li>
+          <li>Márgenes: <b>Ninguno</b> · Escala: <b>Predeterminada (100)</b></li>
+          <li>Encabezados y pies de página: <b>desactivado</b></li>
+          <li>Gráficos de fondo: <b>activado</b></li>
+          <li>Abajo: <b>Imprimir con el cuadro de diálogo del sistema</b> (<kbd>Ctrl</kbd>+<kbd>Mayús</kbd>+<kbd>P</kbd>) y luego <b>Preferencias</b> para llegar al controlador de HP.</li>
+        </ul>
+      </div>
+      <div>
+        <b>2. Preferencias del controlador HP</b>
+        <ul>
+          <li>Tipo de papel: <b>papel fotográfico mate</b> o <b>papel mate</b>. Elige con la hoja de prueba el que no corra la tinta.</li>
+          <li>Calidad de impresión: <b>Óptima</b></li>
+          <li>Avanzadas: <b>Imprimir en máximo de ppp: Sí</b>, si tu controlador la muestra (suele aparecer solo con papeles fotográficos).</li>
+          <li>Sin bordes: <b>No</b>. Agranda la hoja y descuadra la escala.</li>
+          <li>Escala de grises y ahorro de tinta: <b>No</b> · Color: <b>Color</b></li>
+        </ul>
+      </div>
+      <div>
+        <b>3. Papel y secado</b>
+        <ul>
+          <li>Una hoja a la vez; revisa el dibujo de la bandeja para saber de qué cara imprime y pon la cara mate hacia ese lado.</li>
+          <li>Haz la prueba de calidad dos veces, una con cada tipo de papel, y anota el ajuste en la casilla impresa.</li>
+          <li>Comprueba la línea de 50 mm; deja secar 10 a 15 minutos antes de cortar.</li>
+          <li>Si tu navegador no te deja abrir el controlador, usa <b>Guardar como PDF</b> e imprime el PDF desde Adobe Acrobat Reader en <b>Tamaño real</b>, ajustando el controlador en <b>Propiedades</b>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <div class="sheet" id="sheetView"></div>
+
+  <h2>Piezas</h2>
+  <div class="grid" id="pieces"></div>
+
+  <h2>Imprimir y cortar</h2>
+  <ol class="steps">
+    <li>Usa <b>Imprimir en alta calidad</b> y la lista de configuración de arriba; la primera vez, imprime la <b>prueba de calidad</b> con cada tipo de papel.</li>
+    <li>Escala: <b>100 % / Tamaño real</b>. Desactiva <i>Ajustar a la página</i> y <i>Sin bordes</i>. Al imprimir desde el navegador, márgenes: <b>Ninguno</b>.</li>
+    <li>Mide la línea de control al pie de la hoja: debe dar <b>50 mm</b>. Si no, la escala está mal: no cortes.</li>
+    <li>Primera hoja: imprímela en papel normal y preséntala sobre la bolsa antes de gastar adhesivo.</li>
+    <li>Corta primero las filas por los canales de 4 mm y después cada pieza con cúter y regla, siguiendo las marcas de las esquinas. Cada pieza trae 2 mm de sangrado y el marco va a 4,5 mm del corte: si te desvías hasta 2 mm no aparecen filos blancos ni el marco se ve torcido.</li>
+    <li>Deja secar la tinta unos minutos antes de cortar. Pega desde el centro hacia los bordes, con la bolsa ya llena, para que no se arrugue.</li>
+  </ol>
+  <div class="note"><b>Pendiente de medir:</b> los laterales están a <span class="pend">70 × 150 mm</span> (fuelle de 75 mm) y la trasera a <span class="pend">100 × 150 mm</span> (igual que tu frontal actual). Confírmalos con las medidas del fuelle y de la cara trasera antes de imprimir en adhesivo.</div>
+</main>
+
+<div id="printArea"></div>
+
+<script>
+(() => {
+// Tinta Honey (serie 01) del DESIGN.md de la web: campo, papel, tinta y segunda tinta
+const COL = { field:'#8a540c', ink:'#4a2a05', ink2:'#2f3b86', cream:'#f7e7be', white:'#FFFFFF' };
+const FA = "Archivo, 'Arial', sans-serif";
+const FB = "'Big Shoulders Display','Big Shoulders','Arial Narrow',sans-serif";
+const S = { sheet:'grano1', stub:'auto', peso:'454', paper:'cream', resp:'', qr:'' };
+// tipo de desprendible: el que pide la hoja, salvo que se elija otro
+const stubKind = def => S.stub === 'auto' ? def : S.stub;
+// ids únicos en todo el documento: la vista previa, las piezas y la hoja de impresión conviven en el DOM
+let uid = 0; const nid = p => `${p}${++uid}`;
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const paper = () => S.paper === 'white' ? COL.white : COL.cream;
+const r2 = n => Math.round(n*100)/100;
+
+/* ---------- texto ---------- */
+function T(x, y, str, o = {}) {
+  const { size=2.6, weight=400, fam='A', fill=COL.ink, anchor='start', ls=0, wdth=100, op=1 } = o;
+  const st = fam === 'A' ? ` style="font-variation-settings:'wdth' ${wdth};font-stretch:${wdth}%"` : '';
+  return `<text x="${r2(x)}" y="${r2(y)}" font-family="${FA_or(fam)}" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}"${ls?` letter-spacing="${ls}"`:''}${op<1?` opacity="${op}"`:''}${st}>${esc(str)}</text>`;
+}
+function FA_or(f){ return f === 'A' ? FA : FB; }
+// rótulo de campo impreso
+const L = (x, y, s, o = {}) => T(x, y, s.toUpperCase(), { size:1.7, weight:700, wdth:125, ls:0.22, ...o });
+
+const cv = document.createElement('canvas').getContext('2d');
+function mw(str, size, weight) { cv.font = `${weight} ${size*20}px Archivo, Arial, sans-serif`; return cv.measureText(str).width / 20; }
+function wrap(str, size, weight, maxW) {
+  const out = []; let cur = '';
+  for (const w of str.split(' ')) { const t = cur ? cur + ' ' + w : w; if (cur && mw(t, size, weight) > maxW) { out.push(cur); cur = w; } else cur = t; }
+  if (cur) out.push(cur); return out;
+}
+function P(x, y, str, o, maxW, lh) {
+  const lines = wrap(str, o.size || 2.6, o.weight || 400, maxW);
+  return { svg: lines.map((l, i) => T(x, y + i*lh, l, o)).join(''), end: y + (lines.length - 1) * lh };
+}
+
+/* ---------- texturas de seguridad (portadas de src/components/billete/Security.js) ---------- */
+const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+function hypotrochoid(R, r, d, cx, cy, steps, turns) {
+  const k = (R - r) / r, total = Math.PI * 2 * turns; let p = '';
+  for (let i = 0; i <= steps * turns; i++) {
+    const t = (i / (steps * turns)) * total;
+    p += (i ? 'L' : 'M') + r2(cx + (R - r) * Math.cos(t) + d * Math.cos(k * t)) + ' ' + r2(cy + (R - r) * Math.sin(t) - d * Math.sin(k * t));
+  }
+  return p + 'Z';
+}
+// misma roseta de la web: tres hipotrocoides (la del medio en segunda tinta) y dos círculos
+// mezcla sólida de dos tintas (evita transparencias que la impresora de tinta difumina)
+function mix(a, b, t) {
+  const h = x => [1, 3, 5].map(i => parseInt(x.slice(i, i + 2), 16));
+  const A = h(a), B = h(b);
+  return '#' + A.map((v, i) => Math.round(v * t + B[i] * (1 - t)).toString(16).padStart(2, '0')).join('');
+}
+function rosette(cx, cy, R, op = 0.85) {
+  const s = R / 120, sw = n => Math.max(0.18, n * s * 0.8).toFixed(2);
+  const f1 = mix(COL.field, paper(), Math.max(0.8, 0.95 * op)), f2 = mix(COL.field, paper(), 0.72), i2 = mix(COL.ink2, paper(), 0.72);
+  const curve = (Rr, rr, d, target) => { const k = (target * s) / (Rr - rr + d); return hypotrochoid(Rr * k, rr * k, d * k, cx, cy, 90, rr / gcd(Rr, rr)); };
+  return `<g fill="none">`
+    + `<path d="${curve(100, 7, 62, 104)}" stroke="${f1}" stroke-width="${sw(0.45)}"/>`
+    + `<path d="${curve(100, 9, 44, 90)}" stroke="${i2}" stroke-width="${sw(0.35)}"/>`
+    + (R >= 16 ? `<path d="${curve(80, 11, 30, 70)}" stroke="${f2}" stroke-width="${sw(0.35)}"/>` : '')
+    + `<circle cx="${cx}" cy="${cy}" r="${r2(112 * s)}" stroke="${f1}" stroke-width="${sw(0.6)}"/>`
+    + `<circle cx="${cx}" cy="${cy}" r="${r2(116 * s)}" stroke="${f1}" stroke-width="${sw(0.3)}"/></g>`;
+}
+function micro(x, y, w, text) {
+  // unidades completas (termina en palabra entera) estiradas al ancho exacto, en tinta sólida
+  const words = (text + ' ·').split(' '); let str = '', i = 0;
+  while (true) { const next = (str ? str + ' ' : '') + words[i % words.length]; if (mw(next, 1.3, 600) > w) break; str = next; i++; }
+  str = str.replace(/ ·$/, '');
+  return `<text x="${x}" y="${y}" font-family="${FA}" font-size="1.3" font-weight="600" fill="${mix(COL.ink2, paper(), 0.8)}" textLength="${w}" lengthAdjust="spacing">${esc(str)}</text>`;
+}
+const MICRO_TOP = 'CUMBRE CAFÉ MISTRATÓ RISARALDA 1950 MSNM CASTILLO';
+const MICRO_BOT = 'CAFÉ DE ORIGEN COLOMBIANO PEDIDOS POR WHATSAPP ENVÍO A TODA COLOMBIA';
+const hair = (x1, y, x2, op = 0.3, sw = 0.25, c = COL.ink) => `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="${c}" stroke-width="${sw}" opacity="${op}"/>`;
+const vhair = (x, y1, y2, op = 0.18) => `<line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="${COL.ink}" stroke-width="0.25" opacity="${op}"/>`;
+// papel del billete: 2 mm de sangrado y filete de impresión a 4,5 mm del corte
+function sheetPaper(w, h) {
+  return `<rect x="-2" y="-2" width="${w + 4}" height="${h + 4}" fill="${paper()}"/><rect x="4.5" y="4.5" width="${w - 9}" height="${h - 9}" rx="2" fill="none" stroke="${mix(COL.ink, paper(), 0.3)}" stroke-width="0.3"/>`;
+}
+function star(x, y, size, fill) {
+  const k = size / 24;
+  return `<path transform="translate(${x} ${y}) scale(${r2(k)})" fill="${fill}" d="M12 2.5l2.94 6.1 6.7.8-4.95 4.6 1.3 6.62L12 17.33l-5.99 3.29 1.3-6.62L2.36 9.4l6.7-.8z"/>`;
+}
+// sello de caucho: borde doble, display 900, giro negativo, segunda tinta
+function seal(cx, cy, lines, k = 1, plate = false) {
+  const w = 42 * k, h = (lines.length * 6.2 + 3.6) * k, fs = 4.4 * k;
+  let s = `<g transform="rotate(-7 ${cx} ${cy})">` + (plate ? `<rect x="${r2(cx - w/2 - 1.2)}" y="${r2(cy - h/2 - 1.2)}" width="${r2(w + 2.4)}" height="${r2(h + 2.4)}" fill="${paper()}"/>` : '') + `<rect x="${r2(cx - w/2)}" y="${r2(cy - h/2)}" width="${r2(w)}" height="${r2(h)}" fill="none" stroke="${COL.ink2}" stroke-width="0.35"/>`;
+  s += `<rect x="${r2(cx - w/2 + 0.8)}" y="${r2(cy - h/2 + 0.8)}" width="${r2(w - 1.6)}" height="${r2(h - 1.6)}" fill="none" stroke="${COL.ink2}" stroke-width="0.15"/>`;
+  lines.forEach((t, i) => { s += T(cx, cy - h/2 + (4.6 + i * 6.2) * k + fs * 0.35, t, { fam:'B', size:fs, weight:900, fill:COL.ink2, anchor:'middle', ls:0.15 }); });
+  return s + '</g>';
+}
+function field2(x, y, label, value, o = {}) {
+  return L(x, y, label, { size:1.7, op:0.85 }) + T(x, y + 4.4, value, { size:o.size || 3.1, weight:600, ...o });
+}
+function foot(w, y, left, right) {
+  return hair(6, y, w - 6) + L(6, y + 4.4, left, { size:1.65, weight:600, ls:0.2 }) + L(w - 6, y + 4.4, right, { size:1.65, weight:600, ls:0.2, anchor:'end' });
+}
+
+function qr(x, y, size, url, color) {
+  if (typeof qrcode === 'undefined') return `<rect x="${x}" y="${y}" width="${size}" height="${size}" fill="none" stroke="${color}" stroke-dasharray="1 1" stroke-width="0.2"/>` + T(x+size/2, y+size/2, 'QR', { anchor:'middle', size:3 });
+  const q = qrcode(0, 'M'); q.addData(url); q.make();
+  const n = q.getModuleCount(), m = size / (n + 8); let d = '';
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) d += `M${r2(x+(c+4)*m)} ${r2(y+(r+4)*m)}h${r2(m)}v${r2(m)}h-${r2(m)}z`;
+  return `<path d="${d}" fill="${color}" shape-rendering="crispEdges"/>`;
+}
+
+/* ---------- contenido (de src/data/catalog.js y lo confirmado por el productor) ---------- */
+const HONEY = {
+  line: 'El grano se seca con su propio mucílago.',
+  summary: 'Despulpamos la cereza y dejamos el mucílago pegado al grano durante el secado. Esa capa de azúcares del fruto es la que lleva a la taza el dulzor de panela.',
+  steps: [
+    ['Recolección', 'Solo cerezas maduras, seleccionadas a mano.'],
+    ['Despulpado', 'Se retira la cáscara y se conserva el mucílago sobre el grano.'],
+    ['Secado', 'El grano se seca al sol con su mucílago, volteándolo a diario.'],
+    ['Reposo y trilla', 'Reposa en pergamino y se trilla antes de tostar.'],
+  ],
+};
+
+/* ---------- piezas ---------- */
+// FRENTE: el billete de la Serie 01
+function front() {
+  const w = 100, h = 150; let s = sheetPaper(w, h);
+  s += micro(6, 7.6, 88, MICRO_TOP);
+  s += T(6, 16.2, 'CUMBRE CAFÉ', { size:6.2, weight:800, wdth:125, ls:0.3 });
+  s += L(94, 15.6, 'Serie 01', { size:2, anchor:'end', ls:0.3 });
+  s += hair(6, 19, 94, 1, 0.5, COL.ink2);
+  // viñeta: roseta con el sello de la finca sobre placa de papel
+  s += rosette(78, 33, 14, 0.9);
+  s += seal(78, 33, ['LOTE DE', 'LA FINCA'], 0.48, true);
+  // número de serie, distintivo, proceso y lote
+  s += T(5.6, 31.5, '01', { fam:'B', size:12, weight:900, fill:COL.field });
+  s += star(20.4, 27.6, 3, COL.field) + L(24.4, 30.2, 'El más pedido', { size:1.85, fill:COL.field, weight:800 });
+  s += L(6, 45.5, 'Café de proceso', { size:2, weight:800 });
+  s += T(5.2, 64, 'RED HONEY', { fam:'B', size:20, weight:800 });
+  s += T(6, 71, HONEY.line, { size:3, weight:500 });
+  const y0 = 75.5, rows = [
+    [['Fragancia / aroma', 'Panela, miel'], ['Variedad', 'Castillo']],
+    [['Altitud', '1.950 m s.n.m.'], ['Tostión', 'Media']],
+    [['Caficultor', 'Jhon Edwin Suaza'], ['Puntaje', '84,75']],
+  ];
+  s += hair(6, y0, 94);
+  rows.forEach((r, i) => {
+    const y = y0 + i * 11.5, rh = i === 2 ? 14 : 11.5;
+    s += field2(6, y + 4.5, r[0][0], r[0][1]) + field2(51.5, y + 4.5, r[1][0], r[1][1]);
+    s += vhair(49.5, y + 1.2, y + rh - 1.2) + hair(6, y + rh, 94);
+  });
+  s += T(51.5, y0 + 23 + 12.2, 'Cata · Comité de Cafeteros', { size:2.1, weight:500 });
+  const ys = y0 + 37;
+  s += L(6, ys + 4.5, 'Sabor', { size:1.7, op:0.85 });
+  s += P(6, ys + 8.9, 'Caña de azúcar, apanelado que resalta por su dulzura natural.', { size:2.9, weight:600 }, 88, 3.6).svg;
+  s += foot(w, 132.5, 'Finca La Cumbre · Mistrató, Risaralda', 'Café de altura');
+  s += micro(6, 143.6, 88, MICRO_BOT);
+  return { w, h, s };
+}
+
+// DESPRENDIBLE: tamaño y molienda, como el desprendible de pedido de la web
+function stamp(kind) {
+  const w = 50, h = 50; let s = `<rect x="-2" y="-2" width="${w + 4}" height="${h + 4}" fill="${paper()}"/>`;
+  const bx = 7, by = 3.6, bw = w - bx - 3.6, bh = h - 7.2;
+  // rayado a 45° calculado dentro del recuadro (sin clipPath: no puede salirse de la pieza al imprimir)
+  let hatch = ''; const ins = 0.6;
+  for (let x = -h; x < w; x += 1.75) {
+    const x1 = Math.max(bx + ins, x + h - (by + bh - ins)), x2 = Math.min(bx + bw - ins, x + h - (by + ins));
+    if (x2 > x1) hatch += `M${r2(x1)} ${r2(h - (x1 - x))}L${r2(x2)} ${r2(h - (x2 - x))}`;
+  }
+  s += `<path d="${hatch}" stroke="${mix(COL.field, paper(), 0.16)}" stroke-width="0.25"/>`;
+  s += `<path d="M${bx} ${by}H${bx + bw - 1.8}a1.8 1.8 0 0 1 1.8 1.8V${by + bh - 1.8}a1.8 1.8 0 0 1-1.8 1.8H${bx}" fill="none" stroke="${mix(COL.ink, paper(), 0.5)}" stroke-width="0.25" stroke-dasharray="0.9 0.6"/>`;
+  // perforación: agujeros de troquel y medios círculos, a 4,2 mm del corte
+  let holes = ''; for (let y = 7; y < h - 6; y += 2.4) holes += `<circle cx="4.4" cy="${r2(y)}" r="0.62"/>`;
+  s += `<g fill="${COL.field}">${holes}<circle cx="4.4" cy="${by}" r="1.6"/><circle cx="4.4" cy="${by + bh}" r="1.6"/></g>`;
+  const x = 9.6;
+  s += L(x, 8.6, 'Café tostado', { size:1.75 });
+  s += T(x - 0.4, 16.6, kind === 'grano' ? 'EN GRANO' : 'MOLIDO', { fam:'B', size:7.2, weight:800 });
+  s += L(x, 21, 'Contenido neto', { size:1.6, op:0.85 });
+  if (kind === 'grano') {
+    s += T(x - 0.4, 36.4, `${S.peso} g`, { fam:'B', size:15, weight:800 });
+    s += L(x, 42.6, 'Serie 01 · Red Honey', { size:1.6, op:0.85 });
+  } else {
+    s += T(x - 0.4, 31.6, `${S.peso} g`, { fam:'B', size:10, weight:800 });
+    s += L(x, 35.6, 'Molienda', { size:1.6, op:0.85 });
+    const opts = [['Filtro', x, 39.4], ['Prensa', x + 17, 39.4], ['Moka', x, 43.6], ['Espresso', x + 17, 43.6]];
+    s += opts.map(([t, ox, oy]) => `<rect x="${ox}" y="${oy - 2.2}" width="2.6" height="2.6" fill="${paper()}" stroke="${COL.ink}" stroke-width="0.2"/>` + T(ox + 3.4, oy, t, { size:2.05, weight:500 })).join('');
+  }
+  return { w, h, s };
+}
+
+/* ---------- el viaje del café: viñetas grabadas (caja de 40 × 40) ---------- */
+const ICONS = {
+  siembra: (I, F) => `
+    <path d="M4 30Q20 26.5 36 30" ${I}/>
+    <path d="M8 31.4l-1.6 2.4M12 30.7l-1.6 2.4M16 30.3l-1.6 2.4M25.6 30.3l-1.6 2.4M29.6 30.7l-1.6 2.4M33.6 31.4l-1.6 2.4" ${I} stroke-width="0.45"/>
+    <ellipse cx="20" cy="35.6" rx="3" ry="1.9" ${I} stroke-width="0.7"/><path d="M17.6 35.6h4.8" ${I} stroke-width="0.5"/>
+    <path d="M20 29V17" ${I}/>
+    <path d="M20 17C14 17 10 13.5 9.5 8.5C15 8.5 19 12 20 17Z" ${F}/>
+    <path d="M20 17C26 17 30 13.5 30.5 8.5C25 8.5 21 12 20 17Z" ${F}/>
+    <path d="M19.5 16.5L13 10.5M20.5 16.5L27 10.5M16.6 13.4l-1.4-2.6M14.6 11.6l-2.4-.4M23.4 13.4l1.4-2.6M25.4 11.6l2.4-.4" ${I} stroke-width="0.45"/>`,
+  cultivo: (I, F, A) => `
+    <path d="M5 7C13 11 23 18 33 35" ${I}/>
+    <path d="M12 10.6C14.5 4.5 21.5 2.5 26.5 4C22.5 8.5 17 10.8 12 10.6Z" ${F}/><path d="M12.5 10.4L25.5 4.4" ${I} stroke-width="0.5"/>
+    <path d="M27.5 25C33 22.5 38.5 26 38.5 32C33.5 31.5 29 28.5 27.5 25Z" ${F}/><path d="M28 25.3L37.8 31.4" ${I} stroke-width="0.5"/>
+    <path d="M16.5 15.8C10.5 16.5 5 22 5 29C10.5 27 15 22 16.5 15.8Z" ${F}/><path d="M16.2 16.3L6 28" ${I} stroke-width="0.5"/>
+    <path d="M16 7.6l1.2 1.6M19.6 6.2l1 1.8M23 5l.8 1.8M31 26.4l-.4 1.8M34 27.6l-.8 1.8M11.6 21l1.8.6M9.2 24.4l1.8.4" ${I} stroke-width="0.4"/>
+    <circle cx="21" cy="19.6" r="2.7" ${A}/><circle cx="25.6" cy="21.4" r="2.7" ${A}/><circle cx="22.2" cy="24.6" r="2.7" ${A}/>
+    <path d="M19.8 18.6a1.3 1.3 0 0 1 1.4-.9M24.4 20.4a1.3 1.3 0 0 1 1.4-.9M21 23.6a1.3 1.3 0 0 1 1.4-.9" fill="none" stroke="${paper()}" stroke-width="0.6" stroke-linecap="round"/>`,
+  despulpado: (I, F, A, M) => `
+    <path d="M20 7.4C20 5 21.5 3 24 2" ${I}/>
+    <circle cx="20" cy="21.5" r="13.8" ${I}/>
+    <circle cx="20" cy="21.5" r="10.8" ${M}/>
+    <path d="${Array.from({ length: 24 }, (_, i) => { const t = i * Math.PI / 12, c = Math.cos(t), s = Math.sin(t); return `M${(20 + 11.6 * c).toFixed(2)} ${(21.5 + 11.6 * s).toFixed(2)}L${(20 + 13 * c).toFixed(2)} ${(21.5 + 13 * s).toFixed(2)}`; }).join('')}" ${I} stroke-width="0.4"/>
+    <ellipse cx="15.6" cy="21.5" rx="4.2" ry="7.4" ${F}/><ellipse cx="24.4" cy="21.5" rx="4.2" ry="7.4" ${F}/>
+    <path d="M15.6 15C14 18 17.2 24.6 15.6 28M24.4 15C22.8 18 26 24.6 24.4 28" ${I} stroke-width="0.55"/>`,
+  secado: (I, F, A) => `
+    <circle cx="10" cy="9" r="4.2" ${A}/>
+    <path d="M10 1.6v1.8M10 14.6v1.8M2.6 9h1.8M15.6 9h1.8M4.8 3.8l1.3 1.3M13.9 12.9l1.3 1.3M4.8 14.2l1.3-1.3M13.9 5.1l1.3-1.3" ${I} stroke-width="0.6"/>
+    <rect x="4" y="22.5" width="32" height="4" ${F}/>
+    <path d="M6.5 23.3v2.4M9 23.3v2.4M11.5 23.3v2.4M14 23.3v2.4M16.5 23.3v2.4M19 23.3v2.4M21.5 23.3v2.4M24 23.3v2.4M26.5 23.3v2.4M29 23.3v2.4M31.5 23.3v2.4M34 23.3v2.4" ${I} stroke-width="0.4"/>
+    <path d="M7 26.5V36M33 26.5V36M7 31h26" ${I}/>
+    <path d="M9 22.3a1.5 1 0 0 1 3 0M13.4 22.3a1.5 1 0 0 1 3 0M17.8 22.3a1.5 1 0 0 1 3 0M22.2 22.3a1.5 1 0 0 1 3 0M26.6 22.3a1.5 1 0 0 1 3 0" ${I} stroke-width="0.6"/>`,
+  tostion: (I, F, A) => `
+    <g transform="rotate(-28 20 15)"><ellipse cx="20" cy="15" rx="8.2" ry="11.6" fill="${COL.field}" stroke="${COL.ink}" stroke-width="1"/>
+    <path d="M20 4C16.4 9 23.6 21 20 26" fill="none" stroke="${paper()}" stroke-width="1.3" stroke-linecap="round"/></g>
+    <path d="M5 9C3.5 11 6.5 13 5 15M35 9C33.5 11 36.5 13 35 15" ${I} stroke-width="0.6"/>
+    <path d="M12.6 37.5C10 34 12.4 31.4 14 28.6C15.6 31.4 18 34 15.4 37.5Z" ${A}/>
+    <path d="M18.4 37.5C15.6 33.4 18.2 30.4 20 27.2C21.8 30.4 24.4 33.4 21.6 37.5Z" ${A}/>
+    <path d="M24.6 37.5C22 34 24.4 31.4 26 28.6C27.6 31.4 30 34 27.4 37.5Z" ${A}/>
+    <path d="M8 38.6H32" ${I}/><path d="M10 39.8l1.2-1.2M14 39.8l1.2-1.2M18 39.8l1.2-1.2M22 39.8l1.2-1.2M26 39.8l1.2-1.2M30 39.8l1.2-1.2" ${I} stroke-width="0.4"/>`,
+  molienda: (I, F, A) => `
+    <path d="M20 13V5H30.5" ${I}/>
+    <rect x="29.6" y="2" width="3.4" height="7" rx="1.7" ${A}/>
+    <path d="M10.5 16Q20 8 29.5 16Z" ${F}/>
+    <rect x="10" y="16" width="20" height="19" rx="1" ${F}/>
+    <path d="M10 27.4h20" ${I} stroke-width="0.6"/><circle cx="20" cy="31.2" r="1.2" ${A}/>
+    <path d="M13 18.6v6.4M27 18.6v6.4M15.4 18.6v6.4M24.6 18.6v6.4" ${I} stroke-width="0.45"/>`,
+  taza: (I, F, A) => `
+    <path d="M15 11C13 8.5 17 6.5 15 3.5M20 11C18 8.5 22 6.5 20 3.5M25 11C23 8.5 27 6.5 25 3.5" ${I} stroke-width="0.7"/>
+    <path d="M9 15H31V22C31 28 26.5 32 20 32C13.5 32 9 28 9 22Z" ${F}/>
+    <ellipse cx="20" cy="15" rx="11" ry="2.3" ${A}/>
+    <path d="M31 18C36.4 18 36.4 25.4 31 25.4" ${I}/>
+    <path d="M4.5 34.6H35.5" ${I}/><path d="M8.5 37H31.5" ${I} stroke-width="0.6"/><path d="M10 35.6l1-1M14 35.6l1-1M18 35.6l1-1M22 35.6l1-1M26 35.6l1-1M30 35.6l1-1" ${I} stroke-width="0.4"/>
+    <path d="M12 20.5v6M15 21v8M25 21v8M28 20.5v6" ${I} stroke-width="0.4"/>`,
+};
+function vignette(key, cx, cy, size) {
+  const k = size / 40, sw = 1;
+  const I = `fill="none" stroke="${COL.ink}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"`;
+  const F = `fill="${paper()}" stroke="${COL.ink}" stroke-width="${sw}" stroke-linejoin="round"`;
+  const A = `fill="${COL.field}" stroke="${COL.ink}" stroke-width="0.8"`;
+  const M = `fill="${COL.field}" fill-opacity="0.28" stroke="${COL.field}" stroke-width="0.6" stroke-dasharray="1.4 1"`;
+  return `<g transform="translate(${r2(cx - size/2)} ${r2(cy - size/2)}) scale(${r2(k)})">${ICONS[key](I, F, A, M)}</g>`;
+}
+function journey(y, kind, o = {}) {
+  const R = o.r || 9.5, gap = o.gap || 31, icon = R * 1.62;
+  const stops = [
+    ['siembra', 'Siembra', 'Nace la chapola.'],
+    ['cultivo', 'Cultivo', 'Castillo a 1.950 m, cosechado a mano.'],
+    ['despulpado', 'Despulpado', 'Se conserva el mucílago.'],
+    ['secado', 'Secado', 'Al sol, volteado a diario.'],
+    ['tostion', 'Tostión', 'Media, cada semana.'],
+    ['molienda', 'Molienda', kind === 'grano' ? 'En casa, justo antes de preparar.' : 'A pedido, según tu método.'],
+    ['taza', 'Taza', 'Caña de azúcar, apanelado.'],
+  ];
+  const cy1 = y + R + 1, cy2 = cy1 + gap;
+  const pos = [[17, cy1], [39, cy1], [61, cy1], [83, cy1], [72, cy2], [50, cy2], [28, cy2]];
+  // camino de montaña: va, baja en curva y regresa
+  const dash = `fill="none" stroke="${mix(COL.field, paper(), 0.8)}" stroke-width="0.35" stroke-dasharray="1 0.9"`;
+  let s = `<path d="M17 ${cy1}H83M${83 + R} ${cy1}C97.2 ${cy1 + gap*0.25} 97.2 ${cy2 - gap*0.15} ${72 + R} ${cy2}H28" ${dash}/>`;
+  stops.forEach(([key, name, cap], i) => {
+    const [cx, cy] = pos[i];
+    s += `<circle cx="${cx}" cy="${cy}" r="${R}" fill="${paper()}" stroke="${COL.ink}" stroke-width="0.25" opacity="1"/>`;
+    s += `<circle cx="${cx}" cy="${cy}" r="${R - 0.8}" fill="none" stroke="${mix(COL.ink, paper(), 0.4)}" stroke-width="0.15"/>`;
+    s += vignette(key, cx, cy, icon);
+    s += `<circle cx="${r2(cx - R * 0.78)}" cy="${r2(cy - R * 0.72)}" r="2.3" fill="${COL.field}"/>`;
+    s += T(cx - R * 0.78, cy - R * 0.72 + 0.95, String(i + 1), { fam:'B', size:2.8, weight:900, fill:paper(), anchor:'middle' });
+    s += T(cx, cy + R + 3.6, name, { size:2.45, weight:700, anchor:'middle' });
+    s += P(cx, cy + R + 6.4, cap, { size:2, anchor:'middle' }, i === 3 ? 18 : 21, 2.45).svg;
+  });
+  return { s, end: cy2 + R + 9 };
+}
+
+// REVERSO: cómo se hace el Honey
+function steps2x2(x, y, colW, rowH) {
+  let s = '';
+  HONEY.steps.forEach(([t, d], i) => {
+    const cx = x + (i % 2) * (colW + 2), cy = y + Math.floor(i / 2) * rowH;
+    s += T(cx - 0.3, cy + 8.6, String(i + 1), { fam:'B', size:11, weight:900, fill:COL.field });
+    s += T(cx + 7.6, cy + 3.2, t, { size:2.7, weight:700 });
+    s += P(cx + 7.6, cy + 6.9, d, { size:2.3 }, colW - 9, 2.95).svg;
+  });
+  return s;
+}
+function legal(y, denom, tight = false) {
+  const fs = tight ? 2.2 : 2.35, gap = tight ? 3.7 : 4.2;
+  let s = L(6, y, 'Ficha del producto', { size:1.8, fill:COL.field, weight:800 });
+  const rows = [['Denominación', denom], ['Ingredientes', '100 % café arábica, variedad Castillo'], ['Origen', 'Producto de Colombia'], ['Reg. sanitario', 'INVIMA NSA-0376-2026'], ['Responsable', S.resp || '[pendiente]']];
+  let yy = y + (tight ? 4.6 : 5.2);
+  rows.forEach(([k, v]) => {
+    s += L(6, yy, k, { size:1.6, op:0.85 });
+    const p = P(31, yy, v, { size:fs, weight:500 }, 63, 2.9); s += p.svg;
+    yy = (k === 'Responsable' ? Math.max(p.end, yy + 2.9) : p.end) + gap;
+  });
+  return { s, end: yy - gap };
+}
+function backGrano() {
+  const w = 100, h = 150; let s = sheetPaper(w, h);
+  s += micro(6, 7.4, 88, MICRO_TOP);
+  s += T(5.6, 19, 'EL VIAJE DEL CAFÉ', { fam:'B', size:9, weight:800 });
+  s += L(94, 18.6, 'Serie 01 · Red Honey', { size:1.7, anchor:'end', fill:COL.field, weight:800 });
+  const sub = P(6, 24.6, 'Conservamos el mucílago durante el secado: esa capa de azúcares del fruto lleva a la taza el dulzor de panela.', { size:2.45, weight:500 }, 88, 3.2);
+  s += sub.svg;
+  const j = journey(sub.end + 2.6, 'grano', { r:10, gap:33 }); s += j.s;
+  s += hair(6, j.end + 1, 94, 0.55, 0.4);
+  const ly = j.end + 6.5;
+  s += legal(ly, 'Café tostado en grano').s;
+  s += seal(83, ly + 1.8, ['LOTE DE LA FINCA', 'MISTRATÓ · 1.950 M'], 0.48);
+  s += foot(w, 132.5, 'Tostamos cada semana', 'Envíos a toda Colombia');
+  s += micro(6, 143.6, 88, MICRO_BOT);
+  return { w, h, s };
+}
+
+// LATERALES (fuelle de 75 mm)
+const SW = 70;
+function sideOrigin() {
+  const w = SW, h = 150; let s = sheetPaper(w, h);
+  s += micro(6, 7.6, w - 12, MICRO_TOP);
+  s += T(5.4, 21, 'TIERRA', { fam:'B', size:12.5, weight:800 }) + T(5.4, 32, 'ANTIGUA', { fam:'B', size:12.5, weight:800 });
+  const o = { size:2.65 };
+  let p = P(6, 39, 'Las montañas de Mistrató, en Risaralda, son tierra de pueblos indígenas. En esta zona se han encontrado vestigios arqueológicos de sus antiguos pobladores.', o, w - 12, 3.55);
+  s += p.svg;
+  p = P(6, p.end + 5.3, 'Hoy, sobre ese mismo suelo, Jhon Edwin Suaza cultiva café Castillo en la Finca La Cumbre.', o, w - 12, 3.55);
+  s += p.svg;
+  const fy = p.end + 4.5;
+  s += hair(6, fy, w - 6);
+  s += field2(6, fy + 4.3, 'Familia', '+45 años', { size:2.9 }) + field2(36, fy + 4.3, 'Beneficio', 'En la finca', { size:2.9 });
+  s += vhair(34, fy + 1.2, fy + 9.8) + hair(6, fy + 11, w - 6);
+  s += field2(6, fy + 15.3, 'Secado', 'Al sol', { size:2.9 }) + field2(36, fy + 15.3, 'Venta', 'Directa', { size:2.9 });
+  s += vhair(34, fy + 12.2, fy + 20.8) + hair(6, fy + 22, w - 6);
+  const ny = Math.max(fy + 41, 118);
+  s += rosette(w - 16, ny - 6, 11, 0.6);
+  s += T(5.2, ny, '1.950', { fam:'B', size:17, weight:900, fill:COL.field });
+  s += T(6, ny + 5.4, 'm s.n.m. · Mistrató', { size:2.3, weight:600 });
+  s += hair(6, 134.5, w - 6) + T(6, 139.8, 'Cada taza es un pequeño hallazgo.', { size:2.6, weight:700, fill:COL.field });
+  s += micro(6, 143.6, w - 12, MICRO_BOT);
+  return { w, h, s };
+}
+function methods(x, y, colW) {
+  const list = [
+    ['Filtrado · V60 / Chemex', '17 g · 250 ml', '92–94 °C · molienda media'],
+    ['Prensa francesa', '33 g · 500 ml', '4 minutos · molienda gruesa'],
+    ['Moka', 'AL RAS', 'Filtro lleno, sin compactar · fuego medio · molienda fina'],
+  ];
+  let s = '';
+  list.forEach(([n, big, det], i) => {
+    const yy = y + i * 13.4;
+    s += L(x, yy, n, { size:1.7, fill:COL.field, weight:800 });
+    s += T(x - 0.2, yy + 6.2, big, { fam:'B', size:6.6, weight:800 });
+    s += P(x, yy + 9.4, det, { size:2.2, weight:500 }, colW, 2.8).svg;
+  });
+  return s;
+}
+function sidePrep() {
+  const w = SW, h = 150; let s = sheetPaper(w, h);
+  s += micro(6, 7.6, w - 12, MICRO_TOP);
+  s += T(5.4, 21, 'PREPÁRALO', { fam:'B', size:12.5, weight:800 });
+  s += L(6, 26, 'Proporción base 1 : 15', { size:1.6, fill:COL.field, weight:800 });
+  s += hair(6, 28.5, w - 6);
+  s += methods(6, 33, w - 12);
+  s += hair(6, 73.5, w - 6, 0.55, 0.4);
+  s += qr(3.6, 74.6, 30, S.qr, COL.ink);
+  s += T(35, 82, 'MÁS DE 50', { fam:'B', size:5.6, weight:800, fill:COL.field }) + T(35, 87.6, 'RECETAS', { fam:'B', size:5.6, weight:800, fill:COL.field });
+  s += P(35, 92, S.qr.replace(/^https?:\/\//, ''), { size:2.05, weight:600 }, w - 41, 2.6).svg;
+  s += hair(6, 103.5, w - 6);
+  s += L(6, 107.6, 'Pedidos', { size:1.7, fill:COL.field, weight:800 });
+  s += T(6, 111.8, 'WhatsApp 321 636 3596', { size:2.7, weight:700 });
+  s += T(6, 115.2, '@cumbre.cafe · cumbrecafe.shop', { size:2.3, weight:500 });
+  s += hair(6, 118, w - 6);
+  s += L(6, 122, 'Conservación', { size:1.7, fill:COL.field, weight:800 });
+  let p = P(6, 125.8, 'Saca el aire y cierra bien la bolsa. Lugar fresco, seco y sin luz. Muélelo justo antes de preparar.', { size:2.2 }, w - 12, 2.8);
+  s += p.svg;
+  const vy = p.end + 3.4, vs = `font-family="${FA}" font-size="2.2" font-weight="700" fill="${COL.field}"`;
+  s += `<text x="6" y="${r2(vy)}" ${vs}>¿La bolsa se infla? Es el CO<tspan font-size="1.5" dy="0.5">2</tspan><tspan dy="-0.5"> de la tostión</tspan></text>`;
+  s += `<text x="6" y="${r2(vy + 2.8)}" ${vs}>saliendo por la válvula.</text>`;
+  s += micro(6, 143.6, w - 12, MICRO_BOT);
+  return { w, h, s };
+}
+
+// REVERSO MOLIDO: proceso, origen, recetas y ficha en una cara
+function backMolido() {
+  const w = 100, h = 150; let s = sheetPaper(w, h);
+  s += micro(6, 7.6, 88, MICRO_TOP);
+  s += T(5.6, 19, 'EL VIAJE DEL CAFÉ', { fam:'B', size:9, weight:800 });
+  s += L(94, 18.6, 'Serie 01 · Red Honey', { size:1.7, anchor:'end', fill:COL.field, weight:800 });
+  s += T(6, 24.2, 'Conservamos el mucílago al secar: así llega a la taza el dulzor de panela.', { size:2.3, weight:500 });
+  s += T(6, 27.2, 'Mistrató, Risaralda: tierra de pueblos indígenas y de vestigios arqueológicos.', { size:2.3, weight:500 });
+  const j = journey(29, 'molido', { r:9, gap:27.6 }); s += j.s;
+  let y = j.end + 1.4;
+  s += hair(6, y, 94, 0.55, 0.4);
+  s += qr(3.6, y + 0.6, 25.6, S.qr, COL.ink);
+  s += T(30, y + 6.8, 'MÁS DE 50 RECETAS', { fam:'B', size:5.2, weight:800, fill:COL.field });
+  s += T(30, y + 10.2, S.qr.replace(/^https?:\/\//, ''), { size:2.05, weight:600 });
+  s += T(30, y + 14.2, 'WhatsApp 321 636 3596 · @cumbre.cafe', { size:2.3, weight:700 });
+  s += L(30, y + 18.8, 'Conservación', { size:1.6, fill:COL.field, weight:800 });
+  s += T(30, y + 22, 'Sin aire, en lugar fresco, seco y sin luz.', { size:2.05 });
+  y += 26.8;
+  s += hair(6, y, 94);
+  const lg = legal(y + 4.4, 'Café tostado molido', true); s += lg.s;
+  s += micro(6, 143.6, 88, MICRO_BOT);
+  return { w, h, s, end: lg.end };
+}
+
+/* ---------- ensamblado ---------- */
+function svgDoc(piece, fontCss = '') {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${piece.w}mm" height="${piece.h}mm" viewBox="0 0 ${piece.w} ${piece.h}">${fontCss ? `<defs><style>${fontCss}</style></defs>` : ''}${piece.s}</svg>`;
+}
+function crop(x, y, w, h) {
+  const o = 0.6, l = 1.3; let d = '';
+  [[x, y, -1, -1], [x + w, y, 1, -1], [x, y + h, -1, 1], [x + w, y + h, 1, 1]].forEach(([cx, cy, sx, sy]) => {
+    d += `M${r2(cx + sx*o)} ${r2(cy)}h${r2(sx*l)}M${r2(cx)} ${r2(cy + sy*o)}v${r2(sy*l)}`;
+  });
+  return `<path d="${d}" stroke="#555" stroke-width="0.12" fill="none"/>`;
+}
+function place(p, x, y, rot) {
+  const cid = nid('pc');
+  const W = rot ? p.h : p.w, H = rot ? p.w : p.h;
+  const tf = rot ? `translate(${x},${y + p.w}) rotate(-90)` : `translate(${x},${y})`;
+  return `<clipPath id="${cid}"><rect x="${x - 2}" y="${y - 2}" width="${W + 4}" height="${H + 4}"/></clipPath><g clip-path="url(#${cid})"><g transform="${tf}">${p.s}</g></g>` + crop(x, y, W, H);
+}
+// HOJA DE PRUEBA: tintas, trazos, tamaños de letra, QR y roseta para elegir el ajuste del controlador
+function testSheet() {
+  let s = `<rect width="215.9" height="279.4" fill="#fff"/>`;
+  const X = 8, sec = (y, t) => T(X, y, t.toUpperCase(), { size:2, weight:800, wdth:125, ls:0.3, fill:COL.field });
+  s += T(X, 14, 'PRUEBA DE CALIDAD', { fam:'B', size:9, weight:800 });
+  s += T(X, 19.5, 'HP Smart Tank 750 · adhesivo mate Ritrama · imprímela con cada ajuste y compara', { size:2.4, weight:500 });
+  [['Tipo de papel', 24], ['Calidad', 28.6], ['Máx. ppp', 33.2]].forEach(([k, y]) => { s += T(X, y + 3, k + ':', { size:2.4, weight:700 }) + hair(X + 26, y + 3.4, 100, 1, 0.2); });
+  // tintas al 100 / 80 / 60 / 40 %
+  s += sec(44, 'Tintas');
+  const inks = [['Campo', COL.field], ['Tinta', COL.ink], ['2ª tinta', COL.ink2], ['Papel', COL.cream]];
+  inks.forEach(([n, c], r) => {
+    s += T(X, 51.5 + r * 11, n, { size:2.2, weight:600 });
+    [1, 0.8, 0.6, 0.4].forEach((t, i) => { s += `<rect x="${X + 20 + i * 19}" y="${46 + r * 11}" width="17" height="9" fill="${mix(c, '#ffffff', t)}" stroke="#bbb" stroke-width="0.1"/>`; if (r === 0) s += T(X + 28.5 + i * 19, 45, Math.round(t * 100) + ' %', { size:1.8, anchor:'middle' }); });
+  });
+  // trazos
+  s += sec(97, 'Trazos (mm)');
+  [0.08, 0.12, 0.18, 0.25, 0.35].forEach((w, i) => {
+    const y = 102 + i * 4;
+    s += T(X, y + 0.8, String(w).replace('.', ','), { size:2, weight:600 });
+    s += `<line x1="${X + 12}" y1="${y}" x2="${X + 50}" y2="${y}" stroke="${COL.ink}" stroke-width="${w}"/><line x1="${X + 54}" y1="${y}" x2="${X + 92}" y2="${y}" stroke="${COL.field}" stroke-width="${w}"/>`;
+  });
+  // tamaños de letra
+  s += sec(128, 'Letra (mm)');
+  [1.3, 1.6, 2, 2.4, 3].forEach((z, i) => {
+    const y = 133.5 + i * 4.6;
+    s += T(X, y, String(z).replace('.', ','), { size:2, weight:600 });
+    s += T(X + 12, y, 'Cumbre Café · 1.950 m s.n.m. · Mistrató', { size:z, weight:500 });
+  });
+  // QR
+  s += sec(163, 'QR (escanéalos con el celular)');
+  [[20, X], [25, X + 26], [30, X + 57]].forEach(([q, x]) => { s += qr(x, 166, q, S.qr, COL.ink) + T(x + q / 2, 166 + q + 3.2, q + ' mm', { size:2, anchor:'middle' }); });
+  // rosetas
+  s += sec(206, 'Roseta y microtexto');
+  s += rosette(X + 15, 225, 14, 0.9) + rosette(X + 55, 225, 19, 0.9);
+  s += micro(X, 251, 92, MICRO_TOP);
+  // piezas reales a 100 %
+  s += place(front(), 110, 8) + place(stamp('grano'), 106, 162) + place(stamp('molido'), 160, 162);
+  s += T(110, 219, 'Compara estas piezas con la pantalla y sobre la bolsa.', { size:2.2 });
+  // reglas
+  s += `<path d="M8 266v2M8 267h100M58 266.4v1.2M108 266v2" stroke="#000" stroke-width="0.2" fill="none"/>`;
+  s += `<text x="112" y="268" font-family="Arial, sans-serif" font-size="2.2" fill="#444">Control de escala: la regla debe medir 100 mm (marca en 50 mm).</text>`;
+  return { w: 215.9, h: 279.4, s };
+}
+function sheet() {
+  if (S.sheet === 'prueba') return testSheet();
+  const X = 5.95, Y = 6; let s = `<rect width="215.9" height="279.4" fill="#fff"/>`;
+  if (S.sheet === 'grano1') {
+    s += place(front(), X, Y);
+    s += place(sideOrigin(), X + 104, Y);
+    s += place(sidePrep(), X, Y + 154, true);
+    s += place(stamp(stubKind('grano')), X + 154, Y + 154);
+  } else if (S.sheet === 'grano2') {
+    s += place(backGrano(), X, Y);
+    s += place(backGrano(), X + 104, Y);
+    for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) s += place(stamp(stubKind('grano')), X + c * 54, Y + 154 + r * 54);
+  } else if (S.sheet === 'laterales') {
+    // los dos laterales en vertical, una columna de 3 desprendibles y una fila de 3 más
+    s += place(sideOrigin(), X, Y);
+    s += place(sidePrep(), X + SW + 4, Y);
+    for (let r = 0; r < 3; r++) s += place(stamp(stubKind('grano')), X + 2 * (SW + 4), Y + r * 54);
+    for (let c = 0; c < 3; c++) s += place(stamp(stubKind('grano')), X + c * 54, Y + 162);
+  } else {
+    s += place(front(), X, Y);
+    s += place(backMolido(), X + 104, Y);
+    for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) s += place(stamp(stubKind('molido')), X + c * 54, Y + 154 + r * 54);
+  }
+  s += `<path d="M${X} 271v2M${X} 272h50M${X+50} 271v2" stroke="#000" stroke-width="0.2" fill="none"/>`;
+  s += `<text x="${X + 53}" y="272.8" font-family="Arial, sans-serif" font-size="2.2" fill="#444">Control de escala: esta línea debe medir 50 mm. Imprime al 100 % (tamaño real). ${{grano1:'Bolsa de grano · hoja 1 de 2', grano2:'Bolsa de grano · hoja 2 de 2 (rinde 2 bolsas)', molido:'Bolsa de molido', laterales:'Laterales + 6 desprendibles'}[S.sheet]} · ${S.peso} g</text>`;
+  return { w: 215.9, h: 279.4, s };
+}
+
+const PIECES = () => [
+  { key:'frontal', name:'Frontal · billete Serie 01', face:'Cara frontal · ambas bolsas · debajo de la válvula', p: front() },
+  { key:'desprendible-grano', name:'Desprendible grano', face:'Frontal, junto al billete · bolsa de grano', p: stamp('grano') },
+  { key:'desprendible-molido', name:'Desprendible molido', face:'Frontal, junto al billete · bolsa de molido · marca la molienda con esfero', p: stamp('molido') },
+  { key:'trasera-grano', name:'Reverso grano · el viaje del café', face:'Cara trasera · bolsa de grano', p: backGrano() },
+  { key:'lateral-origen', name:'Lateral · Tierra antigua', face:'Fuelle izquierdo · bolsa de grano', p: sideOrigin() },
+  { key:'lateral-preparalo', name:'Lateral · Prepáralo', face:'Fuelle derecho · bolsa de grano', p: sidePrep() },
+  { key:'trasera-molido', name:'Reverso molido · el viaje del café', face:'Cara trasera · bolsa de molido', p: backMolido() },
+];
+
+/* ---------- fuentes embebidas para el .svg descargado ---------- */
+const FONT_CSS = [
+  'https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap',
+  'https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&display=swap',
+];
+let fontCache = null;
+function b64(buf) { const u = new Uint8Array(buf); let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); }
+async function fontStyle() {
+  if (fontCache !== null) return fontCache;
+  let css = '';
+  try {
+    for (const u of FONT_CSS) {
+      const r = await fetch(u); if (!r.ok) continue;
+      const blocks = (await r.text()).split('/*').filter(b => /^\s*latin \*\//.test(b));
+      for (const b of blocks) {
+        const face = b.slice(b.indexOf('@font-face'));
+        const m = face.match(/url\((https:[^)]+)\)/); if (!m) continue;
+        const fr = await fetch(m[1]); if (!fr.ok) continue;
+        css += face.replace(m[1], 'data:font/woff2;base64,' + b64(await fr.arrayBuffer()));
+      }
+    }
+  } catch (e) { css = ''; }
+  fontCache = css; return css;
+}
+async function download(name, piece) {
+  const css = await fontStyle();
+  if (!css) alert('No se pudieron incrustar las fuentes (¿sin conexión?). El SVG se descargará igual, pero el texto usará fuentes del sistema.');
+  const blob = new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n' + svgDoc(piece, css)], { type:'image/svg+xml' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name + '.svg'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
+/* ---------- UI ---------- */
+const $ = id => document.getElementById(id);
+function read() { S.sheet = $('sheet').value; S.stub = $('stub').value; S.peso = $('peso').value; S.paper = $('paper').value; S.resp = $('resp').value.trim(); S.qr = $('qr').value.trim() || 'https://cumbrecafe.shop'; }
+function render() {
+  read();
+  const sh = sheet();
+  $('sheetView').innerHTML = svgDoc(sh);
+  const grid = $('pieces'); grid.innerHTML = '';
+  PIECES().forEach(({ key, name, face, p }) => {
+    const card = document.createElement('div'); card.className = 'piece';
+    card.innerHTML = `<div class="art">${svgDoc(p)}</div><div><h3>${name}</h3><div class="meta">${p.w} × ${p.h} mm · ${face}</div></div>`;
+    const b = document.createElement('button'); b.className = 'sec'; b.textContent = 'Descargar .svg';
+    b.setAttribute('aria-label', `Descargar ${name} en .svg`);
+    b.onclick = () => download(`cumbre-${key}-${p.w}x${p.h}mm`, p);
+    card.appendChild(b); grid.appendChild(card);
+  });
+}
+['sheet','stub','peso','paper','resp','qr'].forEach(k => $(k).addEventListener('input', render));
+$('dlSheet').onclick = () => { read(); download(`cumbre-hoja-${S.sheet}-${S.peso}g-carta`, sheet()); };
+const SHEET_NAMES = { grano1:'grano-hoja1', grano2:'grano-hoja2', molido:'molido', laterales:'laterales', prueba:'prueba-calidad' };
+async function printSheet(kind) {
+  const prev = $('sheet').value;
+  if (kind) { $('sheet').value = kind; }
+  read();
+  const status = $('printStatus');
+  status.textContent = 'Preparando la hoja en alta resolución…';
+  try { await document.fonts.ready; } catch (e) {}
+  const fontsOk = document.fonts.check("400 10px Archivo") && document.fonts.check("800 10px 'Big Shoulders Display'");
+  if (typeof qrcode === 'undefined' || !fontsOk) {
+    status.textContent = 'Atención: no cargaron ' + (typeof qrcode === 'undefined' ? 'el generador de QR' : 'las fuentes') + '. Revisa la conexión a internet antes de imprimir en adhesivo.';
+  } else status.textContent = 'Listo. Revisa la configuración de la lista antes de confirmar.';
+  $('printArea').innerHTML = svgDoc(sheet());
+  const title = document.title;
+  document.title = `cumbre-${SHEET_NAMES[S.sheet]}-${S.peso}g-carta`;
+  const restore = () => { document.title = title; $('printArea').innerHTML = ''; if (kind) { $('sheet').value = prev; render(); } window.removeEventListener('afterprint', restore); };
+  window.addEventListener('afterprint', restore);
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+  window.print();
+}
+$('print').onclick = () => printSheet();
+$('printTest').onclick = () => printSheet('prueba');
+
+render();
+Promise.all([document.fonts.load("400 10px Archivo"), document.fonts.load("900 10px 'Big Shoulders Display'")]).then(() => document.fonts.ready).then(render).catch(() => {});
+window.__render = render;
+})();
+</script>
+</body>
+</html>
