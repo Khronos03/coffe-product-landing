@@ -122,6 +122,8 @@ export default function OrderStatus() {
   const data = state.data;
   const ok = state.status === "APPROVED";
   const failed = ["DECLINED", "VOIDED", "ERROR"].includes(state.status);
+  const notFound = state.status === "NOT_FOUND";
+  const pending = !ok && !failed && !notFound;
   const wa = whatsappUrl([
     ok ? "¡Hola, Cumbre Café! Acabo de pagar mi pedido en la web." : "¡Hola, Cumbre Café! Tuve un problema pagando mi pedido en la web.",
     data ? `Referencia: ${data.reference}` : id ? `Transacción: ${id}` : "",
@@ -188,17 +190,32 @@ export default function OrderStatus() {
 
           <nav className="nf-stub" aria-label="Siguientes pasos">
             <h2 className="nf-stub-title">{ok ? "¿Y ahora?" : "Sigue por aquí"}</h2>
+            {/* Pagado o en proceso: nosotros escribimos; WhatsApp queda para dudas.
+                Sin pagar: reintentar primero. Sin datos: WhatsApp es la ayuda. */}
             {failed && (
               <button type="button" className="tear-button" onClick={cart.open}>
                 Intentar de nuevo
               </button>
             )}
-            <a className={failed ? "nf-secondary" : "tear-button"} href={wa} target="_blank" rel="noopener noreferrer" data-source="estado-pago">
-              <IoLogoWhatsapp aria-hidden="true" /> Escribir por WhatsApp
+            {(ok || pending) && (
+              <Link className="tear-button" to="/">
+                Volver a la tienda
+              </Link>
+            )}
+            <a
+              className={notFound ? "tear-button" : "nf-secondary"}
+              href={wa}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-source="estado-pago"
+            >
+              <IoLogoWhatsapp aria-hidden="true" /> {notFound ? "Escribir por WhatsApp" : "¿Dudas? Escríbenos"}
             </a>
-            <Link className="nf-secondary" to="/">
-              Volver a la tienda
-            </Link>
+            {(failed || notFound) && (
+              <Link className="nf-secondary" to="/">
+                Volver a la tienda
+              </Link>
+            )}
           </nav>
         </article>
       </main>

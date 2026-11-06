@@ -3,7 +3,7 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { IoLogoWhatsapp } from "react-icons/io";
-import { FiAlertCircle, FiLock } from "react-icons/fi";
+import { FiAlertCircle, FiArrowRight, FiCheck } from "react-icons/fi";
 import { GRIND_OPTIONS, ORDER_TERMS, formatCOP, whatsappUrl } from "../../data/catalog";
 import { readDraft, readPending, writeDraft, writePending } from "./orderMemory";
 import { track } from "../../analytics";
@@ -42,17 +42,21 @@ export function TearButton({ href, children, className = "", onTorn, trackData, 
 }
 
 /**
- * Botón principal cuando el pago en línea está activo: agrega al pedido y lo abre para pagar.
- * Se ve como el desprendible; WhatsApp queda como alternativa secundaria.
+ * Botón principal cuando el pago en línea está activo: agrega al pedido y lo abre.
+ * Aún no cobra, así que no lleva candado: la flecha dice "siguiente paso". El candado
+ * queda solo en el botón que paga.
  */
 export function BuyButton({ onBuy, children, className = "" }) {
   return (
     <button type="button" className={`tear-button is-buy ${className}`} onClick={onBuy}>
-      <FiLock aria-hidden="true" className="tear-button-icon" />
       <span>{children}</span>
+      <FiArrowRight aria-hidden="true" className="tear-button-icon is-trailing" />
     </button>
   );
 }
+
+/** Medios de pago, por canal: en línea (Wompi) y por WhatsApp. */
+export const ONLINE_METHODS = "Nequi, PSE, Daviplata, tarjeta o Bancolombia";
 
 /** Atributos data-* que la analítica lee al hacer clic en un enlace de WhatsApp. */
 export function trackAttrs(t) {
@@ -197,8 +201,7 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
       requestGrind(source);
       return;
     }
-    if (cart.add(`${serie.id}:${size.id}`, grind, 1)) cart.open();
-    else setAdded("full");
+    if (!cart.buy(`${serie.id}:${size.id}`, grind)) setAdded("full");
   }, [ready, requestGrind, cart, serie.id, size.id, grind]);
 
   // La barra de pedido móvil refleja exactamente lo elegido aquí.
@@ -310,7 +313,7 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
         </p>
 
         {ONLINE_PAYMENTS ? (
-          <BuyButton onBuy={() => buy()}>Comprar en línea</BuyButton>
+          <BuyButton onBuy={() => buy()}>Pedir y pagar</BuyButton>
         ) : (
           <TearButton
             href={href}
@@ -322,9 +325,11 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
         )}
 
         <div className="stub-add-row">
-          <button type="button" className="stub-add" onClick={onAdd}>
-            Agregar al pedido
-          </button>
+          {!ONLINE_PAYMENTS && (
+            <button type="button" className="stub-add" onClick={onAdd}>
+              Agregar al pedido
+            </button>
+          )}
           {ONLINE_PAYMENTS && (
             <TearButton
               secondary
@@ -338,7 +343,7 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
           <span className="stub-added" role="status" aria-live="polite">
             {added === "ok" && (
               <>
-                Agregado ✓{" "}
+                <FiCheck aria-hidden="true" /> Agregado.{" "}
                 <button type="button" className="stub-added-link" onClick={cart.open}>
                   Ver pedido ({cart.count})
                 </button>
@@ -349,10 +354,23 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
         </div>
 
         <dl className="stub-terms">
-          <div>
-            <dt>Pago</dt>
-            <dd>{ONLINE_PAYMENTS ? `En línea con Wompi, ${ORDER_TERMS.pago}` : ORDER_TERMS.pago}</dd>
-          </div>
+          {ONLINE_PAYMENTS ? (
+            <>
+              <div>
+                <dt>En línea</dt>
+                <dd>{ONLINE_METHODS}</dd>
+              </div>
+              <div>
+                <dt>WhatsApp</dt>
+                <dd>{ORDER_TERMS.pago}</dd>
+              </div>
+            </>
+          ) : (
+            <div>
+              <dt>Pago</dt>
+              <dd>{ORDER_TERMS.pago}</dd>
+            </div>
+          )}
           <div>
             <dt>Entrega</dt>
             <dd>{ORDER_TERMS.entrega}</dd>

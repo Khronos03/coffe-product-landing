@@ -8,7 +8,7 @@ web
 
 ## Users
 
-**Principal: el aficionado al café de especialidad en Colombia.** Conoce o quiere conocer la diferencia entre procesos (honey, lavado, natural, fermentaciones especiales), prepara en casa con métodos como filtrado, prensa o moka, y elige un café por su perfil de taza, su proceso y su origen, no solo por el precio. Llega desde redes (Instagram, TikTok, Facebook) o por recomendación, revisa la tienda en el celular y cierra la compra conversando por WhatsApp.
+**Principal: el aficionado al café de especialidad en Colombia.** Conoce o quiere conocer la diferencia entre procesos (honey, lavado, natural, fermentaciones especiales), prepara en casa con métodos como filtrado, prensa o moka, y elige un café por su perfil de taza, su proceso y su origen, no solo por el precio. Llega desde redes (Instagram, TikTok, Facebook) o por recomendación, revisa la tienda en el celular y paga en línea o cierra la compra conversando por WhatsApp.
 
 Audiencias secundarias que la tienda ya atiende (confirmadas por el catálogo, no priorizadas):
 - Quien compra para regalar: kits, cajas de sachets, combos.
@@ -16,9 +16,9 @@ Audiencias secundarias que la tienda ya atiende (confirmadas por el catálogo, n
 
 ## Product Purpose
 
-Cumbre Café es la tienda en línea de una familia caficultora de Mistrató, Risaralda, que vende su propio café de especialidad tostado y molido directamente al consumidor. El sitio existe para que el visitante entienda qué hace distinto a cada proceso, elija un producto y una presentación, y abra un pedido por WhatsApp con el producto ya especificado.
+Cumbre Café es la tienda en línea de una familia caficultora de Mistrató, Risaralda, que vende su propio café de especialidad tostado y molido directamente al consumidor. El sitio existe para que el visitante entienda qué hace distinto a cada proceso, elija un producto, una presentación y una molienda, y lo pague en línea (o lo pida por WhatsApp) con el pedido ya especificado.
 
-Éxito: más conversaciones de WhatsApp iniciadas desde una ficha de producto concreta (no desde el botón genérico) y una marca que se perciba como productor de especialidad serio, no como café genérico.
+Éxito: más pedidos pagados en línea desde una ficha de producto concreta, sin perder a quien prefiere WhatsApp, y una marca que se perciba como productor de especialidad serio, no como café genérico.
 
 ## Positioning
 
@@ -32,7 +32,10 @@ Una marca revendedora o tostadora urbana no puede reclamar con verdad los proces
 
 ## Operating Context
 
-- Compra 100 % por WhatsApp (+57 321 636 3596). No hay carrito, checkout ni pasarela de pago. Cada ficha genera un mensaje prellenado con producto, presentación, perfil, tostión, proceso, notas y precio.
+- **Pago en línea con Wompi (Bancolombia), acción principal** (decisión del productor, noviembre de 2026). El botón «Pedir y pagar» agrega el producto a un pedido de varios productos y lo abre; el cliente llena contacto y entrega y paga el café con Nequi, PSE, Daviplata, tarjeta o Bancolombia. El envío lo paga al recibir, a la transportadora. Pago en línea solo desde $20.000 (`minOnline` en `src/data/prices.json`): por debajo, la comisión fija de Wompi se come el margen y ese pedido va por WhatsApp.
+- La venta pagada llega sola al panel privado (`coffe-private-landing` / `coffe-private-service`): el cliente se busca por celular y, si no existe, se crea con origen «Tienda web».
+- **WhatsApp sigue como alternativa secundaria** (+57 321 636 3596): el pedido completo se envía en un solo mensaje prellenado y se paga por Bancolombia, Llave, Nequi o contra entrega.
+- El pago en línea se activa con `REACT_APP_WOMPI_ENABLED=true`; sin esa variable la tienda vuelve a WhatsApp como acción principal. Precios: una sola fuente en `src/data/prices.json`, que también usa el servidor para cobrar. Guía técnica: `docs/PAGOS-WOMPI.md`.
 - Envíos a toda Colombia.
 - Tráfico principalmente móvil, que llega desde Instagram (@cumbre.cafe), TikTok y Facebook.
 - El sitio incluye un recetario (`/recetas-cafe`) con 54 recetas fotografiadas, como contenido de valor para quien prepara en casa.
@@ -40,7 +43,7 @@ Una marca revendedora o tostadora urbana no puede reclamar con verdad los proces
 
 ## Capabilities and Constraints
 
-- **Stack:** React 18 (Create React App, `react-scripts` 5), Tailwind CSS 3, framer-motion, react-router-dom 6, react-icons. Rutas: `/` (landing de una sola página con anclas) y `/recetas-cafe`.
+- **Stack:** React 18 (Create React App, `react-scripts` 5), Tailwind CSS 3, framer-motion, react-router-dom 6, react-icons. Rutas: `/` (landing de una sola página con anclas), `/recetas-cafe`, `/privacidad` y `/pedido/estado` (comprobante de pago). Funciones de Vercel en `/api` para el pago (checkout, eventos de Wompi y estado).
 - **Catálogo actual** (`src/pages/ProductInfo.js`), en presentaciones de 250, 350 y 454 g, todos con tostión media y vendidos molidos:
   - Proceso Honey: perfil panela y miel.
   - Proceso Lavado: perfil frutos rojos.
@@ -51,7 +54,7 @@ Una marca revendedora o tostadora urbana no puede reclamar con verdad los proces
   - Regalos: Kit Honey & Lavado (2×250 g $48.000 / 2×454 g $65.000) y Caja de drips x20 + taza ($48.000). Kit y Combo se unificaron (decisión del productor); un solo precio por producto y sin precios tachados.
 - Los precios están escritos a mano en el código. No hay CMS ni inventario. Cualquier cambio de catálogo es un cambio de código.
 - La home ya no abre ningún modal al cargar; abre en el lote 01 Honey (decisión del productor), salvo que el visitante vuelva a la pestaña con otro lote ya elegido.
-- La molienda no tiene valor por defecto: el cliente la elige antes de abrir WhatsApp (decisión del productor tras la crítica de octubre de 2026).
+- La molienda no tiene valor por defecto: el cliente la elige antes de pagar o abrir WhatsApp (decisión del productor tras la crítica de octubre de 2026).
 - **Variedad:** Castillo (confirmado).
 - **Formato:** se vende en grano entero o molido, con molienda a pedido según el método del cliente (filtro, prensa, moka, espresso).
 - **Drips / sachets:** las bolsas drip son de la marca de empaque "CoffeeTime"; el café es Cumbre. La identidad de Cumbre debe ir por delante en cualquier imagen de ese producto.
@@ -71,7 +74,7 @@ Confirmadas por el productor:
 - Altitud: 1.950 m s.n.m.
 - 98 % de clientes recomiendan el café (dato del productor).
 - Ubicación: Mistrató, Risaralda, Colombia.
-- Formas de pago: Bancolombia, Llave, Nequi o pago contra entrega.
+- Formas de pago: en línea con Wompi (Nequi, PSE, Daviplata, tarjeta o Bancolombia); por WhatsApp, Bancolombia, Llave, Nequi o pago contra entrega. El envío se paga al recibir.
 - Drips: sachets sellados herméticamente, con café Lavado.
 - Natural: se seca al sol durante semanas y se voltea varias veces al día (se seca en cereza, sin despulpar).
 - Cuarterón 5 lb: $175.000.
@@ -89,7 +92,7 @@ Material real disponible: fotografías del recetario (`public/recetario/`), rend
 ## Product Principles
 
 1. **El proceso es el producto.** El aficionado compra por proceso y perfil. Cada producto debe explicar qué lo hace distinto antes de mostrar el precio.
-2. **Toda decisión termina en WhatsApp con contexto.** El pedido llega con producto, presentación y precio ya definidos. Reducir fricción entre elegir y escribir.
+2. **Toda decisión termina en un pedido completo.** Producto, presentación, molienda y precio quedan definidos antes de pagar en línea o escribir por WhatsApp. Reducir fricción entre elegir y pagar; el candado y el monto aparecen solo en el botón que cobra.
 3. **Verdad de origen, sin adornos.** Solo afirmaciones que el productor puede respaldar: finca, familia, altitud, años y procesos. Sin sellos ni cifras decorativas.
 4. **Precio directo sin abaratar la marca.** Precio accesible, percepción de especialidad.
 5. **Móvil primero.** La visita típica viene de redes en el celular.

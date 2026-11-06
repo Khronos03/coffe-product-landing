@@ -13,6 +13,8 @@ export const CART_OPEN_EVENT = "cumbre:pedido-abrir";
 
 // Pagos en línea: se activan con REACT_APP_WOMPI_ENABLED=true en Vercel (primero en Preview, con llaves de prueba).
 export const ONLINE_PAYMENTS = process.env.REACT_APP_WOMPI_ENABLED === "true";
+/** Bajo este valor la comisión fija de Wompi pesa demasiado: ese pedido va por WhatsApp. */
+export const MIN_ONLINE = PRICES.minOnline || 0;
 
 const read = () => {
   try {
@@ -23,6 +25,15 @@ const read = () => {
   }
 };
 
+/** Tinta del billete de cada producto: la del lote; regalos y drips, el violeta de seguridad. */
+const LOT_INK = { honey: "honey", lavado: "lavado", natural: "natural", "pina-whisky": "pina" };
+export function inkOf(sku) {
+  const [group, option] = sku.split(":");
+  if (LOT_INK[group]) return LOT_INK[group];
+  if (group === "cuarteron") return LOT_INK[option] || "violet";
+  return "violet";
+}
+
 /** Línea con nombre, opción, molienda y precio vigentes (desde prices.json). */
 export function describe(line) {
   const it = PRICES.items[line.sku];
@@ -31,6 +42,10 @@ export function describe(line) {
     ...line,
     product: it.product,
     serial: it.serial || null,
+    code: it.code,
+    // Etiqueta del billete: la serie del lote, o la sección donde está el producto
+    tag: it.serial ? `Serie ${it.serial}` : /^(kit|caja-drips):/.test(line.sku) ? "Regalo" : "Formato",
+    ink: inkOf(line.sku),
     option: it.option,
     grindLabel: grind ? grind.label : null,
     unitPrice: it.price,
@@ -78,6 +93,20 @@ export function CartProvider({ children }) {
     return true;
   }, []);
 
+  /**
+   * Pedir y pagar: agrega y abre el pedido. Si ese producto con esa molienda ya está,
+   * solo abre el pedido (no suma en silencio); la cantidad se cambia ahí.
+   */
+  const buy = useCallback(
+    (sku, grind) => {
+      const exists = linesRef.current.some((l) => l.sku === sku && (l.grind || null) === (grind || null));
+      const ok = exists || add(sku, grind, 1);
+      if (ok) window.dispatchEvent(new Event(CART_OPEN_EVENT));
+      return ok;
+    },
+    [add]
+  );
+
   const setQty = useCallback((index, qty) => {
     setLines((prev) => prev.map((l, i) => (i === index ? { ...l, qty: Math.max(1, Math.min(MAX_QTY, qty)) } : l)));
   }, []);
@@ -93,12 +122,13 @@ export function CartProvider({ children }) {
       count: lines.reduce((n, l) => n + l.qty, 0),
       total: detailed.reduce((n, l) => n + l.total, 0),
       add,
+      buy,
       setQty,
       remove,
       clear,
       open,
     };
-  }, [lines, add, setQty, remove, clear, open]);
+  }, [lines, add, buy, setQty, remove, clear, open]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

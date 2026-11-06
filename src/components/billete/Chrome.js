@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
-import { FiMail, FiArrowUp, FiLock } from "react-icons/fi";
+import { FiMail, FiArrowUp, FiArrowRight } from "react-icons/fi";
 import logo from "../../assets/logo-cumbre.webp";
 import { WHATSAPP_NUMBER, formatCOP, whatsappUrl } from "../../data/catalog";
 import { Microtext } from "./Security";
@@ -168,9 +168,9 @@ export function MobileOrderBar({ serie, order }) {
       tabIndex={show ? 0 : -1}
       onClick={() => order.buy("barra_movil")}
     >
-      {order.ready ? <FiLock aria-hidden="true" /> : null}
-      {order.ready ? "Comprar" : "Elegir molienda"}
-      <span className="sr-only"> {serie.name} en línea</span>
+      {order.ready ? "Pedir y pagar" : "Elegir molienda"}
+      {order.ready ? <FiArrowRight aria-hidden="true" /> : null}
+      <span className="sr-only">: {serie.name}</span>
     </button>
   );
   return (
@@ -288,7 +288,7 @@ export function SiteFooter({ onHome = true }) {
           </button>
         </p>
         <p>
-          Cumbre Café · Café de especialidad de productor · Pedidos por WhatsApp · Envíos a toda Colombia ·{" "}
+          Cumbre Café · Café de especialidad de productor · {ONLINE_PAYMENTS ? "Pago en línea o por WhatsApp" : "Pedidos por WhatsApp"} · Envíos a toda Colombia ·{" "}
           {new Date().getFullYear()}
         </p>
         <a href={onHome ? "#serie" : "#top"} className="to-top">
