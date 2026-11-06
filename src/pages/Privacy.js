@@ -11,6 +11,7 @@ import { WaveField } from "../components/billete/Security";
 import { GA_MEASUREMENT_ID } from "../analytics";
 import { openConsent } from "../consent";
 import { useDocumentMeta } from "../seo";
+import { ONLINE_PAYMENTS } from "../cart";
 
 // Datos del responsable del tratamiento. Completar con el nombre legal, documento y dirección.
 const RESPONSABLE = {
@@ -19,7 +20,7 @@ const RESPONSABLE = {
   correo: "cafesaboracampo@gmail.com",
   telefono: "+57 321 636 3596",
 };
-const UPDATED = "29 de octubre de 2026";
+const UPDATED = "5 de noviembre de 2026";
 
 const STORAGE = [
   {
@@ -42,6 +43,13 @@ const STORAGE = [
     purpose: "Recordar si aceptaste o rechazaste las cookies, con su fecha.",
     lasts: "Hasta que borres los datos del navegador",
     when: "Siempre (es necesaria)",
+  },
+  {
+    name: "cumbre:pedido · cumbre:datos-envio",
+    kind: "Almacenamiento local del navegador",
+    purpose: "Guardar los cafés de tu pedido y, si pagas en línea, tus datos de envío para no volver a escribirlos.",
+    lasts: "Hasta que vacíes el pedido o borres los datos del navegador",
+    when: "Solo si agregas productos o pagas en línea",
   },
   {
     name: "cumbre:seleccion · cumbre:pedido-abierto",
@@ -72,8 +80,9 @@ export default function Privacy() {
           <p className="pv-updated">Última actualización: {UPDATED}</p>
 
           <p className="pv-lede">
-            Esta tienda no tiene registro, carrito ni pagos en línea: tu pedido se arma aquí y lo envías tú por WhatsApp.
-            Por eso tratamos muy pocos datos, y aquí te contamos cuáles.
+            Esta tienda no tiene registro ni cuentas de usuario: armas tu pedido aquí y lo envías por WhatsApp
+            {ONLINE_PAYMENTS ? " o lo pagas en línea con Wompi" : ""}. Por eso tratamos muy pocos datos, y aquí te
+            contamos cuáles.
           </p>
 
           <h2>Quién es responsable</h2>
@@ -109,6 +118,13 @@ export default function Privacy() {
             si lo envías. Lo que nos compartas en WhatsApp (nombre, dirección, teléfono) lo usamos solo para confirmar
             disponibilidad, coordinar el pago y hacer el envío. WhatsApp es un servicio de Meta con su propia política de
             privacidad.
+          </p>
+          <h3>Pago en línea</h3>
+          <p>
+            Si pagas en la web, el pago lo procesa Wompi, la pasarela de Bancolombia: los datos de tu tarjeta, cuenta o
+            Nequi los recibe Wompi, no nosotros. Para entregar tu pedido le enviamos a Wompi y recibimos de vuelta tu
+            nombre, celular, correo y dirección de entrega, junto con los productos y el valor pagado. Los usamos solo
+            para despachar tu pedido y contactarte sobre él. Wompi tiene su propia política de privacidad.
           </p>
           <h3>Analítica, solo si aceptas</h3>
           <p>

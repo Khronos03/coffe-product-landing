@@ -11,6 +11,8 @@ import { WHATSAPP_NUMBER, formatCOP, whatsappUrl } from "../../data/catalog";
 import { Microtext } from "./Security";
 import { trackAttrs } from "./OrderStub";
 import { openConsent } from "../../consent";
+import { useCart } from "../../cart";
+import CartPanel from "./CartPanel";
 
 const NAV = [
   { href: "#serie", label: "Serie" },
@@ -26,6 +28,7 @@ const NAV = [
 export function SiteHeader({ onHome = true, current = null, skipTo = "#serie-pedido", skipLabel = "Saltar al pedido" }) {
   const [open, setOpen] = useState(false);
   const prefix = onHome ? "" : "/";
+  const cart = useCart();
 
   useEffect(() => {
     if (!open) return undefined;
@@ -59,9 +62,16 @@ export function SiteHeader({ onHome = true, current = null, skipTo = "#serie-ped
           </ul>
         </nav>
 
-        <a className="header-order" href={prefix + "#serie-pedido"}>
-          Pedir<span className="sr-only"> café: ir al formulario de pedido</span>
-        </a>
+        {cart.count > 0 ? (
+          <button type="button" className="header-order is-cart" onClick={cart.open}>
+            Pedido <span className="header-count num">{cart.count}</span>
+            <span className="sr-only"> {cart.count === 1 ? "producto" : "productos"}: ver tu pedido</span>
+          </button>
+        ) : (
+          <a className="header-order" href={prefix + "#serie-pedido"}>
+            Pedir<span className="sr-only"> café: ir al formulario de pedido</span>
+          </a>
+        )}
         <button
           type="button"
           className="menu-toggle"
@@ -74,6 +84,7 @@ export function SiteHeader({ onHome = true, current = null, skipTo = "#serie-ped
         </button>
       </div>
 
+      <CartPanel />
       <nav id="mobile-nav" className={`mobile-nav ${open ? "is-open" : ""}`} aria-label="Principal móvil" hidden={!open}>
         <ul>
           {NAV.map((n) => (

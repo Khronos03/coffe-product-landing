@@ -14,7 +14,16 @@ import cuarteron880 from "../assets/packs/cuarteron-880.webp";
 import drips440 from "../assets/packs/drips-440.webp";
 import drips880 from "../assets/packs/drips-880.webp";
 
+import PRICES from "./prices.json";
+
 export const WHATSAPP_NUMBER = "573216363596";
+
+/** Opciones de un producto con su etiqueta y precio desde prices.json (fuente única). */
+const opts = (product, ids) =>
+  ids.map((id) => {
+    const it = PRICES.items[`${product}:${id}`];
+    return { id, label: it.option, price: it.price };
+  });
 
 export const ORIGIN = {
   finca: "Mistrató, Risaralda",
@@ -31,13 +40,7 @@ export const ORDER_TERMS = {
   tostion: "Tostamos cada semana",
 };
 
-export const GRIND_OPTIONS = [
-  { id: "grano", label: "Grano entero" },
-  { id: "filtro", label: "Filtro (V60, Chemex)" },
-  { id: "prensa", label: "Prensa francesa" },
-  { id: "moka", label: "Moka" },
-  { id: "espresso", label: "Espresso" },
-];
+export const GRIND_OPTIONS = Object.entries(PRICES.grinds).map(([id, g]) => ({ id, label: g.label }));
 
 const img = (w440, w880) => ({
   src: w440,
@@ -62,11 +65,7 @@ export const SERIES = [
     notas: "Caña de azúcar, apanelado, dulzor natural",
     image: img(honey440, honey880),
     imageAlt: "Bolsa kraft de Cumbre Café, proceso Honey, con colibrí ilustrado",
-    sizes: [
-      { id: "250", label: "250 g", price: 25000 },
-      { id: "350", label: "350 g", price: 28000 },
-      { id: "454", label: "454 g", price: 35000 },
-    ],
+    sizes: opts("honey", ["250", "350", "454"]),
     protocol: {
       summary:
         "Despulpamos la cereza y dejamos el mucílago pegado al grano durante el secado. Esa capa de azúcares del fruto es la que lleva a la taza el dulzor de panela.",
@@ -89,11 +88,7 @@ export const SERIES = [
     notas: "Caña de azúcar, caramelo, moras, arándanos",
     image: img(lavado440, lavado880),
     imageAlt: "Bolsa kraft de Cumbre Café, proceso Lavado",
-    sizes: [
-      { id: "250", label: "250 g", price: 25000 },
-      { id: "350", label: "350 g", price: 28000 },
-      { id: "454", label: "454 g", price: 35000 },
-    ],
+    sizes: opts("lavado", ["250", "350", "454"]),
     protocol: {
       summary:
         "Retiramos toda la pulpa y el mucílago con agua limpia antes de secar. Sin restos del fruto, la taza queda definida: acidez brillante y frutos rojos.",
@@ -116,11 +111,7 @@ export const SERIES = [
     notas: "Frutos rojos, vino, dulzor profundo",
     image: img(natural440, natural880),
     imageAlt: "Bolsa blanca de Cumbre Café, proceso Natural, con flores moradas y colibrí",
-    sizes: [
-      { id: "250", label: "250 g", price: 35000 },
-      { id: "350", label: "350 g", price: 40000 },
-      { id: "454", label: "454 g", price: 50000 },
-    ],
+    sizes: opts("natural", ["250", "350", "454"]),
     protocol: {
       summary:
         "La cereza se seca entera, con toda su pulpa, durante semanas al sol. El grano absorbe el fruto: por eso aparecen notas a vino y frutos rojos.",
@@ -143,11 +134,7 @@ export const SERIES = [
     notas: "Piña y whisky; perfil audaz y complejo",
     image: img(pina440, pina880),
     imageAlt: "Bolsa blanca de Cumbre Café Piña Whiskey con piña y barril ilustrados",
-    sizes: [
-      { id: "250", label: "250 g", price: 40000 },
-      { id: "350", label: "350 g", price: 50000 },
-      { id: "454", label: "454 g", price: 60000 },
-    ],
+    sizes: opts("pina-whisky", ["250", "350", "454"]),
     protocol: {
       summary:
         "Fermentamos el café con piña de verdad, en nuestro propio beneficio: no es una infusión. Es el protocolo que diseñamos en la finca y el lote que solo puede salir de ella.",
@@ -164,10 +151,7 @@ export const SPECIAL_SERIES = [
     line: "Formato familiar, en Honey o Lavado.",
     image: img(cuarteron440, cuarteron880),
     imageAlt: "Bolsa grande de 5 libras de Cumbre Café",
-    options: [
-      { id: "honey", label: "5 lb · Honey", price: 175000 },
-      { id: "lavado", label: "5 lb · Lavado", price: 175000 },
-    ],
+    options: opts("cuarteron", ["honey", "lavado"]),
     grind: true,
   },
   {
@@ -176,10 +160,7 @@ export const SPECIAL_SERIES = [
     line: "Sachets de una porción, sellados herméticamente. Café Lavado.",
     image: img(drips440, drips880),
     imageAlt: "Bolsa con sachets drip de café, con el logo de Cumbre Café",
-    options: [
-      { id: "unidad", label: "Unidad", price: 2500 },
-      { id: "caja10", label: "Caja x10", price: 20000 },
-    ],
+    options: opts("drips", ["unidad", "caja10"]),
     defaultOption: "caja10",
   },
 ];
@@ -190,17 +171,14 @@ export const GIFTS = [
     name: "Kit Honey & Lavado",
     line: "Los dos procesos en caja lista para regalar.",
     pair: ["honey", "lavado"],
-    options: [
-      { id: "2x250", label: "2 × 250 g", price: 48000 },
-      { id: "2x454", label: "2 × 454 g", price: 65000 },
-    ],
+    options: opts("kit", ["2x250", "2x454"]),
   },
   {
     id: "caja-drips",
     name: "Caja de drips + taza",
     line: "20 porciones individuales y una taza, para regalar o compartir.",
     pair: ["drips"],
-    options: [{ id: "x20", label: "Caja x20 + taza", price: 48000 }],
+    options: opts("caja-drips", ["x20"]),
   },
 ];
 

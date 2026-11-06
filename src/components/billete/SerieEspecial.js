@@ -4,6 +4,7 @@ import { useId, useState } from "react";
 import { GIFTS, SPECIAL_SERIES, formatCOP, imageFor, whatsappUrl } from "../../data/catalog";
 import { buildOrderMessage, focusField, grindLabelOf, GrindField, TearButton } from "./OrderStub";
 import { track } from "../../analytics";
+import { useCart } from "../../cart";
 import { Perforation } from "./Security";
 
 function MiniTicket({ item }) {
@@ -11,6 +12,8 @@ function MiniTicket({ item }) {
   const [optId, setOptId] = useState(item.defaultOption || item.options[0].id);
   const [grind, setGrind] = useState("");
   const [grindError, setGrindError] = useState(false);
+  const cart = useCart();
+  const [added, setAdded] = useState(false);
   const opt = item.options.find((o) => o.id === optId);
   const hasGrind = item.grind || (item.pair && item.pair.some((p) => p !== "drips"));
   const grindLabel = hasGrind ? grindLabelOf(grind) : null;
@@ -26,6 +29,16 @@ function MiniTicket({ item }) {
         })
       )
     : `#${uid}-grind`;
+  const onAdd = () => {
+    if (!ready) {
+      track("molienda_faltante", { origen: "agregar_formatos", producto: item.name });
+      setGrindError(true);
+      focusField(document.getElementById(`${uid}-grind`));
+      return;
+    }
+    setAdded(cart.add(`${item.id}:${optId}`, hasGrind ? grind : null, 1));
+  };
+
   const onTear = (e) => {
     if (ready) return;
     e.preventDefault();
@@ -75,7 +88,10 @@ function MiniTicket({ item }) {
                       name={`${uid}-opt`}
                       value={o.id}
                       checked={o.id === optId}
-                      onChange={() => setOptId(o.id)}
+                      onChange={() => {
+                        setOptId(o.id);
+                        setAdded(false);
+                      }}
                     />
                     <span className="chip-size">{o.label}</span>
                   </label>
@@ -111,6 +127,16 @@ function MiniTicket({ item }) {
             >
               Pedir<span className="sr-only"> {item.name} por WhatsApp</span>
             </TearButton>
+          </div>
+          <div className="mini-add-row">
+            <button type="button" className="stub-add is-compact" onClick={onAdd}>
+              Agregar al pedido<span className="sr-only">: {item.name}</span>
+            </button>
+            {added && (
+              <button type="button" className="stub-added-link" onClick={cart.open}>
+                Agregado ✓ Ver pedido ({cart.count})
+              </button>
+            )}
           </div>
         </div>
       </article>

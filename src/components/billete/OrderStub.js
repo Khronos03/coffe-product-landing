@@ -7,6 +7,7 @@ import { FiAlertCircle } from "react-icons/fi";
 import { GRIND_OPTIONS, ORDER_TERMS, formatCOP, whatsappUrl } from "../../data/catalog";
 import { readDraft, readPending, writeDraft, writePending } from "./orderMemory";
 import { track } from "../../analytics";
+import { ONLINE_PAYMENTS, useCart } from "../../cart";
 
 export function buildOrderMessage({ product, serial, details, sizeLabel, grindLabel, price }) {
   const lines = ["¡Hola, Cumbre Café! Quiero hacer este pedido:", `• ${product}${serial ? ` (lote ${serial})` : ""}`];
@@ -116,6 +117,8 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
   const [priceTick, setPriceTick] = useState(0);
   const viaPointer = useRef(false);
   const formRef = useRef(null);
+  const cart = useCart();
+  const [added, setAdded] = useState(null);
 
   // Al cambiar de serie se conserva el tamaño elegido si existe.
   useEffect(() => {
@@ -201,8 +204,11 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
     first && first.focus();
   };
 
+  useEffect(() => setAdded(null), [serie.id]);
+
   const onSizeChange = (id) => {
     setSizeId(id);
+    setAdded(null);
     // Señal de precio solo cuando se elige con puntero; con teclado el cambio es inmediato.
     if (viaPointer.current) setPriceTick((t) => t + 1);
   };
@@ -210,6 +216,17 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
   const onGrindChange = (value) => {
     setGrind(value);
     setGrindError(false);
+    setAdded(null);
+  };
+
+  // Agregar al pedido: misma validación de molienda que el botón de WhatsApp.
+  const onAdd = () => {
+    if (!ready) {
+      requestGrind("agregar");
+      return;
+    }
+    const ok = cart.add(`${serie.id}:${size.id}`, grind, 1);
+    setAdded(ok ? "ok" : "full");
   };
 
   const onTear = (e) => {
@@ -276,10 +293,27 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
           Pedir por WhatsApp
         </TearButton>
 
+        <div className="stub-add-row">
+          <button type="button" className="stub-add" onClick={onAdd}>
+            Agregar al pedido
+          </button>
+          <span className="stub-added" role="status" aria-live="polite">
+            {added === "ok" && (
+              <>
+                Agregado ✓{" "}
+                <button type="button" className="stub-added-link" onClick={cart.open}>
+                  Ver pedido ({cart.count})
+                </button>
+              </>
+            )}
+            {added === "full" && "Tu pedido ya tiene 8 productos distintos."}
+          </span>
+        </div>
+
         <dl className="stub-terms">
           <div>
             <dt>Pago</dt>
-            <dd>{ORDER_TERMS.pago}</dd>
+            <dd>{ONLINE_PAYMENTS ? `En línea con Wompi, ${ORDER_TERMS.pago}` : ORDER_TERMS.pago}</dd>
           </div>
           <div>
             <dt>Entrega</dt>

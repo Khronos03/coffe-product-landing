@@ -61,16 +61,16 @@
 <body>
 <header><div class="wrap">
   <h1>Etiquetas para imprimir</h1>
-  <p>Siete piezas rectangulares a escala real (milímetros) para la bolsa de grano (4 caras) y la de molido (2 caras). Molido: 1 hoja por bolsa. Grano: la hoja 1 viste una bolsa y la hoja 2 trae las traseras de dos bolsas.</p>
+  <p>Tres piezas a escala real (milímetros) para cada bolsa, en grano o molido: el billete frontal de 10 × 15 cm, su desprendible de 5 × 5 cm y el reverso de 12 × 14 cm. Cada par de hojas viste dos bolsas.</p>
 </div></header>
 
 <main>
   <div class="controls">
     <label class="f">Hoja a imprimir
-      <select id="sheet"><option value="grano1">Grano · hoja 1: frontal + laterales + desprendible</option><option value="grano2">Grano · hoja 2: 2 reversos + 6 desprendibles</option><option value="molido">Molido: frontal + reverso + 6 desprendibles</option><option value="laterales">Laterales + desprendibles</option><option value="prueba">Prueba de calidad de impresión</option></select>
+      <select id="sheet"><option value="frentes">Frentes: 2 billetes + 6 desprendibles</option><option value="reversos">Reversos: 2 reversos + 4 desprendibles</option><option value="prueba">Prueba de calidad de impresión</option></select>
     </label>
-    <label class="f">Desprendible
-      <select id="stub"><option value="auto">Según la hoja</option><option value="grano">En grano</option><option value="molido">Molido</option></select>
+    <label class="f">Presentación
+      <select id="stub"><option value="grano">En grano</option><option value="molido">Molido</option><option value="mixta">Mixta: mitad grano, mitad molido</option></select>
     </label>
     <label class="f">Contenido neto
       <select id="peso"><option>250</option><option>350</option><option selected>454</option><option>500</option></select>
@@ -91,6 +91,11 @@
     <button id="print">Imprimir en alta calidad</button>
     <button class="sec" id="printTest">Imprimir prueba de calidad</button>
     <button class="sec" id="dlSheet">Descargar hoja .svg</button>
+    <button class="sec" id="dlSheetPng">Descargar hoja .png</button>
+    <button class="sec" id="dlSheetJpg">Descargar hoja .jpg</button>
+    <label class="f" style="min-width:150px">Resolución
+      <select id="dpi"><option value="300" selected>300 ppp (impresión)</option><option value="600">600 ppp (máxima)</option></select>
+    </label>
   </div>
   <p id="printStatus" role="status"></p>
   <section class="hq" aria-labelledby="hq-title">
@@ -143,7 +148,7 @@
     <li>Corta primero las filas por los canales de 4 mm y después cada pieza con cúter y regla, siguiendo las marcas de las esquinas. Cada pieza trae 2 mm de sangrado y el marco va a 4,5 mm del corte: si te desvías hasta 2 mm no aparecen filos blancos ni el marco se ve torcido.</li>
     <li>Deja secar la tinta unos minutos antes de cortar. Pega desde el centro hacia los bordes, con la bolsa ya llena, para que no se arrugue.</li>
   </ol>
-  <div class="note"><b>Pendiente de medir:</b> los laterales están a <span class="pend">70 × 150 mm</span> (fuelle de 75 mm) y la trasera a <span class="pend">100 × 150 mm</span> (igual que tu frontal actual). Confírmalos con las medidas del fuelle y de la cara trasera antes de imprimir en adhesivo.</div>
+  <div class="note"><b>Medidas:</b> billete frontal <span class="pend">100 × 150 mm</span>, desprendible <span class="pend">50 × 50 mm</span> y reverso <span class="pend">120 × 140 mm</span>. En la hoja de reversos, las dos piezas van giradas para caber en carta.</div>
 </main>
 
 <div id="printArea"></div>
@@ -154,9 +159,9 @@
 const COL = { field:'#8a540c', ink:'#4a2a05', ink2:'#2f3b86', cream:'#f7e7be', white:'#FFFFFF' };
 const FA = "Archivo, 'Arial', sans-serif";
 const FB = "'Big Shoulders Display','Big Shoulders','Arial Narrow',sans-serif";
-const S = { sheet:'grano1', stub:'auto', peso:'454', paper:'cream', resp:'', qr:'' };
-// tipo de desprendible: el que pide la hoja, salvo que se elija otro
-const stubKind = def => S.stub === 'auto' ? def : S.stub;
+const S = { sheet:'frentes', stub:'grano', peso:'454', paper:'cream', resp:'', qr:'' };
+// presentación de la pieza i de n en la hoja: grano, molido o mitad y mitad
+const kindAt = (i, n) => S.stub === 'mixta' ? (i < n / 2 ? 'grano' : 'molido') : S.stub;
 // ids únicos en todo el documento: la vista previa, las piezas y la hoja de impresión conviven en el DOM
 let uid = 0; const nid = p => `${p}${++uid}`;
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -284,19 +289,19 @@ function front() {
   s += L(6, 45.5, 'Café de proceso', { size:2, weight:800 });
   s += T(5.2, 64, 'RED HONEY', { fam:'B', size:20, weight:800 });
   s += T(6, 71, HONEY.line, { size:3, weight:500 });
-  const y0 = 75.5, rows = [
+  const y0 = 73, rows = [
     [['Fragancia / aroma', 'Panela, miel'], ['Variedad', 'Castillo']],
     [['Altitud', '1.950 m s.n.m.'], ['Tostión', 'Media']],
     [['Caficultor', 'Jhon Edwin Suaza'], ['Puntaje', '84,75']],
   ];
   s += hair(6, y0, 94);
   rows.forEach((r, i) => {
-    const y = y0 + i * 11.5, rh = i === 2 ? 14 : 11.5;
-    s += field2(6, y + 4.5, r[0][0], r[0][1]) + field2(51.5, y + 4.5, r[1][0], r[1][1]);
+    const y = y0 + i * 12.4, rh = i === 2 ? 15 : 12.4;
+    s += field2(6, y + 5, r[0][0], r[0][1]) + field2(51.5, y + 5, r[1][0], r[1][1]);
     s += vhair(49.5, y + 1.2, y + rh - 1.2) + hair(6, y + rh, 94);
   });
-  s += T(51.5, y0 + 23 + 12.2, 'Cata · Comité de Cafeteros', { size:2.1, weight:500 });
-  const ys = y0 + 37;
+  s += T(51.5, y0 + 24.8 + 12.9, 'Cata · Comité de Cafeteros', { size:2.1, weight:500 });
+  const ys = y0 + 40.6;
   s += L(6, ys + 4.5, 'Sabor', { size:1.7, op:0.85 });
   s += P(6, ys + 8.9, 'Caña de azúcar, apanelado que resalta por su dulzura natural.', { size:2.9, weight:600 }, 88, 3.6).svg;
   s += foot(w, 132.5, 'Finca La Cumbre · Mistrató, Risaralda', 'Café de altura');
@@ -390,17 +395,75 @@ const ICONS = {
     <path d="M4.5 34.6H35.5" ${I}/><path d="M8.5 37H31.5" ${I} stroke-width="0.6"/><path d="M10 35.6l1-1M14 35.6l1-1M18 35.6l1-1M22 35.6l1-1M26 35.6l1-1M30 35.6l1-1" ${I} stroke-width="0.4"/>
     <path d="M12 20.5v6M15 21v8M25 21v8M28 20.5v6" ${I} stroke-width="0.4"/>`,
 };
+// viñetas de color: contorno grueso, colores planos, una sombra y un brillo blanco (caja de 40 × 40)
+const IC = { red:'#e2463a', redD:'#b42f27', green:'#7cc35a', greenD:'#4c9a3f', soil:'#8a5a3a', bean:'#ecca94', roast:'#7a4523', roastD:'#55301a',
+  honey:'#f4b83a', flame:'#ff8a3d', flameY:'#ffd04a', blue:'#8fcbe6', blueD:'#5aa6c8', bag:'#56658f', bagD:'#3f4b70', wood:'#c98a4b', woodD:'#a46b34', cream:'#fff4e2', creamD:'#efd9b8', sun:'#ffcd3c' };
+function colorIcon(key) {
+  const OUT = COL.ink, O = w => `stroke="${OUT}" stroke-width="${w || 1.9}" stroke-linejoin="round" stroke-linecap="round"`;
+  const sh = (d, fill, shade, sd) => `<path d="${d}" fill="${fill}"/>` + (shade ? `<path d="${sd}" fill="${shade}"/>` : '') + `<path d="${d}" fill="none" ${O()}/>`;
+  const tube = (d, c, w = 1.8) => `<path d="${d}" fill="none" stroke="${OUT}" stroke-width="${w + 2}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  const hl = d => `<path d="${d}" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/>`;
+  const icons = {
+    siembra: () => sh('M10 21H30L28.2 35.5Q20 37.5 11.8 35.5Z', IC.bag, IC.bagD, 'M24 21.5H30L28.2 35.5Q26 36.3 23.5 36.6Z')
+      + `<ellipse cx="20" cy="21.5" rx="10.5" ry="2.6" fill="${IC.soil}" ${O()}/>`
+      + tube('M20 21V13.5', IC.greenD)
+      + sh('M19.5 14.5C13 15.5 7.5 11.5 7.5 6.5C14 6 18.5 9.5 19.5 14.5Z', IC.green, IC.greenD, 'M19.5 14.5C15 12 11 9 7.5 6.5C14 6 18.5 9.5 19.5 14.5Z')
+      + sh('M20.5 14.5C27 15.5 32.5 11.5 32.5 6.5C26 6 21.5 9.5 20.5 14.5Z', IC.green, IC.greenD, 'M20.5 14.5C25 12 29 9 32.5 6.5C26 6 21.5 9.5 20.5 14.5Z')
+      + hl('M11 9.2Q12.8 8.4 14.6 9.2') + hl('M13 25V31.5'),
+    cultivo: () => tube('M4 10C14 13 24 20 31 34', IC.wood)
+      + sh('M13 11.6C15 5 23 3 28 5C24 9.6 18 12 13 11.6Z', IC.green, IC.greenD, 'M13 11.6C18 9 23 7 28 5C24 9.6 18 12 13 11.6Z')
+      + sh('M15.5 16.5C9.5 17 4 23 4.5 30C10.5 28 14.6 23 15.5 16.5Z', IC.green, IC.greenD, 'M15.5 16.5C11 21 7 25.5 4.5 30C10.5 28 14.6 23 15.5 16.5Z')
+      + sh('M27 24.5C32.5 21.5 38 25 38 31.5C32.5 31 28.5 28 27 24.5Z', IC.green, IC.greenD, 'M27 24.5C31 27 34.5 29.3 38 31.5C32.5 31 28.5 28 27 24.5Z')
+      + [[20.5, 19.5], [25.8, 21.6], [21.8, 25.4]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3.4" fill="${IC.red}" ${O()}/><circle cx="${x - 1.1}" cy="${y - 1.1}" r="0.9" fill="#fff"/>`).join(''),
+    despulpado: () => tube('M20 7.4C20 5 21.6 3 24 2.2', IC.greenD, 1.6)
+      + sh('M20 7.5A14 14 0 1 1 19.99 7.5Z', IC.red, IC.redD, 'M20 7.5A14 14 0 0 1 20 35.5A10 14 0 0 0 20 7.5Z')
+      + `<circle cx="20" cy="21.5" r="10.6" fill="${IC.honey}" ${O(1.4)}/>`
+      + `<ellipse cx="15.7" cy="21.5" rx="4.3" ry="7.6" fill="${IC.bean}" ${O(1.6)}/><ellipse cx="24.3" cy="21.5" rx="4.3" ry="7.6" fill="${IC.bean}" ${O(1.6)}/>`
+      + `<path d="M15.7 14.6C14 18 17.4 25 15.7 28.4M24.3 14.6C22.6 18 26 25 24.3 28.4" fill="none" ${O(1.2)}/>`
+      + hl('M9.5 15.5Q11.5 11.5 15 9.8'),
+    secado: () => Array.from({ length: 8 }, (_, k) => { const a = k * Math.PI / 4, c = Math.cos(a), si = Math.sin(a); return tube(`M${(30 + 6.4 * c).toFixed(1)} ${(9 + 6.4 * si).toFixed(1)}L${(30 + 8.6 * c).toFixed(1)} ${(9 + 8.6 * si).toFixed(1)}`, IC.flame, 1.2); }).join('')
+      + `<circle cx="30" cy="9" r="4.6" fill="${IC.sun}" ${O()}/>` + hl('M27.6 7.6Q28.4 6.4 29.8 6.1')
+      + `<rect x="7" y="24.6" width="3.2" height="11" rx="0.6" fill="${IC.woodD}" ${O()}/><rect x="29.8" y="24.6" width="3.2" height="11" rx="0.6" fill="${IC.woodD}" ${O()}/>`
+      + tube('M9 30.6H31', IC.wood, 1.4)
+      + [8, 12.5, 17, 21.5, 26].map((x, k) => `<ellipse cx="${x + 2.6}" cy="18.6" rx="2.4" ry="1.7" fill="${k % 2 ? IC.red : IC.honey}" ${O(1.2)}/>`).join('')
+      + `<rect x="4" y="20" width="32" height="4.6" rx="0.9" fill="${IC.wood}" ${O()}/>` + hl('M6.4 21.7H15'),
+    tostion: () => `<g transform="rotate(-28 20 15)">` + sh('M20 3.2A8.4 11.8 0 1 1 19.99 3.2Z', IC.roast, IC.roastD, 'M20 3.2A8.4 11.8 0 0 1 20 26.8A5 11.8 0 0 0 20 3.2Z')
+      + `<path d="M20 4C16.4 9 23.6 21 20 26" fill="none" stroke="${IC.creamD}" stroke-width="1.5" stroke-linecap="round"/>` + hl('M14.4 9.5Q15.3 7 17.4 5.8') + `</g>`
+      + sh('M10 38C7 33 10 30 12.5 27C13 30 15 30.5 15.5 28.5C17 31 18.5 29 19 25.5C21.5 29 23.5 30 24.2 27.5C25.4 30 27.5 30.5 28 27C31 30.5 33 34 30 38Z', IC.flame, IC.flameY, 'M13.5 37.8C12.5 35 14 33 15.5 31.5C16.5 33.5 18.5 33.5 19.5 31C21 33.5 23 33.5 24.2 31.5C25.8 33.5 27 35.5 26.5 37.8Z')
+      + `<path d="M7 38.4H33" fill="none" ${O()}/>`,
+    molienda: () => tube('M20 13.5V5H30.5', IC.blueD, 1.6)
+      + `<rect x="29.2" y="1.4" width="4.2" height="7.8" rx="2.1" fill="${IC.red}" ${O()}/>`
+      + sh('M10.5 16Q20 7.5 29.5 16Z', IC.blue, IC.blueD, 'M24 16Q27 13.6 29.5 16Z') + hl('M13.6 13.8Q15.6 12 18 11.4')
+      + sh('M11.2 16H28.8Q30 16 30 17.2V34.3Q30 35.5 28.8 35.5H11.2Q10 35.5 10 34.3V17.2Q10 16 11.2 16Z', IC.wood, IC.woodD, 'M25 16H28.8Q30 16 30 17.2V34.3Q30 35.5 28.8 35.5H25Z')
+      + `<rect x="13" y="27.4" width="14" height="5.2" rx="0.8" fill="${IC.woodD}" ${O(1.4)}/><circle cx="20" cy="30" r="1.2" fill="${IC.honey}" ${O(1)}/>` + hl('M12.6 18.6V24'),
+    taza: () => `<path d="M15 11.5C13 9 17 7 15 4M20 11.5C18 9 22 7 20 4M25 11.5C23 9 27 7 25 4" fill="none" ${O(1.5)}/>`
+      + `<ellipse cx="20" cy="34.6" rx="15.2" ry="3.3" fill="${IC.blue}" ${O()}/>` + hl('M8.6 34Q11 32.8 14 32.6')
+      + tube('M31 18.2C37 18.2 37 26.4 31 26.4', IC.cream, 1.6)
+      + sh('M9 15H31V22C31 28.5 26.5 32.5 20 32.5C13.5 32.5 9 28.5 9 22Z', IC.cream, IC.creamD, 'M25 15.5H31V22C31 28.5 26.5 32.5 20 32.5C24 30.5 25.5 26 25 22Z')
+      + `<ellipse cx="20" cy="15" rx="11" ry="2.4" fill="${IC.roast}" ${O(1.4)}/>` + hl('M12.6 18.6V25'),
+  };
+  return icons[key]();
+}
 function vignette(key, cx, cy, size) {
   const k = size / 40, sw = 1;
   const I = `fill="none" stroke="${COL.ink}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"`;
   const F = `fill="${paper()}" stroke="${COL.ink}" stroke-width="${sw}" stroke-linejoin="round"`;
   const A = `fill="${COL.field}" stroke="${COL.ink}" stroke-width="0.8"`;
   const M = `fill="${COL.field}" fill-opacity="0.28" stroke="${COL.field}" stroke-width="0.6" stroke-dasharray="1.4 1"`;
-  return `<g transform="translate(${r2(cx - size/2)} ${r2(cy - size/2)}) scale(${r2(k)})">${ICONS[key](I, F, A, M)}</g>`;
+  return `<g transform="translate(${r2(cx - size/2)} ${r2(cy - size/2)}) scale(${r2(k)})">${colorIcon(key)}</g>`;
 }
 function journey(y, kind, o = {}) {
-  const R = o.r || 9.5, gap = o.gap || 31, icon = R * 1.62;
-  const stops = [
+  const W = o.w || 100, R = o.r || 9.5, gap = o.gap || 31, icon = R * 1.74, cw = (W - 12) / 4;
+  const c = k => 6 + (k + 0.5) * cw;
+  const stops = o.short ? [
+    ['siembra', 'Siembra', 'Nace la chapola'],
+    ['cultivo', 'Cultivo', 'Cosecha a mano'],
+    ['despulpado', 'Despulpado', 'Con su mucílago'],
+    ['secado', 'Secado', 'Al sol, a diario'],
+    ['tostion', 'Tostión', 'Media, cada semana'],
+    ['molienda', 'Molienda', kind === 'grano' ? 'Justo antes de preparar' : 'Según tu método'],
+    ['taza', 'Taza', 'Dulzor de panela'],
+  ] : [
     ['siembra', 'Siembra', 'Nace la chapola.'],
     ['cultivo', 'Cultivo', 'Castillo a 1.950 m, cosechado a mano.'],
     ['despulpado', 'Despulpado', 'Se conserva el mucílago.'],
@@ -409,152 +472,89 @@ function journey(y, kind, o = {}) {
     ['molienda', 'Molienda', kind === 'grano' ? 'En casa, justo antes de preparar.' : 'A pedido, según tu método.'],
     ['taza', 'Taza', 'Caña de azúcar, apanelado.'],
   ];
-  const cy1 = y + R + 1, cy2 = cy1 + gap;
-  const pos = [[17, cy1], [39, cy1], [61, cy1], [83, cy1], [72, cy2], [50, cy2], [28, cy2]];
+  const cy1 = y + R + 1, cy2 = o.row ? cy1 : cy1 + gap, cw7 = (W - 12) / 7;
+  const pos = o.row ? stops.map((_, k) => [6 + (k + 0.5) * cw7, cy1]) : [[c(0), cy1], [c(1), cy1], [c(2), cy1], [c(3), cy1], [c(2.5), cy2], [c(1.5), cy2], [c(0.5), cy2]];
   // camino de montaña: va, baja en curva y regresa
   const dash = `fill="none" stroke="${mix(COL.field, paper(), 0.8)}" stroke-width="0.35" stroke-dasharray="1 0.9"`;
-  let s = `<path d="M17 ${cy1}H83M${83 + R} ${cy1}C97.2 ${cy1 + gap*0.25} 97.2 ${cy2 - gap*0.15} ${72 + R} ${cy2}H28" ${dash}/>`;
+  const xr = W - 2.8;
+  let s = o.row ? `<path d="M${r2(pos[0][0])} ${cy1}H${r2(pos[6][0])}" ${dash}/>`
+    : `<path d="M${r2(c(0))} ${cy1}H${r2(c(3))}M${r2(c(3) + R)} ${cy1}C${xr} ${r2(cy1 + gap*0.25)} ${xr} ${r2(cy2 - gap*0.15)} ${r2(c(2.5) + R)} ${cy2}H${r2(c(0.5))}" ${dash}/>`;
+  const nameS = o.row ? 2.15 : o.short ? 2.3 : 2.45, capS = 2;
   stops.forEach(([key, name, cap], i) => {
     const [cx, cy] = pos[i];
-    s += `<circle cx="${cx}" cy="${cy}" r="${R}" fill="${paper()}" stroke="${COL.ink}" stroke-width="0.25" opacity="1"/>`;
-    s += `<circle cx="${cx}" cy="${cy}" r="${R - 0.8}" fill="none" stroke="${mix(COL.ink, paper(), 0.4)}" stroke-width="0.15"/>`;
+    s += `<circle cx="${r2(cx)}" cy="${cy}" r="${R}" fill="${paper()}" stroke="${COL.ink}" stroke-width="0.25"/>`;
+    s += `<circle cx="${r2(cx)}" cy="${cy}" r="${R - 0.8}" fill="none" stroke="${mix(COL.ink, paper(), 0.4)}" stroke-width="0.15"/>`;
     s += vignette(key, cx, cy, icon);
-    s += `<circle cx="${r2(cx - R * 0.78)}" cy="${r2(cy - R * 0.72)}" r="2.3" fill="${COL.field}"/>`;
-    s += T(cx - R * 0.78, cy - R * 0.72 + 0.95, String(i + 1), { fam:'B', size:2.8, weight:900, fill:paper(), anchor:'middle' });
-    s += T(cx, cy + R + 3.6, name, { size:2.45, weight:700, anchor:'middle' });
-    s += P(cx, cy + R + 6.4, cap, { size:2, anchor:'middle' }, i === 3 ? 18 : 21, 2.45).svg;
+    const br = Math.min(2.3, R * 0.27);
+    s += `<circle cx="${r2(cx - R * 0.78)}" cy="${r2(cy - R * 0.72)}" r="${r2(br)}" fill="${COL.field}"/>`;
+    s += T(cx - R * 0.78, cy - R * 0.72 + br * 0.42, String(i + 1), { fam:'B', size:br * 1.22, weight:900, fill:paper(), anchor:'middle' });
+    s += T(cx, cy + R + 3.4, name, { size:nameS, weight:700, anchor:'middle' });
+    if (o.row) s += P(cx, cy + R + 5.9, cap, { size:1.95, anchor:'middle' }, cw7 - 0.6, 2.3).svg;
+    else if (o.short) s += T(cx, cy + R + 6.1, cap, { size:capS, anchor:'middle' });
+    else s += P(cx, cy + R + 6.4, cap, { size:capS, anchor:'middle' }, i === 3 ? 18 : 21, 2.45).svg;
   });
-  return { s, end: cy2 + R + 9 };
+  return { s, end: cy2 + R + (o.row ? 8.6 : o.short ? 6.8 : 9) };
 }
 
-// REVERSO: cómo se hace el Honey
-function steps2x2(x, y, colW, rowH) {
-  let s = '';
-  HONEY.steps.forEach(([t, d], i) => {
-    const cx = x + (i % 2) * (colW + 2), cy = y + Math.floor(i / 2) * rowH;
-    s += T(cx - 0.3, cy + 8.6, String(i + 1), { fam:'B', size:11, weight:900, fill:COL.field });
-    s += T(cx + 7.6, cy + 3.2, t, { size:2.7, weight:700 });
-    s += P(cx + 7.6, cy + 6.9, d, { size:2.3 }, colW - 9, 2.95).svg;
-  });
-  return s;
-}
-function legal(y, denom, tight = false) {
-  const fs = tight ? 2.2 : 2.35, gap = tight ? 3.7 : 4.2;
-  let s = L(6, y, 'Ficha del producto', { size:1.8, fill:COL.field, weight:800 });
-  const rows = [['Denominación', denom], ['Ingredientes', '100 % café arábica, variedad Castillo'], ['Origen', 'Producto de Colombia'], ['Reg. sanitario', 'INVIMA NSA-0376-2026'], ['Responsable', S.resp || '[pendiente]']];
-  let yy = y + (tight ? 4.6 : 5.2);
-  rows.forEach(([k, v]) => {
-    s += L(6, yy, k, { size:1.6, op:0.85 });
-    const p = P(31, yy, v, { size:fs, weight:500 }, 63, 2.9); s += p.svg;
-    yy = (k === 'Responsable' ? Math.max(p.end, yy + 2.9) : p.end) + gap;
-  });
-  return { s, end: yy - gap };
-}
-function backGrano() {
-  const w = 100, h = 150; let s = sheetPaper(w, h);
-  s += micro(6, 7.4, 88, MICRO_TOP);
-  s += T(5.6, 19, 'EL VIAJE DEL CAFÉ', { fam:'B', size:9, weight:800 });
-  s += L(94, 18.6, 'Serie 01 · Red Honey', { size:1.7, anchor:'end', fill:COL.field, weight:800 });
-  const sub = P(6, 24.6, 'Conservamos el mucílago durante el secado: esa capa de azúcares del fruto lleva a la taza el dulzor de panela.', { size:2.45, weight:500 }, 88, 3.2);
-  s += sub.svg;
-  const j = journey(sub.end + 2.6, 'grano', { r:10, gap:33 }); s += j.s;
-  s += hair(6, j.end + 1, 94, 0.55, 0.4);
-  const ly = j.end + 6.5;
-  s += legal(ly, 'Café tostado en grano').s;
-  s += seal(83, ly + 1.8, ['LOTE DE LA FINCA', 'MISTRATÓ · 1.950 M'], 0.48);
-  s += foot(w, 132.5, 'Tostamos cada semana', 'Envíos a toda Colombia');
-  s += micro(6, 143.6, 88, MICRO_BOT);
-  return { w, h, s };
-}
-
-// LATERALES (fuelle de 75 mm)
-const SW = 70;
-function sideOrigin() {
-  const w = SW, h = 150; let s = sheetPaper(w, h);
+// REVERSO 12 × 14 cm: viaje, origen, preparación, recetas y ficha
+function backLabel(kind) {
+  const w = 120, h = 140; let s = sheetPaper(w, h);
   s += micro(6, 7.6, w - 12, MICRO_TOP);
-  s += T(5.4, 21, 'TIERRA', { fam:'B', size:12.5, weight:800 }) + T(5.4, 32, 'ANTIGUA', { fam:'B', size:12.5, weight:800 });
-  const o = { size:2.65 };
-  let p = P(6, 39, 'Las montañas de Mistrató, en Risaralda, son tierra de pueblos indígenas. En esta zona se han encontrado vestigios arqueológicos de sus antiguos pobladores.', o, w - 12, 3.55);
-  s += p.svg;
-  p = P(6, p.end + 5.3, 'Hoy, sobre ese mismo suelo, Jhon Edwin Suaza cultiva café Castillo en la Finca La Cumbre.', o, w - 12, 3.55);
-  s += p.svg;
-  const fy = p.end + 4.5;
-  s += hair(6, fy, w - 6);
-  s += field2(6, fy + 4.3, 'Familia', '+45 años', { size:2.9 }) + field2(36, fy + 4.3, 'Beneficio', 'En la finca', { size:2.9 });
-  s += vhair(34, fy + 1.2, fy + 9.8) + hair(6, fy + 11, w - 6);
-  s += field2(6, fy + 15.3, 'Secado', 'Al sol', { size:2.9 }) + field2(36, fy + 15.3, 'Venta', 'Directa', { size:2.9 });
-  s += vhair(34, fy + 12.2, fy + 20.8) + hair(6, fy + 22, w - 6);
-  const ny = Math.max(fy + 41, 118);
-  s += rosette(w - 16, ny - 6, 11, 0.6);
-  s += T(5.2, ny, '1.950', { fam:'B', size:17, weight:900, fill:COL.field });
-  s += T(6, ny + 5.4, 'm s.n.m. · Mistrató', { size:2.3, weight:600 });
-  s += hair(6, 134.5, w - 6) + T(6, 139.8, 'Cada taza es un pequeño hallazgo.', { size:2.6, weight:700, fill:COL.field });
-  s += micro(6, 143.6, w - 12, MICRO_BOT);
-  return { w, h, s };
-}
-function methods(x, y, colW) {
-  const list = [
+  s += T(5.6, 16.8, 'EL VIAJE DEL CAFÉ', { fam:'B', size:8.2, weight:800 });
+  s += L(w - 6, 16.4, 'Serie 01 · Red Honey', { size:1.7, anchor:'end', fill:COL.field, weight:800 });
+  const j = journey(19.4, kind, { w, r:6.2, short:true, row:true }); s += j.s;
+  // origen y preparación en dos columnas
+  let y = j.end + 1;
+  s += hair(6, y, w - 6, 0.55, 0.4);
+  const mx = 63;
+  s += vhair(mx - 2, y + 2, y + 36);
+  s += T(5.6, y + 6.4, 'TIERRA ANTIGUA', { fam:'B', size:5.8, weight:800, fill:COL.field });
+  const st = P(6, y + 11, 'Mistrató, en Risaralda, es tierra de pueblos indígenas; en la zona se han encontrado vestigios arqueológicos de sus antiguos pobladores. Hoy Jhon Edwin Suaza cultiva este café Castillo en la Finca La Cumbre, con una familia de más de 45 años en el café.', { size:2.45 }, mx - 10, 3.15);
+  s += st.svg;
+  s += T(6, st.end + 4, 'Cada taza es un pequeño hallazgo.', { size:2.5, weight:700, fill:COL.field });
+  s += T(mx + 0.4, y + 6.4, 'PREPÁRALO', { fam:'B', size:5.8, weight:800, fill:COL.field });
+  s += L(w - 6, y + 6.2, 'Base 1 : 15', { size:1.6, anchor:'end', weight:800 });
+  const ms = [
     ['Filtrado · V60 / Chemex', '17 g · 250 ml', '92–94 °C · molienda media'],
     ['Prensa francesa', '33 g · 500 ml', '4 minutos · molienda gruesa'],
-    ['Moka', 'AL RAS', 'Filtro lleno, sin compactar · fuego medio · molienda fina'],
+    ['Moka', 'Filtro lleno', 'Sin compactar · molienda fina'],
   ];
-  let s = '';
-  list.forEach(([n, big, det], i) => {
-    const yy = y + i * 13.4;
-    s += L(x, yy, n, { size:1.7, fill:COL.field, weight:800 });
-    s += T(x - 0.2, yy + 6.2, big, { fam:'B', size:6.6, weight:800 });
-    s += P(x, yy + 9.4, det, { size:2.2, weight:500 }, colW, 2.8).svg;
+  ms.forEach(([n, big, det], i) => {
+    const yy = y + 11 + i * 8.6;
+    s += L(mx + 0.4, yy, n, { size:1.6, weight:800, op:0.9 });
+    s += /\d/.test(big) ? T(mx + 0.2, yy + 4.6, big, { fam:'B', size:4.4, weight:800 }) : T(mx + 0.4, yy + 4.4, big, { size:2.8, weight:700 });
+    s += P(mx + 25, yy + 2.6, det, { size:2 }, w - 6 - mx - 25, 2.35).svg;
   });
-  return s;
-}
-function sidePrep() {
-  const w = SW, h = 150; let s = sheetPaper(w, h);
-  s += micro(6, 7.6, w - 12, MICRO_TOP);
-  s += T(5.4, 21, 'PREPÁRALO', { fam:'B', size:12.5, weight:800 });
-  s += L(6, 26, 'Proporción base 1 : 15', { size:1.6, fill:COL.field, weight:800 });
-  s += hair(6, 28.5, w - 6);
-  s += methods(6, 33, w - 12);
-  s += hair(6, 73.5, w - 6, 0.55, 0.4);
-  s += qr(3.6, 74.6, 30, S.qr, COL.ink);
-  s += T(35, 82, 'MÁS DE 50', { fam:'B', size:5.6, weight:800, fill:COL.field }) + T(35, 87.6, 'RECETAS', { fam:'B', size:5.6, weight:800, fill:COL.field });
-  s += P(35, 92, S.qr.replace(/^https?:\/\//, ''), { size:2.05, weight:600 }, w - 41, 2.6).svg;
-  s += hair(6, 103.5, w - 6);
-  s += L(6, 107.6, 'Pedidos', { size:1.7, fill:COL.field, weight:800 });
-  s += T(6, 111.8, 'WhatsApp 321 636 3596', { size:2.7, weight:700 });
-  s += T(6, 115.2, '@cumbre.cafe · cumbrecafe.shop', { size:2.3, weight:500 });
-  s += hair(6, 118, w - 6);
-  s += L(6, 122, 'Conservación', { size:1.7, fill:COL.field, weight:800 });
-  let p = P(6, 125.8, 'Saca el aire y cierra bien la bolsa. Lugar fresco, seco y sin luz. Muélelo justo antes de preparar.', { size:2.2 }, w - 12, 2.8);
-  s += p.svg;
-  const vy = p.end + 3.4, vs = `font-family="${FA}" font-size="2.2" font-weight="700" fill="${COL.field}"`;
-  s += `<text x="6" y="${r2(vy)}" ${vs}>¿La bolsa se infla? Es el CO<tspan font-size="1.5" dy="0.5">2</tspan><tspan dy="-0.5"> de la tostión</tspan></text>`;
-  s += `<text x="6" y="${r2(vy + 2.8)}" ${vs}>saliendo por la válvula.</text>`;
-  s += micro(6, 143.6, w - 12, MICRO_BOT);
-  return { w, h, s };
-}
-
-// REVERSO MOLIDO: proceso, origen, recetas y ficha en una cara
-function backMolido() {
-  const w = 100, h = 150; let s = sheetPaper(w, h);
-  s += micro(6, 7.6, 88, MICRO_TOP);
-  s += T(5.6, 19, 'EL VIAJE DEL CAFÉ', { fam:'B', size:9, weight:800 });
-  s += L(94, 18.6, 'Serie 01 · Red Honey', { size:1.7, anchor:'end', fill:COL.field, weight:800 });
-  s += T(6, 24.2, 'Conservamos el mucílago al secar: así llega a la taza el dulzor de panela.', { size:2.3, weight:500 });
-  s += T(6, 27.2, 'Mistrató, Risaralda: tierra de pueblos indígenas y de vestigios arqueológicos.', { size:2.3, weight:500 });
-  const j = journey(29, 'molido', { r:9, gap:27.6 }); s += j.s;
-  let y = j.end + 1.4;
-  s += hair(6, y, 94, 0.55, 0.4);
-  s += qr(3.6, y + 0.6, 25.6, S.qr, COL.ink);
-  s += T(30, y + 6.8, 'MÁS DE 50 RECETAS', { fam:'B', size:5.2, weight:800, fill:COL.field });
-  s += T(30, y + 10.2, S.qr.replace(/^https?:\/\//, ''), { size:2.05, weight:600 });
-  s += T(30, y + 14.2, 'WhatsApp 321 636 3596 · @cumbre.cafe', { size:2.3, weight:700 });
-  s += L(30, y + 18.8, 'Conservación', { size:1.6, fill:COL.field, weight:800 });
-  s += T(30, y + 22, 'Sin aire, en lugar fresco, seco y sin luz.', { size:2.05 });
-  y += 26.8;
-  s += hair(6, y, 94);
-  const lg = legal(y + 4.4, 'Café tostado molido', true); s += lg.s;
-  s += micro(6, 143.6, 88, MICRO_BOT);
-  return { w, h, s, end: lg.end };
+  // recetas: QR grande a la izquierda, centrado en su franja, con el texto a la derecha
+  y = Math.max(st.end + 6.5, y + 37);
+  s += hair(6, y, w - 6, 0.55, 0.4);
+  const q = 31, qx = 5.2; s += qr(qx, y + 0.6, q, S.qr, COL.ink);
+  const yc = y + 0.6 + q / 2, rx = qx + q + 2;
+  s += T(rx, yc - 6.4, 'MÁS DE 50 RECETAS', { fam:'B', size:6.4, weight:800, fill:COL.field });
+  s += T(rx, yc - 2.2, 'Escanea el código y prepara tu café como nunca antes.', { size:2.2, weight:500 });
+  s += hair(rx, yc + 0.6, w - 6, 0.3, 0.2);
+  s += L(rx, yc + 4.4, 'Pedidos', { size:1.6, fill:COL.field, weight:800 });
+  s += T(rx, yc + 8.2, 'WhatsApp 321 636 3596', { size:2.6, weight:700 });
+  s += T(rx, yc + 11.6, 'cumbrecafe.shop', { size:2.1, weight:600 });
+  // ficha legal en dos columnas
+  y += q + 2.2;
+  s += hair(6, y, w - 6, 0.3, 0.2);
+  const half = (w - 12) / 2, cols = [
+    [['Producto', 'Café tostado · 100 % café arábica, variedad Castillo · Producto de Colombia'], ['Reg. sanitario', 'INVIMA NSA-0376-2026']],
+    [['Conservación', 'Sin aire, en lugar fresco, seco y sin luz.'], ['Responsable', S.resp || '[pendiente]', 2]],
+  ];
+  let yy = y, end = y;
+  cols.forEach((col, ci) => {
+    let cy = y + 3.4; const x = 6 + ci * (half + 2);
+    col.forEach(([k, v, min]) => {
+      s += L(x, cy, k, { size:1.5, op:0.85 });
+      const p = P(x, cy + 3, v, { size:2 }, half - 2, 2.45);
+      s += p.svg; cy = Math.max(p.end, cy + 3 + ((min || 1) - 1) * 2.45) + 3.6;
+    });
+    end = Math.max(end, cy);
+  });
+  yy = end;
+  return { w, h, s, end: yy - 3.3 };
 }
 
 /* ---------- ensamblado ---------- */
@@ -620,28 +620,16 @@ function testSheet() {
 function sheet() {
   if (S.sheet === 'prueba') return testSheet();
   const X = 5.95, Y = 6; let s = `<rect width="215.9" height="279.4" fill="#fff"/>`;
-  if (S.sheet === 'grano1') {
-    s += place(front(), X, Y);
-    s += place(sideOrigin(), X + 104, Y);
-    s += place(sidePrep(), X, Y + 154, true);
-    s += place(stamp(stubKind('grano')), X + 154, Y + 154);
-  } else if (S.sheet === 'grano2') {
-    s += place(backGrano(), X, Y);
-    s += place(backGrano(), X + 104, Y);
-    for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) s += place(stamp(stubKind('grano')), X + c * 54, Y + 154 + r * 54);
-  } else if (S.sheet === 'laterales') {
-    // los dos laterales en vertical, una columna de 3 desprendibles y una fila de 3 más
-    s += place(sideOrigin(), X, Y);
-    s += place(sidePrep(), X + SW + 4, Y);
-    for (let r = 0; r < 3; r++) s += place(stamp(stubKind('grano')), X + 2 * (SW + 4), Y + r * 54);
-    for (let c = 0; c < 3; c++) s += place(stamp(stubKind('grano')), X + c * 54, Y + 162);
+  if (S.sheet === 'frentes') {
+    s += place(front(), X, Y) + place(front(), X + 104, Y);
+    for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) s += place(stamp(kindAt(r, 2)), X + c * 54, Y + 154 + r * 54);
   } else {
-    s += place(front(), X, Y);
-    s += place(backMolido(), X + 104, Y);
-    for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) s += place(stamp(stubKind('molido')), X + c * 54, Y + 154 + r * 54);
+    // dos reversos girados (14 × 12) y una columna de 4 desprendibles
+    s += place(backLabel(kindAt(0, 2)), X, Y, true) + place(backLabel(kindAt(1, 2)), X, Y + 124, true);
+    for (let r = 0; r < 4; r++) s += place(stamp(kindAt(r, 4)), X + 148, Y + r * 54);
   }
   s += `<path d="M${X} 271v2M${X} 272h50M${X+50} 271v2" stroke="#000" stroke-width="0.2" fill="none"/>`;
-  s += `<text x="${X + 53}" y="272.8" font-family="Arial, sans-serif" font-size="2.2" fill="#444">Control de escala: esta línea debe medir 50 mm. Imprime al 100 % (tamaño real). ${{grano1:'Bolsa de grano · hoja 1 de 2', grano2:'Bolsa de grano · hoja 2 de 2 (rinde 2 bolsas)', molido:'Bolsa de molido', laterales:'Laterales + 6 desprendibles'}[S.sheet]} · ${S.peso} g</text>`;
+  s += `<text x="${X + 53}" y="272.8" font-family="Arial, sans-serif" font-size="2.2" fill="#444">Control de escala: esta línea debe medir 50 mm. Imprime al 100 % (tamaño real). ${{frentes:'Frentes · 2 bolsas', reversos:'Reversos · 2 bolsas'}[S.sheet]} · ${{grano:'en grano', molido:'molido', mixta:'grano y molido'}[S.stub]} · ${S.peso} g</text>`;
   return { w: 215.9, h: 279.4, s };
 }
 
@@ -649,10 +637,8 @@ const PIECES = () => [
   { key:'frontal', name:'Frontal · billete Serie 01', face:'Cara frontal · ambas bolsas · debajo de la válvula', p: front() },
   { key:'desprendible-grano', name:'Desprendible grano', face:'Frontal, junto al billete · bolsa de grano', p: stamp('grano') },
   { key:'desprendible-molido', name:'Desprendible molido', face:'Frontal, junto al billete · bolsa de molido · marca la molienda con esfero', p: stamp('molido') },
-  { key:'trasera-grano', name:'Reverso grano · el viaje del café', face:'Cara trasera · bolsa de grano', p: backGrano() },
-  { key:'lateral-origen', name:'Lateral · Tierra antigua', face:'Fuelle izquierdo · bolsa de grano', p: sideOrigin() },
-  { key:'lateral-preparalo', name:'Lateral · Prepáralo', face:'Fuelle derecho · bolsa de grano', p: sidePrep() },
-  { key:'trasera-molido', name:'Reverso molido · el viaje del café', face:'Cara trasera · bolsa de molido', p: backMolido() },
+  { key:'reverso-grano', name:'Reverso grano', face:'Cara trasera · bolsa de grano', p: backLabel('grano') },
+  { key:'reverso-molido', name:'Reverso molido', face:'Cara trasera · bolsa de molido', p: backLabel('molido') },
 ];
 
 /* ---------- fuentes embebidas para el .svg descargado ---------- */
@@ -679,6 +665,46 @@ async function fontStyle() {
   } catch (e) { css = ''; }
   fontCache = css; return css;
 }
+/* ---------- exportar en PNG o JPG a alta resolución, con los ppp grabados en el archivo ---------- */
+const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function crc32(bytes) { let c = 0xffffffff; for (const b of bytes) c = CRC[(c ^ b) & 0xff] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; }
+function setPngDpi(buf, dpi) {
+  // inserta un bloque pHYs justo después del IHDR para que el programa de impresión respete el tamaño real
+  const ppm = Math.round(dpi / 0.0254), chunk = new Uint8Array(21), dv = new DataView(chunk.buffer);
+  dv.setUint32(0, 9); chunk.set([0x70, 0x48, 0x59, 0x73], 4); dv.setUint32(8, ppm); dv.setUint32(12, ppm); chunk[16] = 1;
+  dv.setUint32(17, crc32(chunk.subarray(4, 17)));
+  const out = new Uint8Array(buf.length + 21); out.set(buf.subarray(0, 33)); out.set(chunk, 33); out.set(buf.subarray(33), 54); return out;
+}
+function setJpgDpi(buf, dpi) {
+  // ajusta la densidad del encabezado JFIF (unidades en pulgadas)
+  if (buf[2] === 0xff && buf[3] === 0xe0 && String.fromCharCode(...buf.subarray(6, 10)) === 'JFIF') { buf[13] = 1; buf[14] = dpi >> 8; buf[15] = dpi & 255; buf[16] = dpi >> 8; buf[17] = dpi & 255; }
+  return buf;
+}
+async function rasterize(piece, type, dpi) {
+  const css = await fontStyle();
+  const W = Math.round(piece.w / 25.4 * dpi), H = Math.round(piece.h / 25.4 * dpi);
+  const svg = svgDoc(piece, css).replace(`width="${piece.w}mm" height="${piece.h}mm"`, `width="${W}" height="${H}"`);
+  const url = URL.createObjectURL(new Blob([svg], { type:'image/svg+xml' }));
+  const img = new Image();
+  await new Promise((ok, ko) => { img.onload = ok; img.onerror = () => ko(new Error('svg')); img.src = url; });
+  const c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, W, H); x.drawImage(img, 0, 0, W, H);
+  URL.revokeObjectURL(url);
+  const blob = await new Promise(r => c.toBlob(r, type === 'jpg' ? 'image/jpeg' : 'image/png', 0.95));
+  let buf = new Uint8Array(await blob.arrayBuffer());
+  buf = type === 'png' ? setPngDpi(buf, dpi) : setJpgDpi(buf, dpi);
+  return { blob: new Blob([buf], { type: blob.type }), css: !!css };
+}
+async function downloadImage(name, piece, type) {
+  const status = $('printStatus'), dpi = parseInt($('dpi').value, 10) || 300;
+  status.textContent = `Generando ${type.toUpperCase()} a ${dpi} ppp…`;
+  try {
+    const { blob, css } = await rasterize(piece, type, dpi);
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${name}-${dpi}ppp.${type}`; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    status.textContent = css ? `Listo: ${type.toUpperCase()} a ${dpi} ppp, tamaño real ${piece.w} × ${piece.h} mm.` : 'Atención: no se pudieron incrustar las fuentes (¿sin conexión?); el texto de la imagen usará fuentes del sistema.';
+  } catch (e) { status.textContent = 'No se pudo generar la imagen. Prueba con 300 ppp o recarga la página.'; }
+}
 async function download(name, piece) {
   const css = await fontStyle();
   if (!css) alert('No se pudieron incrustar las fuentes (¿sin conexión?). El SVG se descargará igual, pero el texto usará fuentes del sistema.');
@@ -698,15 +724,21 @@ function render() {
   PIECES().forEach(({ key, name, face, p }) => {
     const card = document.createElement('div'); card.className = 'piece';
     card.innerHTML = `<div class="art">${svgDoc(p)}</div><div><h3>${name}</h3><div class="meta">${p.w} × ${p.h} mm · ${face}</div></div>`;
-    const b = document.createElement('button'); b.className = 'sec'; b.textContent = 'Descargar .svg';
-    b.setAttribute('aria-label', `Descargar ${name} en .svg`);
-    b.onclick = () => download(`cumbre-${key}-${p.w}x${p.h}mm`, p);
-    card.appendChild(b); grid.appendChild(card);
+    const row = document.createElement('div'); row.className = 'btns'; row.style.margin = '0';
+    ['svg', 'png', 'jpg'].forEach(t => {
+      const b = document.createElement('button'); b.className = 'sec'; b.textContent = '.' + t;
+      b.setAttribute('aria-label', `Descargar ${name} en .${t}`);
+      b.onclick = () => t === 'svg' ? download(`cumbre-${key}-${p.w}x${p.h}mm`, p) : downloadImage(`cumbre-${key}-${p.w}x${p.h}mm`, p, t);
+      row.appendChild(b);
+    });
+    card.appendChild(row); grid.appendChild(card);
   });
 }
 ['sheet','stub','peso','paper','resp','qr'].forEach(k => $(k).addEventListener('input', render));
 $('dlSheet').onclick = () => { read(); download(`cumbre-hoja-${S.sheet}-${S.peso}g-carta`, sheet()); };
-const SHEET_NAMES = { grano1:'grano-hoja1', grano2:'grano-hoja2', molido:'molido', laterales:'laterales', prueba:'prueba-calidad' };
+$('dlSheetPng').onclick = () => { read(); downloadImage(`cumbre-hoja-${S.sheet}-${S.peso}g-carta`, sheet(), 'png'); };
+$('dlSheetJpg').onclick = () => { read(); downloadImage(`cumbre-hoja-${S.sheet}-${S.peso}g-carta`, sheet(), 'jpg'); };
+const SHEET_NAMES = { frentes:'frentes', reversos:'reversos', prueba:'prueba-calidad' };
 async function printSheet(kind) {
   const prev = $('sheet').value;
   if (kind) { $('sheet').value = kind; }
