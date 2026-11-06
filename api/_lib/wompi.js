@@ -199,11 +199,14 @@ async function fetchTransaction(id, env = process.env, fetchImpl = fetch) {
 }
 
 /** Convierte una transacción aprobada en la venta que registra el panel privado. */
-function toWebOrder(tx) {
+// La consulta a Wompi (GET /transactions/:id) no devuelve la dirección de envío; el aviso de eventos sí.
+// El aviso llega firmado con el secreto de eventos, así que se toma de ahí, solo si es de esta transacción.
+function toWebOrder(tx, eventTx) {
   const lines = parseReference(tx.reference);
   const total = totalOf(lines);
   if (total * 100 !== tx.amount_in_cents) throw new OrderError("El monto pagado no coincide con el pedido.");
-  const ship = tx.shipping_address || {};
+  const ship =
+    tx.shipping_address || (eventTx && eventTx.id === tx.id && eventTx.shipping_address) || {};
   const cust = tx.customer_data || {};
   return {
     reference: tx.reference,

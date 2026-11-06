@@ -253,3 +253,14 @@ test("createCheckout: en un preview vuelve al preview; en producción, al domini
   const prev = W.createCheckout({ items, customer: CUSTOMER }, { ...ENV, VERCEL_ENV: "preview", VERCEL_BRANCH_URL: "tienda-git-wompi-alex.vercel.app" });
   assert.equal(prev.redirectUrl, "https://tienda-git-wompi-alex.vercel.app/pedido/estado");
 });
+
+test("toWebOrder: la dirección sale del aviso firmado cuando la consulta no la trae (así responde Wompi)", () => {
+  const { shipping_address: ship, ...tx } = approvedTx();
+  const fromEvent = W.toWebOrder(tx, { id: tx.id, shipping_address: ship });
+  assert.equal(fromEvent.customer.address, "Cra 43A # 1-50");
+  assert.equal(fromEvent.customer.city, "Medellín");
+  assert.equal(fromEvent.customer.region, "Antioquia");
+  // Un aviso de otra transacción no aporta datos
+  const other = W.toWebOrder(tx, { id: "otra", shipping_address: ship });
+  assert.equal(other.customer.address, null);
+});
