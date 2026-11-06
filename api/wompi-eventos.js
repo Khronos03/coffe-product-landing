@@ -20,6 +20,15 @@ module.exports = async (req, res) => {
     // Fuente de verdad: la transacción consultada a Wompi, no el contenido del aviso.
     const tx = await fetchTransaction(id);
     if (tx.status !== "APPROVED") return res.status(200).json({ status: tx.status });
+    // Diagnóstico (sin datos personales): qué campos trae la transacción y el aviso.
+    console.log(
+      "wompi-eventos: campos",
+      JSON.stringify({
+        consulta: Object.keys(tx).sort(),
+        envioConsulta: tx.shipping_address ? Object.keys(tx.shipping_address).sort() : null,
+        envioAviso: event.data.transaction.shipping_address ? Object.keys(event.data.transaction.shipping_address).sort() : null,
+      })
+    );
     const order = toWebOrder(tx);
     const result = await forwardToAdmin(order);
     console.log(
@@ -27,7 +36,7 @@ module.exports = async (req, res) => {
       order.reference,
       result.skipped
         ? "(panel sin configurar)"
-        : `→ panel: venta ${result.saleId}${result.duplicate ? " (ya registrada)" : result.newClient ? ", cliente nuevo" : ""}`
+        : `→ panel${result.saleId ? `: venta ${result.saleId}` : ""}${result.duplicate ? " (ya registrada)" : result.newClient ? ", cliente nuevo" : ""}`
     );
     return res.status(200).json({ ok: true, reference: order.reference });
   } catch (err) {

@@ -128,7 +128,7 @@ export default function OrderStatus() {
   ].filter(Boolean));
 
   return (
-    <div className="bt nf" data-ink="violet">
+    <div className="bt nf is-status" data-ink="violet">
       <SiteHeader onHome={false} skipTo="#estado" skipLabel="Saltar al estado del pago" />
       <main className="nf-field">
         <WaveField className="field-waves" />

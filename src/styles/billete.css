@@ -3023,6 +3023,13 @@ html:has(.bt) {
   justify-content: space-between;
   gap: 16px;
 }
+/* En el comprobante el sello va al final, alineado a la derecha: los títulos son cortos y el texto
+   ocupa la altura donde el 404 pone el sello, así que absoluto se monta sobre el párrafo. */
+.nf.is-status .stamp.nf-void {
+  position: static;
+  align-self: flex-end;
+  margin: 4px 4px 0 0;
+}
 .stamp.nf-void.is-paid {
   color: var(--violet-field);
   border-color: var(--violet-field);
