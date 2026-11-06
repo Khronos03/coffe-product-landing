@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
-import { FiMail, FiArrowUp } from "react-icons/fi";
+import { FiMail, FiArrowUp, FiLock } from "react-icons/fi";
 import logo from "../../assets/logo-cumbre.webp";
 import { WHATSAPP_NUMBER, formatCOP, whatsappUrl } from "../../data/catalog";
 import { Microtext } from "./Security";
 import { trackAttrs } from "./OrderStub";
 import { openConsent } from "../../consent";
-import { useCart } from "../../cart";
+import { ONLINE_PAYMENTS, useCart } from "../../cart";
 import CartPanel from "./CartPanel";
 
 const NAV = [
@@ -160,6 +160,19 @@ export function MobileOrderBar({ serie, order }) {
     }
     order.markOpened();
   };
+  // Con pago en línea, la barra compra (agrega y abre el pedido) en vez de abrir WhatsApp.
+  const buyButton = ONLINE_PAYMENTS && (
+    <button
+      type="button"
+      className="order-bar-button"
+      tabIndex={show ? 0 : -1}
+      onClick={() => order.buy("barra_movil")}
+    >
+      {order.ready ? <FiLock aria-hidden="true" /> : null}
+      {order.ready ? "Comprar" : "Elegir molienda"}
+      <span className="sr-only"> {serie.name} en línea</span>
+    </button>
+  );
   return (
     <div className={`order-bar ${show ? "is-visible" : ""}`} data-ink={serie.ink} aria-hidden={!show}>
       <span className="order-bar-text">
@@ -168,6 +181,7 @@ export function MobileOrderBar({ serie, order }) {
           {order.opened ? "Abierto en WhatsApp, falta enviarlo" : order.grindLabel || "Falta elegir la molienda"}
         </span>
       </span>
+      {buyButton || (
       <a
         className="order-bar-button"
         href={order.href}
@@ -181,6 +195,7 @@ export function MobileOrderBar({ serie, order }) {
         {!order.ready ? "Elegir molienda" : order.opened ? "Reabrir" : "Pedir"}
         <span className="sr-only"> {serie.name} por WhatsApp</span>
       </a>
+      )}
     </div>
   );
 }

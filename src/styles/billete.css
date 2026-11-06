@@ -3034,3 +3034,40 @@ html:has(.bt) {
   color: var(--violet-field);
   border-color: var(--violet-field);
 }
+
+/* ── Pago en línea como acción principal ──────────────────────────────── */
+/* El botón de comprar usa el mismo desprendible que antes usaba WhatsApp. */
+button.tear-button,
+button.order-bar-button {
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+button.order-bar-button {
+  gap: 8px;
+  font-size: inherit;
+}
+.bt button.tear-button {
+  color: var(--stock);
+}
+/* WhatsApp como alternativa: enlace con ícono, sin peso de botón. */
+.wa-alt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+.bt a.wa-alt {
+  color: var(--ink);
+}
+.wa-alt svg {
+  flex-shrink: 0;
+  font-size: 1.1em;
+}

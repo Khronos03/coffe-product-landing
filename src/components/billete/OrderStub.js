@@ -3,7 +3,7 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { IoLogoWhatsapp } from "react-icons/io";
-import { FiAlertCircle } from "react-icons/fi";
+import { FiAlertCircle, FiLock } from "react-icons/fi";
 import { GRIND_OPTIONS, ORDER_TERMS, formatCOP, whatsappUrl } from "../../data/catalog";
 import { readDraft, readPending, writeDraft, writePending } from "./orderMemory";
 import { track } from "../../analytics";
@@ -24,20 +24,33 @@ export function buildOrderMessage({ product, serial, details, sizeLabel, grindLa
  * Mientras el pedido no está completo (falta la molienda), `href` apunta al campo pendiente
  * y no abre otra pestaña; `onTorn` decide qué hacer con el clic.
  */
-export function TearButton({ href, children, className = "", onTorn, trackData }) {
+export function TearButton({ href, children, className = "", onTorn, trackData, secondary = false }) {
   const external = /^https?:/.test(href);
   return (
     <a
-      className={`tear-button ${className}`}
+      className={`${secondary ? "wa-alt" : "tear-button"} ${className}`}
       href={href}
       {...trackAttrs(trackData)}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
       onClick={onTorn}
     >
-      <IoLogoWhatsapp aria-hidden="true" className="tear-button-icon" />
+      <IoLogoWhatsapp aria-hidden="true" className={secondary ? undefined : "tear-button-icon"} />
       <span>{children}</span>
     </a>
+  );
+}
+
+/**
+ * Botón principal cuando el pago en línea está activo: agrega al pedido y lo abre para pagar.
+ * Se ve como el desprendible; WhatsApp queda como alternativa secundaria.
+ */
+export function BuyButton({ onBuy, children, className = "" }) {
+  return (
+    <button type="button" className={`tear-button is-buy ${className}`} onClick={onBuy}>
+      <FiLock aria-hidden="true" className="tear-button-icon" />
+      <span>{children}</span>
+    </button>
   );
 }
 
@@ -178,6 +191,16 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
   // "opened"/"returned" describen el pedido en pantalla; "elsewhere", uno abierto con otra selección.
   const status = !pending ? null : pending.href === href ? (pending.returned ? "returned" : "opened") : "elsewhere";
 
+  // Comprar en línea: agrega y abre el pedido, donde "Pagar en línea" es la acción principal.
+  const buy = useCallback((source = "comprar") => {
+    if (!ready) {
+      requestGrind(source);
+      return;
+    }
+    if (cart.add(`${serie.id}:${size.id}`, grind, 1)) cart.open();
+    else setAdded("full");
+  }, [ready, requestGrind, cart, serie.id, size.id, grind]);
+
   // La barra de pedido móvil refleja exactamente lo elegido aquí.
   useEffect(() => {
     onOrderChange &&
@@ -189,9 +212,10 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
         opened: status === "opened" || status === "returned",
         markOpened,
         requestGrind,
+        buy,
         track: { product: `Café ${serie.name}`, size: size.label, grind: grindLabel, price: size.price },
       });
-  }, [size, grindLabel, href, ready, status, onOrderChange, markOpened, requestGrind, serie.name]);
+  }, [size, grindLabel, href, ready, status, onOrderChange, markOpened, requestGrind, buy, serie.name]);
 
   const clearPending = () => {
     writePending(null);
@@ -285,18 +309,32 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
           </span>
         </p>
 
-        <TearButton
-          href={href}
-          onTorn={onTear}
-          trackData={{ source: "desprendible", product: `Café ${serie.name}`, size: size.label, grind: grindLabel, price: size.price }}
-        >
-          Pedir por WhatsApp
-        </TearButton>
+        {ONLINE_PAYMENTS ? (
+          <BuyButton onBuy={() => buy()}>Comprar en línea</BuyButton>
+        ) : (
+          <TearButton
+            href={href}
+            onTorn={onTear}
+            trackData={{ source: "desprendible", product: `Café ${serie.name}`, size: size.label, grind: grindLabel, price: size.price }}
+          >
+            Pedir por WhatsApp
+          </TearButton>
+        )}
 
         <div className="stub-add-row">
           <button type="button" className="stub-add" onClick={onAdd}>
             Agregar al pedido
           </button>
+          {ONLINE_PAYMENTS && (
+            <TearButton
+              secondary
+              href={href}
+              onTorn={onTear}
+              trackData={{ source: "desprendible", product: `Café ${serie.name}`, size: size.label, grind: grindLabel, price: size.price }}
+            >
+              Pedir por WhatsApp
+            </TearButton>
+          )}
           <span className="stub-added" role="status" aria-live="polite">
             {added === "ok" && (
               <>
@@ -379,7 +417,9 @@ export default function OrderStub({ serie, idPrefix = "stub", onOrderChange }) {
         </div>
         {!status && (
           <p className="stub-note">
-            Te confirmamos disponibilidad y costo de envío por WhatsApp. ¿Sin WhatsApp aquí? Escríbenos al{" "}
+            {ONLINE_PAYMENTS
+              ? "Pagas el café en línea y el envío al recibir, directamente a la transportadora. ¿Dudas? Escríbenos al "
+              : "Te confirmamos disponibilidad y costo de envío por WhatsApp. ¿Sin WhatsApp aquí? Escríbenos al "}
             <span className="nowrap">+57 321 636 3596</span>.
           </p>
         )}
