@@ -1,5 +1,8 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
+# Páginas privadas de cada pedido (links con clave)
+Disallow: /seguimiento/
+Disallow: /pedido/
 
 Sitemap: https://www.cumbrecafe.shop/sitemap.xml

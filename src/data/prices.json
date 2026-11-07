@@ -1,0 +1,32 @@
+{
+  "_comentario": "Fuente única de precios (COP). La usan la tienda (catalog.js) y la función de pago (api/). Cambia un precio aquí y cambia en ambos.",
+  "minOnline": 20000,
+  "items": {
+    "honey:250": { "code": "HO250", "product": "Café Honey", "serial": "01", "option": "250 g", "price": 25000, "grind": true },
+    "honey:350": { "code": "HO350", "product": "Café Honey", "serial": "01", "option": "350 g", "price": 28000, "grind": true },
+    "honey:454": { "code": "HO454", "product": "Café Honey", "serial": "01", "option": "454 g", "price": 35000, "grind": true },
+    "lavado:250": { "code": "LA250", "product": "Café Lavado", "serial": "02", "option": "250 g", "price": 25000, "grind": true },
+    "lavado:350": { "code": "LA350", "product": "Café Lavado", "serial": "02", "option": "350 g", "price": 28000, "grind": true },
+    "lavado:454": { "code": "LA454", "product": "Café Lavado", "serial": "02", "option": "454 g", "price": 35000, "grind": true },
+    "natural:250": { "code": "NA250", "product": "Café Natural", "serial": "03", "option": "250 g", "price": 35000, "grind": true },
+    "natural:350": { "code": "NA350", "product": "Café Natural", "serial": "03", "option": "350 g", "price": 40000, "grind": true },
+    "natural:454": { "code": "NA454", "product": "Café Natural", "serial": "03", "option": "454 g", "price": 50000, "grind": true },
+    "pina-whisky:250": { "code": "PW250", "product": "Café Piña-Whisky", "serial": "04", "option": "250 g", "price": 40000, "grind": true },
+    "pina-whisky:350": { "code": "PW350", "product": "Café Piña-Whisky", "serial": "04", "option": "350 g", "price": 50000, "grind": true },
+    "pina-whisky:454": { "code": "PW454", "product": "Café Piña-Whisky", "serial": "04", "option": "454 g", "price": 60000, "grind": true },
+    "cuarteron:honey": { "code": "CUHO", "product": "Cuarterón 5 lb", "option": "5 lb · Honey", "price": 175000, "grind": true },
+    "cuarteron:lavado": { "code": "CULA", "product": "Cuarterón 5 lb", "option": "5 lb · Lavado", "price": 175000, "grind": true },
+    "drips:unidad": { "code": "DRU", "product": "Drips", "option": "Unidad", "price": 2500, "grind": false },
+    "drips:caja10": { "code": "DR10", "product": "Drips", "option": "Caja x10", "price": 20000, "grind": false },
+    "kit:2x250": { "code": "KT250", "product": "Kit Honey & Lavado", "option": "2 × 250 g", "price": 48000, "grind": true },
+    "kit:2x454": { "code": "KT454", "product": "Kit Honey & Lavado", "option": "2 × 454 g", "price": 65000, "grind": true },
+    "caja-drips:x20": { "code": "CD20", "product": "Caja de drips + taza", "option": "Caja x20 + taza", "price": 48000, "grind": false }
+  },
+  "grinds": {
+    "grano": { "code": "G", "label": "Grano entero" },
+    "filtro": { "code": "F", "label": "Filtro (V60, Chemex)" },
+    "prensa": { "code": "P", "label": "Prensa francesa" },
+    "moka": { "code": "M", "label": "Moka" },
+    "espresso": { "code": "E", "label": "Espresso" }
+  }
+}

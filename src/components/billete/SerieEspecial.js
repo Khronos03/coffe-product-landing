@@ -2,8 +2,10 @@
 
 import { useId, useState } from "react";
 import { GIFTS, SPECIAL_SERIES, formatCOP, imageFor, whatsappUrl } from "../../data/catalog";
-import { buildOrderMessage, focusField, grindLabelOf, GrindField, TearButton } from "./OrderStub";
+import { BuyButton, buildOrderMessage, focusField, grindLabelOf, GrindField, TearButton } from "./OrderStub";
 import { track } from "../../analytics";
+import { MIN_ONLINE, ONLINE_PAYMENTS, useCart } from "../../cart";
+import { FiCheck } from "react-icons/fi";
 import { Perforation } from "./Security";
 
 function MiniTicket({ item }) {
@@ -11,6 +13,8 @@ function MiniTicket({ item }) {
   const [optId, setOptId] = useState(item.defaultOption || item.options[0].id);
   const [grind, setGrind] = useState("");
   const [grindError, setGrindError] = useState(false);
+  const cart = useCart();
+  const [added, setAdded] = useState(false);
   const opt = item.options.find((o) => o.id === optId);
   const hasGrind = item.grind || (item.pair && item.pair.some((p) => p !== "drips"));
   const grindLabel = hasGrind ? grindLabelOf(grind) : null;
@@ -26,6 +30,28 @@ function MiniTicket({ item }) {
         })
       )
     : `#${uid}-grind`;
+  const onAdd = () => {
+    if (!ready) {
+      track("molienda_faltante", { origen: "agregar_formatos", producto: item.name });
+      setGrindError(true);
+      focusField(document.getElementById(`${uid}-grind`));
+      return;
+    }
+    setAdded(cart.add(`${item.id}:${optId}`, hasGrind ? grind : null, 1));
+  };
+
+  const onBuy = () => {
+    if (!ready) {
+      track("molienda_faltante", { origen: "comprar_formatos", producto: item.name });
+      setGrindError(true);
+      focusField(document.getElementById(`${uid}-grind`));
+      return;
+    }
+    cart.buy(`${item.id}:${optId}`, hasGrind ? grind : null);
+  };
+  // Bajo el mínimo de pago en línea (un drip suelto), el camino principal es WhatsApp.
+  const online = ONLINE_PAYMENTS && opt.price >= MIN_ONLINE;
+
   const onTear = (e) => {
     if (ready) return;
     e.preventDefault();
@@ -75,7 +101,10 @@ function MiniTicket({ item }) {
                       name={`${uid}-opt`}
                       value={o.id}
                       checked={o.id === optId}
-                      onChange={() => setOptId(o.id)}
+                      onChange={() => {
+                        setOptId(o.id);
+                        setAdded(false);
+                      }}
                     />
                     <span className="chip-size">{o.label}</span>
                   </label>
@@ -103,15 +132,45 @@ function MiniTicket({ item }) {
             <p className="mini-price" aria-live="polite">
               <span className="stub-amount">{formatCOP(opt.price)}</span>
             </p>
-            <TearButton
-              href={href}
-              className="is-compact"
-              onTorn={onTear}
-              trackData={{ source: "formatos", product: item.name, size: opt.label, grind: grindLabel, price: opt.price }}
-            >
-              Pedir<span className="sr-only"> {item.name} por WhatsApp</span>
-            </TearButton>
+            {online ? (
+              <BuyButton className="is-compact" onBuy={onBuy}>
+                Pedir y pagar<span className="sr-only">: {item.name}</span>
+              </BuyButton>
+            ) : (
+              <TearButton
+                href={href}
+                className="is-compact"
+                onTorn={onTear}
+                trackData={{ source: "formatos", product: item.name, size: opt.label, grind: grindLabel, price: opt.price }}
+              >
+                Pedir<span className="sr-only"> {item.name} por WhatsApp</span>
+              </TearButton>
+            )}
           </div>
+          <div className="mini-add-row">
+            {online ? (
+              <TearButton
+                secondary
+                href={href}
+                onTorn={onTear}
+                trackData={{ source: "formatos", product: item.name, size: opt.label, grind: grindLabel, price: opt.price }}
+              >
+                Pedir por WhatsApp<span className="sr-only">: {item.name}</span>
+              </TearButton>
+            ) : (
+              <button type="button" className="stub-add is-compact" onClick={onAdd}>
+                Agregar al pedido<span className="sr-only">: {item.name}</span>
+              </button>
+            )}
+            {added && (
+              <button type="button" className="stub-added-link" onClick={cart.open}>
+                <FiCheck aria-hidden="true" /> Agregado. Ver pedido ({cart.count})
+              </button>
+            )}
+          </div>
+          {ONLINE_PAYMENTS && !online && (
+            <p className="mini-note">Pago en línea desde {formatCOP(MIN_ONLINE)}: agrégalo a otro café o pídelo por WhatsApp.</p>
+          )}
         </div>
       </article>
     </li>
