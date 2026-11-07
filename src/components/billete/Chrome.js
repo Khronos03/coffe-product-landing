@@ -19,6 +19,7 @@ const NAV = [
   { href: "#proceso", label: "Proceso" },
   { href: "#finca", label: "Finca" },
   { href: "#especial", label: "Regalos" },
+  { href: "#emprende", label: "Emprende" },
 ];
 
 /**

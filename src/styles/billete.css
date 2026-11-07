@@ -3840,3 +3840,193 @@ button.order-bar-button {
     transform: none;
   }
 }
+
+/* ==========================================================================
+   Emprende con nosotros · marca propia
+   Un billete sobre el campo violeta: el cuerpo explica, el desprendible lleva
+   la bolsa sin marca y el botón a WhatsApp. Sin precios publicados.
+   ========================================================================== */
+.emprende {
+  position: relative;
+  overflow: hidden;
+  background: var(--field);
+  color: var(--stock);
+  padding: clamp(64px, 9vw, 112px) var(--gutter);
+}
+.emp-ticket {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(280px, 340px);
+  background: var(--stock);
+  color: var(--ink);
+  border-radius: 10px;
+}
+.emp-body {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  margin: 8px 0 8px 8px;
+  padding: 18px clamp(18px, 3vw, 40px) clamp(24px, 3vw, 36px);
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  border-right: 0;
+  border-radius: 10px 0 0 10px;
+}
+.emp-title {
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--field);
+  max-width: 14ch;
+}
+.emp-lede {
+  font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+  line-height: 1.55;
+  max-width: 58ch;
+}
+.emp-steps {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 2px solid var(--ink);
+}
+.emp-step {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 16px 18px 4px 0;
+}
+.emp-step + .emp-step {
+  padding-left: 18px;
+  border-left: 1.5px dashed color-mix(in srgb, var(--ink) 45%, transparent);
+}
+.emp-num {
+  min-width: 36px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--field);
+  font-variant-numeric: tabular-nums;
+}
+.emp-step p {
+  margin: 0;
+  line-height: 1.45;
+}
+.emp-step strong {
+  font-weight: 800;
+}
+.emp-stub {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 16px;
+  margin: 8px 8px 8px 0;
+  padding: 24px clamp(18px, 2.5vw, 28px);
+  border: 1px dashed color-mix(in srgb, var(--ink) 40%, transparent);
+  border-left: 0;
+  border-radius: 0 10px 10px 0;
+  text-align: center;
+}
+.emp-bag {
+  width: clamp(112px, 12vw, 140px);
+  height: auto;
+  color: var(--ink);
+}
+.emp-bag-label {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: 0.04em;
+  fill: var(--field);
+}
+.emp-price {
+  margin: 0;
+  max-width: 30ch;
+  line-height: 1.45;
+}
+.emp-price strong {
+  display: block;
+  font-weight: 800;
+}
+.emp-stub .tear-button {
+  width: 100%;
+}
+@media (max-width: 1023px) {
+  .emp-ticket {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .emp-body {
+    margin: 8px 8px 0;
+    border-right: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+    border-bottom: 0;
+    border-radius: 10px 10px 0 0;
+  }
+  .emp-stub {
+    margin: 0 8px 8px;
+    border-left: 1px dashed color-mix(in srgb, var(--ink) 40%, transparent);
+    border-top: 0;
+    border-radius: 0 0 10px 10px;
+    grid-template-columns: auto minmax(0, 1fr);
+    justify-items: start;
+    text-align: left;
+    column-gap: 24px;
+  }
+  .emp-bag {
+    grid-row: span 2;
+    width: 104px;
+  }
+  .emp-stub .tear-button {
+    width: auto;
+  }
+}
+@media (max-width: 599px) {
+  .emp-steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .emp-step,
+  .emp-step + .emp-step {
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 14px;
+    padding: 14px 0;
+    border-left: 0;
+  }
+  .emp-step + .emp-step {
+    border-top: 1.5px dashed color-mix(in srgb, var(--ink) 45%, transparent);
+  }
+  .emp-stub {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+  .emp-bag {
+    grid-row: auto;
+  }
+  .emp-stub .tear-button {
+    width: 100%;
+  }
+}
+@media (max-width: 400px) {
+  .emprende .billete-issuer-mid {
+    display: none;
+  }
+}
+/* Con "Emprende" en el menú, a 768–899 px el menú se compacta un poco más para no desbordar */
+@media (min-width: 768px) and (max-width: 899px) {
+  .site-nav ul {
+    gap: 0;
+  }
+  .site-nav a {
+    padding: 0 7px;
+    letter-spacing: 0.04em;
+    font-size: 0.75rem;
+  }
+}
