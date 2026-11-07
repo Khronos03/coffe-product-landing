@@ -12,6 +12,7 @@ import Reverso from "../components/billete/Reverso";
 import Finca from "../components/billete/Finca";
 import SerieEspecial from "../components/billete/SerieEspecial";
 import Viaje from "../components/billete/Viaje";
+import Resenas from "../components/billete/Resenas";
 import { MobileOrderBar, RecetarioBand, SiteFooter, SiteHeader } from "../components/billete/Chrome";
 
 // Abre con el lote 01 (Honey): el más pedido y el de precio de entrada.
@@ -68,6 +69,7 @@ function Home() {
         <Finca />
         <SerieEspecial />
         <Viaje />
+        <Resenas />
         <RecetarioBand count={COFFEE_RECIPES.length} />
       </main>
       <SiteFooter />
