@@ -8,6 +8,7 @@ const CoffeeRecipes = lazy(() => import("./pages/CoffeeRecipes"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const OrderStatus = lazy(() => import("./pages/OrderStatus"));
+const OrderTracking = lazy(() => import("./pages/OrderTracking"));
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/recetas-cafe" element={<CoffeeRecipes />} />
           <Route path="/privacidad" element={<Privacy />} />
           <Route path="/pedido/estado" element={<OrderStatus />} />
+          <Route path="/seguimiento/:token" element={<OrderTracking />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

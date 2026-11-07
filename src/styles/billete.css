@@ -3357,3 +3357,167 @@ button.order-bar-button {
     letter-spacing: 0.08em;
   }
 }
+
+/* ── Seguimiento del pedido (/seguimiento/<clave>) ─────────────────────── */
+/* Tres pasos como sellos de un talonario: Pagado, Preparado, Enviado. Hecho = tinta llena con
+   chulo; actual = aro de tinta; pendiente = aro punteado. Una línea une los pasos. */
+.trk-steps {
+  list-style: none;
+  margin: 18px 0 4px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.trk-step {
+  position: relative;
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  gap: 6px;
+  text-align: center;
+}
+.trk-step + .trk-step::before {
+  /* tramo desde el paso anterior */
+  content: "";
+  position: absolute;
+  top: 17px;
+  right: calc(50% + 22px);
+  width: calc(100% - 44px);
+  border-top: 2px dashed color-mix(in srgb, var(--ink) 35%, transparent);
+}
+.trk-step.is-done + .trk-step::before {
+  border-top-style: solid;
+  border-top-color: var(--ink);
+}
+.trk-dot {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px dashed color-mix(in srgb, var(--ink) 45%, transparent);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.0625rem;
+  line-height: 1;
+  color: color-mix(in srgb, var(--ink) 70%, transparent);
+}
+.trk-step.is-current .trk-dot {
+  border-style: solid;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.trk-step.is-done .trk-dot {
+  border: 0;
+  background: var(--ink);
+  color: var(--stock);
+  font-size: 1.125rem;
+}
+.trk-label {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  font-variation-settings: "wdth" 125;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.trk-when {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--ink) 80%, transparent);
+}
+.trk-carrier {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 14px 16px;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+}
+.trk-carrier-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.375rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.trk-guide {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+}
+.trk-guide-label {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  font-variation-settings: "wdth" 125;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.trk-guide-num {
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+}
+.trk-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.bt a.trk-track {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--stock);
+  font-weight: 800;
+  text-decoration: none;
+  justify-self: start;
+}
+.trk-hint,
+.trk-city {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+.trk-items {
+  margin-top: 16px;
+}
+.trk-city {
+  margin-top: 8px;
+  font-weight: 600;
+}
+@media (hover: hover) and (pointer: fine) {
+  .trk-copy:hover {
+    background: color-mix(in srgb, var(--ink) 8%, transparent);
+  }
+}
+@media (max-width: 420px) {
+  .trk-dot {
+    width: 32px;
+    height: 32px;
+  }
+  .trk-step + .trk-step::before {
+    top: 15px;
+    right: calc(50% + 20px);
+    width: calc(100% - 40px);
+  }
+  .bt a.trk-track {
+    justify-self: stretch;
+  }
+}
