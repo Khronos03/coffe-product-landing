@@ -67,7 +67,7 @@ function Home() {
         <Reverso active={active} onSelect={setActive} />
         <Finca />
         <SerieEspecial />
-        <Viaje recipes={COFFEE_RECIPES.length} />
+        <Viaje />
         <RecetarioBand count={COFFEE_RECIPES.length} />
       </main>
       <SiteFooter />

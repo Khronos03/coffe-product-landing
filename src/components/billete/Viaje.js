@@ -1,49 +1,27 @@
-// El viaje del café: de la siembra a la taza, en seis paradas.
-// El detalle de cada proceso vive en "Cómo se hace" (reverso); aquí solo el recorrido completo.
-// Cada paso usa hechos confirmados por el productor (ver PRODUCT.md).
+// El viaje del café: de la siembra a la taza, en siete paradas, igual que en la etiqueta impresa
+// (reverso de la bolsa): medallones de papel con viñetas a color, número de parada y un camino punteado.
+// El detalle de cada proceso vive en "Cómo se hace"; aquí solo el recorrido. Hechos confirmados por el
+// productor (ver PRODUCT.md). El beneficio va genérico porque cambia por lote (el Natural no se despulpa).
 
 import { useEffect, useRef, useState } from "react";
-import { LuCoffee, LuDroplets, LuFlame, LuPackage, LuSprout, LuTruck } from "react-icons/lu";
-import { ORDER_TERMS } from "../../data/catalog";
+import { viajeIcon } from "./viajeIcons";
 
-const days = ORDER_TERMS.entrega.split(",")[0]; // "3 a 5 días hábiles"
-
-const steps = (recipes) => [
-  {
-    icon: LuSprout,
-    title: "Finca",
-    text: "Castillo sembrado a 1.950 m en Mistrató, cosechado a mano en cereza madura.",
-  },
-  {
-    icon: LuDroplets,
-    title: "Beneficio",
-    text: "En nuestro beneficio, cada lote sigue su proceso: Honey, Lavado, Natural o Piña-Whisky.",
-    link: { href: "#proceso", label: "Ver cómo se hace" },
-  },
-  {
-    icon: LuFlame,
-    title: "Tostión",
-    text: "La hacemos nosotros, en tostión media, cada semana.",
-  },
-  {
-    icon: LuPackage,
-    title: "Molienda",
-    text: "En grano o molido para tu método: filtro, prensa, moka o espresso.",
-  },
-  {
-    icon: LuTruck,
-    title: "Envío",
-    text: `A toda Colombia, en ${days}.`,
-  },
-  {
-    icon: LuCoffee,
-    title: "Tu taza",
-    text: `Lo preparas a tu manera. Ideas en el recetario: ${recipes} recetas.`,
-    last: true,
-  },
+const steps = () => [
+  { key: "siembra", title: "Siembra", text: "Nace la chapola en el germinador de la finca." },
+  { key: "cultivo", title: "Cultivo", text: "Castillo a 1.950 m, cosechado a mano en cereza madura." },
+  { key: "despulpado", title: "Beneficio", text: "Cada lote, su proceso: Honey, Lavado, Natural o Piña-Whisky." },
+  { key: "secado", title: "Secado", text: "Al sol, volteado a diario." },
+  { key: "tostion", title: "Tostión", text: "Tostión media, cada semana." },
+  { key: "molienda", title: "Molienda", text: "En grano o molido para tu método." },
+  { key: "taza", title: "Taza", text: "Lo preparas a tu manera, con ideas del recetario." },
 ];
 
-export default function Viaje({ recipes }) {
+// El SVG de cada viñeta es constante: se arma una vez.
+const ART = Object.fromEntries(
+  ["siembra", "cultivo", "despulpado", "secado", "tostion", "molienda", "taza"].map((k) => [k, { __html: viajeIcon(k) }])
+);
+
+export default function Viaje() {
   const ref = useRef(null);
   // Las paradas entran escalonadas una sola vez, solo si la sección aún no está a la vista al cargar.
   const [phase, setPhase] = useState("static");
@@ -80,34 +58,33 @@ export default function Viaje({ recipes }) {
             El viaje del café
           </h2>
           <p className="viaje-lede">
-            De la semilla a tu taza: lo sembramos, lo procesamos y lo tostamos nosotros, en la misma finca de Mistrató.
+            De la semilla a tu taza: lo sembramos, lo cultivamos y lo procesamos nosotros, en nuestra finca de Mistrató.
           </p>
         </div>
 
-        <ol className="viaje-route">
-          {steps(recipes).map(({ icon: Icon, title, text, link, last }, i) => (
-            <li key={title} className={`viaje-step ${last ? "is-last" : ""}`} style={{ "--i": i }}>
-              <span className="viaje-stamp" aria-hidden="true">
-                <Icon className="viaje-icon" />
+        {/* role="list": Safari deja de anunciar como lista un <ol> sin viñetas */}
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ol className="viaje-route" role="list">
+          {steps().map(({ key, title, text }, i) => (
+            <li key={key} className="viaje-step" style={{ "--i": i }}>
+              <span className="viaje-medal" aria-hidden="true">
+                <svg className="viaje-art" viewBox="0 0 40 40" focusable="false" dangerouslySetInnerHTML={ART[key]} />
+                <span className="viaje-badge">{i + 1}</span>
               </span>
-              <span className="viaje-num" aria-hidden="true">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 className="viaje-step-title">{title}</h3>
+              <p className="viaje-step-title">{title}</p>
               <p className="viaje-step-text">{text}</p>
-              {link && (
-                <a className="viaje-link" href={link.href}>
-                  {link.label}
-                </a>
-              )}
-              {last && (
-                <a className="viaje-cta" href="#serie">
-                  Elegir mi café
-                </a>
-              )}
             </li>
           ))}
         </ol>
+
+        <div className="viaje-actions">
+          <a className="viaje-cta" href="#serie">
+            Elegir mi café
+          </a>
+          <a className="viaje-link" href="#proceso">
+            Ver cómo se hace cada proceso
+          </a>
+        </div>
       </div>
     </section>
   );

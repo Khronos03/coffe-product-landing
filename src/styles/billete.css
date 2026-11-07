@@ -2500,62 +2500,80 @@ html:has(.bt) {
   max-width: 52ch;
 }
 
-/* Móvil primero: ruta vertical, estampilla a la izquierda */
+/* Paradas como en la etiqueta impresa: medallón de papel con viñeta a color, número en la tinta
+   del campo y un camino punteado. Móvil primero: ruta vertical, medallón a la izquierda. */
+.viaje {
+  --medal: 76px;
+}
 .viaje-route {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 28px;
+  gap: 22px;
 }
 .viaje-step {
   position: relative;
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr);
+  grid-template-columns: var(--medal) minmax(0, 1fr);
   column-gap: 18px;
-  align-items: start;
-  align-content: start; /* las paradas de una fila comparten altura: el contenido no se reparte */
+  align-content: start;
 }
 .viaje-step::before {
   /* tramo punteado hasta la siguiente parada */
   content: "";
   position: absolute;
-  left: 31px;
-  top: 72px;
-  bottom: -24px;
-  border-left: 2px dashed color-mix(in srgb, var(--stock) 55%, transparent);
+  left: calc(var(--medal) / 2 - 1px);
+  top: calc(var(--medal) + 6px);
+  bottom: -16px;
+  border-left: 2px dashed color-mix(in srgb, var(--stock) 60%, transparent);
 }
-.viaje-step.is-last::before {
+.viaje-step:last-child::before {
   display: none;
 }
-.viaje-stamp {
-  grid-row: 1 / span 4;
-  width: 64px;
-  height: 64px;
+.viaje-medal {
+  position: relative;
+  grid-row: 1 / span 2;
+  width: var(--medal);
+  height: var(--medal);
   display: grid;
   place-items: center;
+  border-radius: 50%;
   background: var(--stock);
   color: var(--ink);
-  border-radius: 6px;
-  outline: 3px double color-mix(in srgb, var(--ink) 45%, transparent);
-  outline-offset: -7px;
-  box-shadow: 0 10px 18px -12px rgba(0, 0, 0, 0.55);
+  /* filete exterior en tinta y uno interior más suave, como el sello de la etiqueta */
+  box-shadow:
+    0 0 0 1.5px var(--ink) inset,
+    0 0 0 5px var(--stock) inset,
+    0 0 0 6px color-mix(in srgb, var(--ink) 40%, transparent) inset;
 }
-.viaje-icon {
-  width: 28px;
-  height: 28px;
+.viaje-art {
+  width: 87%;
+  height: 87%;
+  overflow: visible;
 }
-.viaje-num {
+.viaje-badge {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--field);
+  color: var(--stock);
+  box-shadow: 0 0 0 2px var(--stock);
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1rem;
+  font-weight: 900;
+  font-size: 0.9375rem;
   line-height: 1;
   font-variant-numeric: tabular-nums;
-  opacity: 0.8;
-  margin-top: 4px;
+  transition: background-color var(--dur-ink) ease;
 }
 .viaje-step-title {
-  margin-top: 4px;
+  align-self: end;
+  margin-top: 6px;
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 1.5rem;
@@ -2563,23 +2581,23 @@ html:has(.bt) {
   text-transform: uppercase;
 }
 .viaje-step-text {
-  margin-top: 8px;
+  margin-top: 6px;
   font-size: 0.9375rem;
-  line-height: 1.5;
+  line-height: 1.45;
   max-width: 34ch;
 }
-.viaje-step.is-last .viaje-stamp {
-  background: var(--ink);
-  color: var(--stock);
-  outline-color: color-mix(in srgb, var(--stock) 55%, transparent);
+.viaje-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 24px;
+  margin-top: clamp(32px, 4vw, 48px);
 }
 .bt a.viaje-cta {
-  justify-self: start;
   display: inline-flex;
   align-items: center;
   min-height: 48px;
-  margin-top: 14px;
-  padding: 0 20px;
+  padding: 0 22px;
   background: var(--stock);
   color: var(--ink);
   border-radius: var(--radius);
@@ -2592,55 +2610,7 @@ html:has(.bt) {
 .bt a.viaje-cta:active {
   transform: scale(0.97);
 }
-
-/* Escritorio: dos filas de cuatro paradas, la ruta corre en horizontal */
-@media (min-width: 1024px) {
-  .viaje-route {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: 32px;
-    row-gap: 48px;
-  }
-  .viaje-step {
-    grid-template-columns: minmax(0, 1fr);
-    row-gap: 0;
-  }
-  .viaje-stamp {
-    grid-row: auto;
-    margin-bottom: 18px;
-  }
-  .viaje-step::before {
-    left: 80px;
-    right: -20px;
-    top: 31px;
-    bottom: auto;
-    border-left: 0;
-    border-top: 2px dashed color-mix(in srgb, var(--stock) 55%, transparent);
-  }
-  .viaje-step:nth-child(3n)::before {
-    display: none;
-  }
-}
-/* Pantallas anchas: las seis paradas en una sola fila */
-@media (min-width: 1200px) {
-  .viaje-route {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    column-gap: 24px;
-  }
-  .viaje-step:nth-child(3n)::before {
-    display: block;
-  }
-  .viaje-step.is-last::before {
-    display: none;
-  }
-  .viaje-step::before {
-    right: -12px;
-  }
-  .viaje-step-title {
-    font-size: 1.375rem;
-  }
-}
 .bt a.viaje-link {
-  justify-self: start;
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -2649,6 +2619,89 @@ html:has(.bt) {
   text-underline-offset: 0.2em;
 }
 
+/* Tableta: la ruta sigue vertical (en 4 + 3 se cortaba entre la parada 4 y la 5),
+   con medallones más grandes y la ruta junto al encabezado. */
+@media (min-width: 768px) and (max-width: 1099px) {
+  .viaje {
+    --medal: 88px;
+  }
+  .viaje-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-rows: auto 1fr;
+    column-gap: 48px;
+    align-items: start;
+  }
+  .viaje-head {
+    grid-column: 1;
+    margin-bottom: 28px;
+  }
+  .viaje-route {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  .viaje-actions {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+    margin-top: 0;
+  }
+  .viaje-step-title {
+    margin-top: 14px;
+  }
+}
+/* Escritorio: las siete paradas en una fila, como en la etiqueta */
+@media (min-width: 1100px) {
+  .viaje {
+    --medal: 104px;
+    --route-gap: 16px;
+  }
+  .viaje-route {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    column-gap: var(--route-gap);
+    row-gap: 40px;
+  }
+  .viaje-step {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+  .viaje-medal {
+    grid-row: auto;
+    margin-bottom: 12px;
+  }
+  .viaje-step-title {
+    margin-top: 0;
+  }
+  .viaje-step-text {
+    max-width: 19ch;
+  }
+  .viaje-step::before {
+    /* de borde a borde entre medallones vecinos */
+    left: calc(50% + var(--medal) / 2 + 8px);
+    width: calc(100% + var(--route-gap) - var(--medal) - 16px);
+    right: auto;
+    top: calc(var(--medal) / 2 - 1px);
+    bottom: auto;
+    border-left: 0;
+    border-top: 2px dashed color-mix(in srgb, var(--stock) 60%, transparent);
+  }
+  .viaje-step-title {
+    font-size: 1.375rem;
+  }
+  .viaje-step-text {
+    font-size: 0.875rem;
+    max-width: 17ch;
+  }
+}
+
+/* Al imprimir, las paradas siempre visibles aunque la animación no haya corrido */
+@media print {
+  .viaje.is-ready .viaje-step {
+    opacity: 1;
+    transform: none;
+  }
+}
 /* Entrada escalonada, una sola vez (solo si la sección empezó fuera de pantalla) */
 .viaje.is-ready .viaje-step {
   opacity: 0;
@@ -3221,5 +3274,86 @@ button.order-bar-button {
       padding-left: 0;
       border-left: 0;
     }
+  }
+}
+
+/* ── Pestañas de lote: botones de tinta y talonario ───────────────────── */
+/* Sin elegir: una segunda pasada de su tinta (30 %) con borde de papel; así se leen como
+   botones sin sombra ni relieve, que en este sistema son solo del botón de desprender.
+   La elegida es la hoja del talonario: mismo papel que el billete y unida a él. */
+.serie-tabs {
+  margin-bottom: 0;
+  align-items: flex-start;
+}
+.serie-tab {
+  min-width: 0;
+  margin-bottom: 8px;
+  background: color-mix(in srgb, var(--ink) 30%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--stock) 55%, transparent);
+  transition: background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+.serie-tab-name {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+@media (hover: hover) and (pointer: fine) {
+  .serie-tab:not([aria-selected="true"]):hover {
+    background: color-mix(in srgb, var(--ink) 45%, transparent);
+    border-color: var(--stock);
+  }
+}
+.serie-tab[aria-selected="true"] {
+  z-index: 1;
+  /* Cubre el borde superior redondeado del billete: pestaña y hoja son una sola pieza */
+  margin-bottom: -10px;
+  padding-bottom: 26px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.serie-tab:focus-visible {
+  outline: 2px solid var(--stock);
+  outline-offset: 3px;
+}
+@media (max-width: 767px) {
+  .serie-tab {
+    margin-bottom: 6px;
+  }
+  .serie-tab[aria-selected="true"] {
+    margin-bottom: -6px;
+    padding-bottom: 21px;
+  }
+  /* La barra de tinta queda a la misma altura en las cuatro pestañas */
+  .serie-tab[aria-selected="true"]::before {
+    bottom: 16px;
+  }
+}
+@media (max-width: 400px) {
+  .serie-tab-name {
+    font-variation-settings: "wdth" 75;
+    letter-spacing: -0.01em;
+  }
+}
+/* Tableta (768–1023 px): "Piña-Whisky" cabe en su pestaña sin cortarse */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .serie-tab {
+    gap: 8px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .serie-tab-name {
+    font-size: 0.875rem;
+    font-variation-settings: "wdth" 88;
+  }
+}
+/* Tableta angosta: el menú y "Pedir café" caben sin desbordar la página (antes, 32 px de más a 768) */
+@media (min-width: 768px) and (max-width: 959px) {
+  .site-header-inner {
+    gap: 12px;
+  }
+  .site-nav a {
+    padding: 0 9px;
+    letter-spacing: 0.08em;
   }
 }
