@@ -10,6 +10,7 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const OrderStatus = lazy(() => import("./pages/OrderStatus"));
 const OrderTracking = lazy(() => import("./pages/OrderTracking"));
 const Review = lazy(() => import("./pages/Review"));
+const EmprendePage = lazy(() => import("./pages/EmprendePage"));
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/pedido/estado" element={<OrderStatus />} />
           <Route path="/seguimiento/:token" element={<OrderTracking />} />
           <Route path="/resena/:token" element={<Review />} />
+          <Route path="/emprende" element={<EmprendePage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

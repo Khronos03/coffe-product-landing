@@ -19,7 +19,6 @@ const NAV = [
   { href: "#proceso", label: "Proceso" },
   { href: "#finca", label: "Finca" },
   { href: "#especial", label: "Regalos" },
-  { href: "#emprende", label: "Emprende" },
 ];
 
 /**
@@ -58,6 +57,11 @@ export function SiteHeader({ onHome = true, current = null, skipTo = "#serie-ped
             <li>
               <Link to="/recetas-cafe" aria-current={current === "recetas" ? "page" : undefined}>
                 Recetas
+              </Link>
+            </li>
+            <li>
+              <Link to="/emprende" aria-current={current === "emprende" ? "page" : undefined}>
+                Emprende
               </Link>
             </li>
           </ul>
@@ -102,6 +106,11 @@ export function SiteHeader({ onHome = true, current = null, skipTo = "#serie-ped
               onClick={() => setOpen(false)}
             >
               Recetas
+            </Link>
+          </li>
+          <li>
+            <Link to="/emprende" aria-current={current === "emprende" ? "page" : undefined} onClick={() => setOpen(false)}>
+              Emprende
             </Link>
           </li>
           <li>
@@ -215,17 +224,32 @@ export function RecetarioBand({ count }) {
           Abrir el recetario
         </Link>
       </div>
+      {/* La oferta de marca propia vive en /emprende; aquí, solo la puerta de entrada */}
+      <div className="recetario-inner is-emprende" id="emprende">
+        <h2 className="recetario-title">Emprende</h2>
+        <p className="recetario-copy">
+          Vende nuestro café con tu propia marca: te lo enviamos en bolsas sin marca, con mejor precio por volumen.
+        </p>
+        <Link className="recetario-link" to="/emprende">
+          Ver cómo funciona
+        </Link>
+      </div>
     </section>
   );
 }
 
-export function SiteFooter({ onHome = true }) {
+/**
+ * `sell=false` en las páginas de un pedido (pago, seguimiento, reseña): quien llega ahí ya compró,
+ * así que el pie no le vuelve a vender; solo deja los datos de contacto.
+ */
+export function SiteFooter({ onHome = true, sell = true }) {
   const generic = whatsappUrl([
     "¡Hola, Cumbre Café! Quiero hacer un pedido. ¿Me ayudan a elegir proceso y presentación?",
   ]);
   return (
-    <footer className="site-footer" id="contacto">
+    <footer className={`site-footer ${sell ? "" : "is-quiet"}`} id="contacto">
       <div className="site-footer-inner">
+        {sell && (
         <div className="footer-cta">
           <h2 className="footer-title">¿No sabes cuál elegir?</h2>
           <p>Cuéntanos cómo preparas tu café y te recomendamos el lote y la molienda.</p>
@@ -234,6 +258,7 @@ export function SiteFooter({ onHome = true }) {
             <span>Escribir por WhatsApp</span>
           </a>
         </div>
+        )}
 
         <dl className="footer-fine">
           <div>

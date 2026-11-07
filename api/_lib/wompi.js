@@ -250,7 +250,8 @@ function publicStatus(tx) {
     reference: tx.reference,
     amount: Math.round(tx.amount_in_cents / 100),
     paymentMethod: tx.payment_method_type || null,
-    lines: lines.map(({ product, option, grind, qty, total }) => ({ product, option, grind, qty, total })),
+    // sku y grindId permiten rehacer el pedido si el pago falló y el cliente volvió en otro navegador
+    lines: lines.map(({ sku, grindId, product, option, grind, qty, total }) => ({ sku, grindId: grindId || null, product, option, grind, qty, total })),
   };
 }
 

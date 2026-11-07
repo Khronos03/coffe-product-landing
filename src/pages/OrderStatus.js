@@ -118,6 +118,15 @@ export default function OrderStatus() {
     track("purchase", { transaction_id: state.data.reference, value: state.data.amount, currency: "COP" });
   }, [state, cart]);
 
+  // Reintentar: si el pedido no está en este navegador (el banco o la app volvieron a otro), se rehace
+  // con las líneas del pago antes de abrirlo.
+  const retry = () => {
+    if (cart.count === 0 && state.data && Array.isArray(state.data.lines)) {
+      state.data.lines.forEach((l) => l.sku && cart.add(l.sku, l.grindId || null, l.qty || 1));
+    }
+    cart.open();
+  };
+
   const copy = COPY[state.status] || COPY.PENDING;
   const data = state.data;
   const ok = state.status === "APPROVED";
@@ -193,7 +202,7 @@ export default function OrderStatus() {
             {/* Pagado o en proceso: nosotros escribimos; WhatsApp queda para dudas.
                 Sin pagar: reintentar primero. Sin datos: WhatsApp es la ayuda. */}
             {failed && (
-              <button type="button" className="tear-button" onClick={cart.open}>
+              <button type="button" className="tear-button" onClick={retry}>
                 Intentar de nuevo
               </button>
             )}
@@ -219,7 +228,7 @@ export default function OrderStatus() {
           </nav>
         </article>
       </main>
-      <SiteFooter onHome={false} />
+      <SiteFooter onHome={false} sell={false} />
     </div>
   );
 }

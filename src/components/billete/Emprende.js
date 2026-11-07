@@ -37,9 +37,11 @@ function BlankBag() {
   );
 }
 
-export default function Emprende() {
+/** `page`: en /emprende el título es el h1 de la página. */
+export default function Emprende({ page = false }) {
+  const Title = page ? "h1" : "h2";
   return (
-    <section className="emprende" id="emprende" aria-labelledby="emprende-title" data-ink="violet">
+    <section className={`emprende ${page ? "is-page" : ""}`} id="marca-propia" aria-labelledby="emprende-title" data-ink="violet">
       <WaveField className="field-waves" />
       <article className="emp-ticket">
         <div className="emp-body">
@@ -49,9 +51,9 @@ export default function Emprende() {
             <span>Marca propia</span>
           </div>
 
-          <h2 className="emp-title" id="emprende-title">
+          <Title className="emp-title" id="emprende-title">
             Tu marca, nuestro café
-          </h2>
+          </Title>
           <p className="emp-lede">
             ¿Quieres vender café con tu propio nombre? Te enviamos el café de nuestra finca, tostado por nosotros, en
             bolsas sin marca. Tú le pones tu etiqueta y lo vendes como tuyo. Ya hay emprendedores haciéndolo con

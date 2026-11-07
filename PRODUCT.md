@@ -43,7 +43,7 @@ Una marca revendedora o tostadora urbana no puede reclamar con verdad los proces
 
 ## Capabilities and Constraints
 
-- **Stack:** React 18 (Create React App, `react-scripts` 5), Tailwind CSS 3, framer-motion, react-router-dom 6, react-icons. Rutas: `/` (landing de una sola página con anclas), `/recetas-cafe`, `/privacidad`, `/pedido/estado` (comprobante de pago), `/seguimiento/<clave>` (estado del pedido) y `/resena/<clave>` (reseña del pedido, con la misma clave). Funciones de Vercel en `/api` para el pago (checkout, eventos de Wompi y estado), el seguimiento y las reseñas.
+- **Stack:** React 18 (Create React App, `react-scripts` 5), Tailwind CSS 3, framer-motion, react-router-dom 6, react-icons. Rutas: `/` (landing de una sola página con anclas), `/recetas-cafe`, `/privacidad`, `/pedido/estado` (comprobante de pago), `/seguimiento/<clave>` (estado del pedido) y `/resena/<clave>` (reseña del pedido, con la misma clave) y `/emprende` (marca propia: café en bolsa sin marca con precio por volumen; en la portada solo una franja de entrada). Funciones de Vercel en `/api` para el pago (checkout, eventos de Wompi y estado), el seguimiento y las reseñas.
 - **Catálogo actual** (`src/pages/ProductInfo.js`), en presentaciones de 250, 350 y 454 g, todos con tostión media y vendidos molidos:
   - Proceso Honey: perfil panela y miel.
   - Proceso Lavado: perfil frutos rojos.
