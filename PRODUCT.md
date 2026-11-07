@@ -43,7 +43,7 @@ Una marca revendedora o tostadora urbana no puede reclamar con verdad los proces
 
 ## Capabilities and Constraints
 
-- **Stack:** React 18 (Create React App, `react-scripts` 5), Tailwind CSS 3, framer-motion, react-router-dom 6, react-icons. Rutas: `/` (landing de una sola página con anclas), `/recetas-cafe`, `/privacidad` y `/pedido/estado` (comprobante de pago). Funciones de Vercel en `/api` para el pago (checkout, eventos de Wompi y estado).
+- **Stack:** React 18 (Create React App, `react-scripts` 5), Tailwind CSS 3, framer-motion, react-router-dom 6, react-icons. Rutas: `/` (landing de una sola página con anclas), `/recetas-cafe`, `/privacidad`, `/pedido/estado` (comprobante de pago), `/seguimiento/<clave>` (estado del pedido) y `/resena/<clave>` (reseña del pedido, con la misma clave). Funciones de Vercel en `/api` para el pago (checkout, eventos de Wompi y estado), el seguimiento y las reseñas.
 - **Catálogo actual** (`src/pages/ProductInfo.js`), en presentaciones de 250, 350 y 454 g, todos con tostión media y vendidos molidos:
   - Proceso Honey: perfil panela y miel.
   - Proceso Lavado: perfil frutos rojos.
@@ -85,7 +85,9 @@ Confirmadas por el productor:
 
 **No respaldada:** "+150 municipios con entregas" (hoy en `HookUser.js`). No se debe reutilizar ni ampliar hasta que haya registros. "Envío a toda Colombia" se mantiene como política de envío.
 
-**Ausentes (no inventar):** testimonios con nombre, reseñas citables, puntajes SCA o de catación, premios, certificaciones de sostenibilidad. El sitio usa hoy "100 % Sostenible" y "Premium" sin respaldo documentado. Tratarlos como afirmaciones a verificar, no como evidencia.
+**Reseñas:** solo reales. Las deja el cliente desde el link de su pedido (compra verificada) o las carga el productor desde un mensaje de WhatsApp con permiso del cliente (marcadas así). Se publican solo aprobadas en el panel y autorizadas por el cliente; la sección de la portada aparece desde 3. Nunca se publican reseñas de ejemplo ni inventadas (engañoso para el cliente y contrario a las normas de publicidad de la SIC).
+
+**Ausentes (no inventar):** testimonios con nombre fuera del sistema de reseñas, puntajes SCA o de catación, premios, certificaciones de sostenibilidad. El sitio usa hoy "100 % Sostenible" y "Premium" sin respaldo documentado. Tratarlos como afirmaciones a verificar, no como evidencia.
 
 Material real disponible: fotografías del recetario (`public/recetario/`), renders de empaques, fotos de producto y video de envíos. El productor tiene o puede conseguir fotos reales de la finca y los cafetales, y de la familia (pendientes de entregar). No hay fotos del proceso (despulpado, fermentación, secado).
 

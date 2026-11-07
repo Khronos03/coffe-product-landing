@@ -4,5 +4,6 @@ Allow: /
 # Páginas privadas de cada pedido (links con clave)
 Disallow: /seguimiento/
 Disallow: /pedido/
+Disallow: /resena/
 
 Sitemap: https://www.cumbrecafe.shop/sitemap.xml

@@ -9,6 +9,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const OrderStatus = lazy(() => import("./pages/OrderStatus"));
 const OrderTracking = lazy(() => import("./pages/OrderTracking"));
+const Review = lazy(() => import("./pages/Review"));
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/privacidad" element={<Privacy />} />
           <Route path="/pedido/estado" element={<OrderStatus />} />
           <Route path="/seguimiento/:token" element={<OrderTracking />} />
+          <Route path="/resena/:token" element={<Review />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

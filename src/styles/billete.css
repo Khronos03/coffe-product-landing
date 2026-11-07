@@ -3521,3 +3521,322 @@ button.order-bar-button {
     justify-self: stretch;
   }
 }
+
+/* ==========================================================================
+   Reseñas · clientes reales, aprobadas en el panel
+   Papel violeta como la finca; cada reseña es un talón separado por línea de
+   corte. Sin sombras ni tarjetas flotantes: tinta sobre papel.
+   ========================================================================== */
+.star-row {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--ink);
+  vertical-align: middle;
+}
+.star {
+  flex-shrink: 0;
+  display: block;
+}
+.resenas {
+  background: var(--stock);
+  color: var(--ink);
+  padding: clamp(64px, 9vw, 112px) var(--gutter);
+}
+.resenas-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  gap: clamp(28px, 4vw, 44px);
+}
+.resenas-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 32px;
+}
+.resenas-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--field);
+  max-width: 14ch;
+}
+.resenas-score {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin: 0;
+  font-weight: 700;
+}
+.resenas-score strong {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2.75rem;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+}
+.resenas-score span:last-child {
+  flex-basis: 100%;
+  font-size: 0.875rem;
+}
+.resenas-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-top: 2px solid var(--ink);
+}
+.resena {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 24px 0;
+  border-bottom: 1.5px dashed color-mix(in srgb, var(--ink) 45%, transparent);
+}
+.resena-text {
+  margin: 0;
+}
+.resena-text p {
+  margin: 0;
+  font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);
+  line-height: 1.55;
+  font-weight: 500;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  max-width: 60ch;
+}
+.resena-by {
+  display: grid;
+  gap: 4px;
+  margin-top: auto;
+}
+.resena-name {
+  font-weight: 800;
+}
+.resena-meta {
+  font-size: 0.875rem;
+  color: color-mix(in srgb, var(--ink) 82%, transparent);
+}
+.resena-tag {
+  justify-self: start;
+  margin-top: 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--ink);
+  border-radius: 3px;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  font-variation-settings: "wdth" 125;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.resenas-more {
+  justify-self: start;
+  min-height: 48px;
+  padding: 10px 18px;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 800;
+  font-variation-settings: "wdth" 110;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.resenas-more:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .resenas-more:hover {
+    background: color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+}
+@media (min-width: 768px) {
+  .resenas-score {
+    margin-left: auto;
+  }
+  .resenas-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 0;
+  }
+  .resena {
+    padding: 28px 28px 28px 0;
+  }
+  .resena:nth-child(even) {
+    padding: 28px 0 28px 28px;
+    border-left: 1.5px dashed color-mix(in srgb, var(--ink) 45%, transparent);
+  }
+}
+@media (min-width: 1100px) {
+  .resenas-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .resena,
+  .resena:nth-child(even) {
+    padding: 28px;
+    border-left: 0;
+  }
+  .resena:nth-child(3n + 1) {
+    padding-left: 0;
+  }
+  .resena:nth-child(3n + 2),
+  .resena:nth-child(3n) {
+    border-left: 1.5px dashed color-mix(in srgb, var(--ink) 45%, transparent);
+  }
+  .resena:nth-child(3n) {
+    padding-right: 0;
+  }
+}
+
+/* Formulario de reseña (/resena/<clave>) */
+.rv-form {
+  display: grid;
+  gap: 20px;
+  margin-top: 6px;
+}
+.rv-kicker {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  font-variation-settings: "wdth" 125;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.rv-products {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  font-weight: 700;
+}
+.rv-stars {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.rv-stars legend {
+  padding: 0;
+  margin-bottom: 8px;
+}
+.rv-star-set {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+}
+.rv-star {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius);
+  color: color-mix(in srgb, var(--ink) 55%, transparent);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: color 120ms ease, transform 160ms var(--ease-out);
+}
+.rv-star.is-on {
+  color: var(--ink);
+}
+.rv-star input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.rv-star:has(input:focus-visible) {
+  outline: 2px solid var(--ink);
+  outline-offset: 0;
+}
+.rv-star:active {
+  transform: scale(0.92);
+}
+.rv-star-word {
+  margin-left: 10px;
+  font-weight: 800;
+  min-height: 1.5em;
+}
+.rv-stars.has-error .rv-star {
+  color: var(--ink2);
+}
+.rv-field textarea {
+  min-height: 132px;
+  padding: 10px 12px;
+  border: 1.5px solid color-mix(in srgb, var(--ink) 55%, transparent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--stock) 70%, #fff);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+.rv-field textarea:focus-visible {
+  outline: 2px solid var(--ink2);
+  outline-offset: 1px;
+}
+.rv-field.has-error textarea {
+  border: 2px solid var(--ink2);
+  background: color-mix(in srgb, var(--ink2) 8%, var(--stock));
+}
+.rv-field label {
+  color: var(--ink);
+}
+.rv-field textarea::placeholder {
+  color: color-mix(in srgb, var(--ink) 60%, transparent);
+  opacity: 1;
+}
+.rv-count {
+  justify-self: end;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--ink) 80%, transparent);
+}
+.rv-allow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  cursor: pointer;
+  line-height: 1.45;
+}
+.rv-allow input {
+  width: 22px;
+  height: 22px;
+  margin: 1px 0 0;
+  accent-color: var(--ink);
+}
+.rv-allow small {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.8125rem;
+  color: color-mix(in srgb, var(--ink) 80%, transparent);
+}
+.nf-stub button.tear-button:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+.rv-stub-note {
+  margin: 0;
+  font-size: 0.8125rem;
+  text-align: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rv-star {
+    transition: none;
+  }
+  .rv-star:active {
+    transform: none;
+  }
+}
