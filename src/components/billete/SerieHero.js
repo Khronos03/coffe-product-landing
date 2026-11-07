@@ -5,9 +5,13 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ORIGIN, SERIES } from "../../data/catalog";
 import { Microtext, Perforation, Rosette, Star, WaveField } from "./Security";
 import OrderStub from "./OrderStub";
+import { StarRow } from "./Stars";
+import { formatAverage, useReviews } from "./useReviews";
+import { ONLINE_PAYMENTS } from "../../cart";
 
 export default function SerieHero({ active, source = "pointer", onSelect, onOrderChange }) {
   const reduce = useReducedMotion();
+  const reviews = useReviews();
   const tabRefs = useRef([]);
   const serie = SERIES.find((s) => s.id === active);
   const index = SERIES.indexOf(serie);
@@ -145,9 +149,19 @@ export default function SerieHero({ active, source = "pointer", onSelect, onOrde
                         <dd>{serie.notas}</dd>
                       </div>
                     </dl>
-                    <a className="billete-more" href="#proceso">
-                      Cómo se hace este café
-                    </a>
+                    <p className="billete-links">
+                      {reviews && (
+                        <a className="billete-reviews" href="#resenas">
+                          <StarRow value={Math.round(reviews.average)} size={15} />
+                          <span>
+                            {formatAverage(reviews.average)} · {reviews.count} reseñas
+                          </span>
+                        </a>
+                      )}
+                      <a className="billete-more" href="#proceso">
+                        Cómo se hace este café
+                      </a>
+                    </p>
                 </div>
             </motion.div>
 
@@ -155,7 +169,7 @@ export default function SerieHero({ active, source = "pointer", onSelect, onOrde
               <span>{ORIGIN.finca}</span>
               <span>Venta directa del productor</span>
             </div>
-            <Microtext className="billete-micro" text="CAFÉ DE ORIGEN COLOMBIANO PEDIDOS POR WHATSAPP ENVÍO A TODA COLOMBIA" />
+            <Microtext className="billete-micro" text={`CAFÉ DE ORIGEN COLOMBIANO ${ONLINE_PAYMENTS ? "PAGO EN LÍNEA O POR WHATSAPP" : "PEDIDOS POR WHATSAPP"} ENVÍO A TODA COLOMBIA`} />
           </div>
 
           <Perforation vertical className="billete-perf" />

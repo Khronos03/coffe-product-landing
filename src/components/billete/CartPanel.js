@@ -272,7 +272,7 @@ export default function CartPanel() {
                   </div>
                 )}
                 <div>
-                  <dt>WhatsApp</dt>
+                  <dt>{canPayOnline ? "WhatsApp" : "Pago"}</dt>
                   <dd>Bancolombia, Llave, Nequi o contra entrega</dd>
                 </div>
               </dl>

@@ -13,7 +13,6 @@ import Finca from "../components/billete/Finca";
 import SerieEspecial from "../components/billete/SerieEspecial";
 import Viaje from "../components/billete/Viaje";
 import Resenas from "../components/billete/Resenas";
-import Emprende from "../components/billete/Emprende";
 import { MobileOrderBar, RecetarioBand, SiteFooter, SiteHeader } from "../components/billete/Chrome";
 
 // Abre con el lote 01 (Honey): el más pedido y el de precio de entrada.
@@ -66,12 +65,12 @@ function Home() {
       <SiteHeader />
       <main>
         <SerieHero active={active} source={selection.source} onSelect={setActive} onOrderChange={onOrderChange} />
+        {/* La prueba va junto a la decisión; el origen se cuenta de corrido: finca y viaje seguidos */}
+        <Resenas />
         <Reverso active={active} onSelect={setActive} />
         <Finca />
-        <SerieEspecial />
         <Viaje />
-        <Resenas />
-        <Emprende />
+        <SerieEspecial />
         <RecetarioBand count={COFFEE_RECIPES.length} />
       </main>
       <SiteFooter />

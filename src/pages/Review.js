@@ -27,7 +27,7 @@ export default function Review() {
   const [state, setState] = useState({ loading: true, form: null, error: null });
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const [allow, setAllow] = useState(true);
+  const [allow, setAllow] = useState(false);
   const [errors, setErrors] = useState({});
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
@@ -229,7 +229,7 @@ export default function Review() {
           </nav>
         </article>
       </main>
-      <SiteFooter onHome={false} />
+      <SiteFooter onHome={false} sell={false} />
     </div>
   );
 }

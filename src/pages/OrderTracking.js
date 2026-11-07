@@ -14,6 +14,7 @@ import { CARRIERS } from "../data/carriers";
 import { SiteFooter, SiteHeader } from "../components/billete/Chrome";
 import { Perforation, WaveField } from "../components/billete/Security";
 import { useDocumentMeta } from "../seo";
+import { formatDate } from "../dates";
 
 const STEPS = [
   { key: "isPaid", label: "Pagado" },
@@ -21,11 +22,7 @@ const STEPS = [
   { key: "isShipped", label: "Enviado" },
 ];
 
-const dateLabel = (iso) => {
-  if (!iso) return "";
-  const d = new Date(iso);
-  return Number.isNaN(d.getTime()) ? "" : d.toLocaleDateString("es-CO", { day: "numeric", month: "long" });
-};
+const dateLabel = (iso) => formatDate(iso, { day: "numeric", month: "long" });
 
 function headline(o) {
   if (o.isShipped) return { title: "Tu pedido va en camino", text: "Ya lo entregamos a la transportadora. Con el número de guía puedes ver dónde va.", stamp: "Enviado" };
@@ -185,7 +182,7 @@ export default function OrderTracking() {
           </nav>
         </article>
       </main>
-      <SiteFooter onHome={false} />
+      <SiteFooter onHome={false} sell={false} />
     </div>
   );
 }

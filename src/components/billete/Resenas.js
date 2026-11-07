@@ -1,37 +1,23 @@
 // Reseñas de clientes con compra verificada (o enviadas por WhatsApp con permiso), aprobadas en el panel.
 // La sección no existe hasta que haya al menos 3: mejor nada que una sección vacía o inventada.
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { StarRow } from "./Stars";
+import { formatAverage, useReviews } from "./useReviews";
+import { formatDate } from "../../dates";
 
-export const MIN_TO_SHOW = 3;
 const FIRST = 6;
 
-const monthLabel = (iso) => {
-  if (!iso) return "";
-  const d = new Date(iso);
-  return Number.isNaN(d.getTime()) ? "" : d.toLocaleDateString("es-CO", { month: "long", year: "numeric" });
-};
+const monthLabel = (iso) => formatDate(iso, { month: "long", year: "numeric" });
 
 export default function Resenas() {
-  const [data, setData] = useState(null);
+  const data = useReviews();
   const [all, setAll] = useState(false);
 
-  useEffect(() => {
-    let alive = true;
-    fetch("/api/resenas")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => alive && setData(d))
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, []);
-
-  if (!data || data.count < MIN_TO_SHOW) return null;
+  if (!data) return null;
 
   const shown = all ? data.reviews : data.reviews.slice(0, FIRST);
-  const avg = data.average.toLocaleString("es-CO", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const avg = formatAverage(data.average);
 
   return (
     <section className="resenas" id="resenas" aria-labelledby="resenas-title" data-ink="violet">
@@ -47,7 +33,7 @@ export default function Resenas() {
           </p>
         </header>
 
-        <ul className="resenas-list">
+        <ul className={`resenas-list ${shown.length === 4 ? "is-two" : ""}`}>
           {shown.map((r, i) => (
             <li key={`${r.displayName}-${r.date}-${i}`} className="resena">
               <StarRow value={r.rating} />

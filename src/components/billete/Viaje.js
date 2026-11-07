@@ -8,7 +8,7 @@ import { viajeIcon } from "./viajeIcons";
 
 const steps = () => [
   { key: "siembra", title: "Siembra", text: "Nace la chapola en el germinador de la finca." },
-  { key: "cultivo", title: "Cultivo", text: "Castillo a 1.950 m, cosechado a mano en cereza madura." },
+  { key: "cultivo", title: "Cultivo", text: "Cosechado a mano, solo la cereza madura." },
   { key: "despulpado", title: "Beneficio", text: "Cada lote, su proceso: Honey, Lavado, Natural o Piña-Whisky." },
   { key: "secado", title: "Secado", text: "Al sol, volteado a diario." },
   { key: "tostion", title: "Tostión", text: "Tostión media, cada semana." },
