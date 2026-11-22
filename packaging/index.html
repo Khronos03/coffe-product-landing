@@ -69,6 +69,9 @@
     <label class="f">Hoja a imprimir
       <select id="sheet"><option value="frentes">Frentes: 2 billetes + 6 desprendibles</option><option value="reversos">Reversos: 2 reversos + 4 desprendibles</option><option value="prueba">Prueba de calidad de impresión</option></select>
     </label>
+    <label class="f">Lote
+      <select id="lot"><option value="honey">Serie 01 · Red Honey</option><option value="geisha">Serie 05 · Geisha lavado</option></select>
+    </label>
     <label class="f">Presentación
       <select id="stub"><option value="grano">En grano</option><option value="molido">Molido</option><option value="mixta">Mixta: mitad grano, mitad molido</option></select>
     </label>
@@ -159,7 +162,7 @@
 const COL = { field:'#8a540c', ink:'#4a2a05', ink2:'#2f3b86', cream:'#f7e7be', white:'#FFFFFF' };
 const FA = "Archivo, 'Arial', sans-serif";
 const FB = "'Big Shoulders Display','Big Shoulders','Arial Narrow',sans-serif";
-const S = { sheet:'frentes', stub:'grano', peso:'454', paper:'cream', resp:'', qr:'' };
+const S = { lot:'honey', sheet:'frentes', stub:'grano', peso:'454', paper:'cream', resp:'', qr:'' };
 // presentación de la pieza i de n en la hoja: grano, molido o mitad y mitad
 const kindAt = (i, n) => S.stub === 'mixta' ? (i < n / 2 ? 'grano' : 'molido') : S.stub;
 // ids únicos en todo el documento: la vista previa, las piezas y la hoja de impresión conviven en el DOM
@@ -272,40 +275,116 @@ const HONEY = {
   ],
 };
 
+/* ---------- lotes: todo lo que cambia entre un café y otro ---------- */
+// Tintas del DESIGN.md de la web (una por proceso). Datos: lo confirmado por el productor
+// (Red Honey) y la ficha técnica del exportador (Geisha, lote VC-GE-001).
+const LOTS = {
+  honey: {
+    ink: { field:'#8a540c', ink:'#4a2a05', ink2:'#2f3b86', cream:'#f7e7be' },
+    serial: '01', badge: 'El más pedido', kindLabel: 'Café de proceso', name: 'RED HONEY',
+    line: 'El grano se seca con su propio mucílago.',
+    rows: [
+      [['Fragancia / aroma', 'Panela, miel'], ['Variedad', 'Castillo']],
+      [['Altitud', '1.950 m s.n.m.'], ['Tostión', 'Media']],
+      [['Caficultor', 'Jhon Edwin Suaza'], ['Puntaje', '84,75']],
+    ],
+    scoreNote: 'Cata · Comité de Cafeteros',
+    tasteLabel: 'Sabor', taste: 'Caña de azúcar, apanelado que resalta por su dulzura natural.',
+    foot: ['Finca La Cumbre · Mistrató, Risaralda', 'Café de altura'],
+    seal: ['LOTE DE', 'LA FINCA'],
+    microTop: 'CUMBRE CAFÉ MISTRATÓ RISARALDA 1950 MSNM CASTILLO',
+    journey: kind => [
+      ['siembra', 'Siembra', 'Nace la chapola'],
+      ['cultivo', 'Cultivo', 'Cosecha a mano'],
+      ['despulpado', 'Despulpado', 'Con su mucílago'],
+      ['secado', 'Secado', 'Al sol, a diario'],
+      ['tostion', 'Tostión', 'Media, cada semana'],
+      ['molienda', 'Molienda', kind === 'grano' ? 'Justo antes de preparar' : 'Según tu método'],
+      ['taza', 'Taza', 'Dulzor de panela'],
+    ],
+    storyTitle: 'TIERRA ANTIGUA',
+    story: 'Mistrató, en Risaralda, es tierra de pueblos indígenas; en la zona se han encontrado vestigios arqueológicos de sus antiguos pobladores. Hoy Jhon Edwin Suaza cultiva este café Castillo en la Finca La Cumbre, con una familia de más de 45 años en el café.',
+    storyClose: 'Cada taza es un pequeño hallazgo.',
+    variety: 'Castillo',
+    resp: 'Finca La Cumbre · Mistrató, Risaralda',
+    journeyTitle: 'EL VIAJE DEL CAFÉ',
+  },
+  geisha: {
+    ink: { field:'#1e6b4b', ink:'#0c3524', ink2:'#7a2252', cream:'#d9ecd9' },
+    serial: '05', badge: '', premium: true, kindLabel: 'Café de variedad', name: 'GEISHA',
+    line: 'Aroma floral, de manzanilla y limonaria.',
+    hero: ['87', 'Puntaje SCA', 'Cata del exportador · escala de 100'],
+    rows: [
+      [['Origen', 'Gaitania, Tolima'], ['Altitud', '1.950 m s.n.m.']],
+      [['Proceso', 'Lavado'], ['Secado', 'Solar y mecánico']],
+    ],
+    scoreNote: '',
+    tasteLabel: 'En taza', taste: 'Dulce, balanceado y cítrico. Acidez media, cítrica y málica; dulzor medio y residual persistente.',
+    foot: ['Gaitania · Planadas, Tolima', 'Lote VC-GE-001'],
+    seal: ['LOTE', 'ESPECIAL'],
+    microBot: 'CUMBRE CAFÉ LOTE ESPECIAL GEISHA SERIE 05 LOTE VC-GE-001 GAITANIA PLANADAS TOLIMA',
+    microTop: 'CUMBRE CAFÉ GEISHA GAITANIA PLANADAS TOLIMA 1950 MSNM LAVADO',
+    journey: kind => [
+      ['siembra', 'Siembra', 'Semilla Geisha'],
+      ['cultivo', 'Cultivo', 'Cosecha en Gaitania'],
+      ['lavado', 'Lavado', 'Grano sin mucílago'],
+      ['secado', 'Secado', 'Solar y mecánico'],
+      ['tostion', 'Tostión', 'Media, por nosotros'],
+      ['molienda', 'Molienda', kind === 'grano' ? 'Justo antes de preparar' : 'Según tu método'],
+      ['taza', 'Taza', 'Cítrica y málica'],
+    ],
+    journeyTitle: 'EL VIAJE DE ESTE LOTE',
+    journeySplit: [4, 'En Gaitania, Tolima · productor del lote', 'En Cumbre Café y en tu casa'],
+    storyTitle: 'LA GEISHA',
+    story: 'La variedad Geisha toma su nombre de la región de Gesha, en Etiopía, y es famosa por su taza floral y delicada. Este lote crece a 1.950 m s.n.m. en Gaitania, Planadas (Tolima), y se procesa lavado, con secado solar y mecánico.',
+    storyClose: 'Cosecha 2026/27 · Lote VC-GE-001.',
+    variety: 'Geisha',
+    resp: 'Tostado y empacado por Cumbre Café · Mistrató, Risaralda',
+  },
+};
+const LOT = () => LOTS[S.lot] || LOTS.honey;
+
 /* ---------- piezas ---------- */
-// FRENTE: el billete de la Serie 01
+// FRENTE: el billete del lote elegido
 function front() {
-  const w = 100, h = 150; let s = sheetPaper(w, h);
-  s += micro(6, 7.6, 88, MICRO_TOP);
+  const w = 100, h = 150, Lt = LOT(); let s = sheetPaper(w, h);
+  s += micro(6, 7.6, 88, Lt.microTop);
   s += T(6, 16.2, 'CUMBRE CAFÉ', { size:6.2, weight:800, wdth:125, ls:0.3 });
-  s += L(94, 15.6, 'Serie 01', { size:2, anchor:'end', ls:0.3 });
+  s += L(94, 15.6, 'Serie ' + Lt.serial, { size:2, anchor:'end', ls:0.3 });
   s += hair(6, 19, 94, 1, 0.5, COL.ink2);
-  // viñeta: roseta con el sello de la finca sobre placa de papel
+  // viñeta: roseta con el sello del lote sobre placa de papel
   s += rosette(78, 33, 14, 0.9);
-  s += seal(78, 33, ['LOTE DE', 'LA FINCA'], 0.48, true);
+  s += seal(78, 33, Lt.seal, 0.48, true);
   // número de serie, distintivo, proceso y lote
-  s += T(5.6, 31.5, '01', { fam:'B', size:12, weight:900, fill:COL.field });
-  s += star(20.4, 27.6, 3, COL.field) + L(24.4, 30.2, 'El más pedido', { size:1.85, fill:COL.field, weight:800 });
-  s += L(6, 45.5, 'Café de proceso', { size:2, weight:800 });
-  s += T(5.2, 64, 'RED HONEY', { fam:'B', size:20, weight:800 });
-  s += T(6, 71, HONEY.line, { size:3, weight:500 });
-  const y0 = 73, rows = [
-    [['Fragancia / aroma', 'Panela, miel'], ['Variedad', 'Castillo']],
-    [['Altitud', '1.950 m s.n.m.'], ['Tostión', 'Media']],
-    [['Caficultor', 'Jhon Edwin Suaza'], ['Puntaje', '84,75']],
-  ];
+  // lote especial: el serial pasa a la tinta de seguridad y cada bolsa se numera a mano
+  s += T(5.6, 31.5, Lt.serial, { fam:'B', size:12, weight:900, fill:Lt.premium ? COL.ink2 : COL.field });
+  if (Lt.premium) s += L(21, 30.2, 'Bolsa N.º', { size:1.85, fill:COL.ink2, weight:800 }) + hair(36.4, 30.6, 60, 1, 0.25, COL.ink2);
+  if (Lt.badge) s += (S.lot === 'honey' ? star(20.4, 27.6, 3, COL.field) + L(24.4, 30.2, Lt.badge, { size:1.85, fill:COL.field, weight:800 }) : L(21, 30.2, Lt.badge, { size:1.85, fill:COL.field, weight:800 }));
+  s += L(6, 45.5, Lt.kindLabel, { size:2, weight:800 });
+  s += T(5.2, 64, Lt.name, { fam:'B', size:20, weight:800 });
+  if (Lt.hero) {
+    // la cifra que justifica el lote, en grande, en el hueco a la derecha del nombre
+    s += L(94, 50.6, Lt.hero[1], { size:1.85, fill:COL.field, weight:800, anchor:'end' });
+    s += T(94.6, 64, Lt.hero[0], { fam:'B', size:15, weight:900, fill:COL.field, anchor:'end' });
+    s += L(94, 67.4, Lt.hero[2], { size:1.6, op:0.85, anchor:'end' });
+  }
+  s += Lt.premium ? T(6, 76, Lt.line, { size:3.4, weight:500 }) : T(6, 71, Lt.line, { size:3, weight:500 });
+  const y0 = Lt.premium ? 82 : 73, rows = Lt.rows;
   s += hair(6, y0, 94);
   rows.forEach((r, i) => {
     const y = y0 + i * 12.4, rh = i === 2 ? 15 : 12.4;
     s += field2(6, y + 5, r[0][0], r[0][1]) + field2(51.5, y + 5, r[1][0], r[1][1]);
     s += vhair(49.5, y + 1.2, y + rh - 1.2) + hair(6, y + rh, 94);
   });
-  s += T(51.5, y0 + 24.8 + 12.9, 'Cata · Comité de Cafeteros', { size:2.1, weight:500 });
-  const ys = y0 + 40.6;
-  s += L(6, ys + 4.5, 'Sabor', { size:1.7, op:0.85 });
-  s += P(6, ys + 8.9, 'Caña de azúcar, apanelado que resalta por su dulzura natural.', { size:2.9, weight:600 }, 88, 3.6).svg;
-  s += foot(w, 132.5, 'Finca La Cumbre · Mistrató, Risaralda', 'Café de altura');
-  s += micro(6, 143.6, 88, MICRO_BOT);
+  if (Lt.scoreNote) s += T(51.5, y0 + 24.8 + 12.9, Lt.scoreNote, { size:2.1, weight:500 });
+  const ys = y0 + rows.reduce((a, _, i) => a + (i === 2 ? 15 : 12.4), 0) + 0.8;
+  s += L(6, ys + 4.5, Lt.tasteLabel, { size:1.7, op:0.85 });
+  // tamaño por ajuste: 2,9 mm si cabe antes del pie, si no baja por pasos (nunca bajo 2,4)
+  let tz = Lt.premium ? 3.2 : 2.9, tp;
+  for (; tz >= 2.4; tz = Math.round((tz - 0.1) * 100) / 100) { tp = P(6, ys + 8.9, Lt.taste, { size:tz, weight:Lt.premium ? 500 : 600 }, 88, tz * 1.24); if (tp.end <= 129.4) break; }
+  s += tp.svg;
+  s += foot(w, 132.5, Lt.foot[0], Lt.foot[1]);
+  s += micro(6, 143.6, 88, Lt.microBot || MICRO_BOT);
   return { w, h, s };
 }
 
@@ -326,11 +405,11 @@ function stamp(kind) {
   s += `<g fill="${COL.field}">${holes}<circle cx="4.4" cy="${by}" r="1.6"/><circle cx="4.4" cy="${by + bh}" r="1.6"/></g>`;
   const x = 9.6;
   s += L(x, 8.6, 'Café tostado', { size:1.75 });
+  if (LOT().premium) s += L(44.6, 8.6, 'Serie ' + LOT().serial, { size:1.6, fill:COL.ink2, weight:800, anchor:'end' });
   s += T(x - 0.4, 16.6, kind === 'grano' ? 'EN GRANO' : 'MOLIDO', { fam:'B', size:7.2, weight:800 });
   s += L(x, 21, 'Contenido neto', { size:1.6, op:0.85 });
   if (kind === 'grano') {
     s += T(x - 0.4, 36.4, `${S.peso} g`, { fam:'B', size:15, weight:800 });
-    s += L(x, 42.6, 'Serie 01 · Red Honey', { size:1.6, op:0.85 });
   } else {
     s += T(x - 0.4, 31.6, `${S.peso} g`, { fam:'B', size:10, weight:800 });
     s += L(x, 35.6, 'Molienda', { size:1.6, op:0.85 });
@@ -415,6 +494,11 @@ function colorIcon(key) {
       + sh('M15.5 16.5C9.5 17 4 23 4.5 30C10.5 28 14.6 23 15.5 16.5Z', IC.green, IC.greenD, 'M15.5 16.5C11 21 7 25.5 4.5 30C10.5 28 14.6 23 15.5 16.5Z')
       + sh('M27 24.5C32.5 21.5 38 25 38 31.5C32.5 31 28.5 28 27 24.5Z', IC.green, IC.greenD, 'M27 24.5C31 27 34.5 29.3 38 31.5C32.5 31 28.5 28 27 24.5Z')
       + [[20.5, 19.5], [25.8, 21.6], [21.8, 25.4]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3.4" fill="${IC.red}" ${O()}/><circle cx="${x - 1.1}" cy="${y - 1.1}" r="0.9" fill="#fff"/>`).join(''),
+    lavado: () => sh('M20 7.5A14 14 0 1 1 19.99 7.5Z', IC.blue, IC.blueD, 'M20 7.5A14 14 0 0 1 20 35.5A10 14 0 0 0 20 7.5Z')
+      + `<circle cx="20" cy="21.5" r="10.6" fill="#d4eef8" ${O(1.4)}/>`
+      + `<ellipse cx="15.7" cy="21.5" rx="4.3" ry="7.6" fill="${IC.bean}" ${O(1.6)}/><ellipse cx="24.3" cy="21.5" rx="4.3" ry="7.6" fill="${IC.bean}" ${O(1.6)}/>`
+      + `<path d="M15.7 14.6C14 18 17.4 25 15.7 28.4M24.3 14.6C22.6 18 26 25 24.3 28.4" fill="none" ${O(1.2)}/>`
+      + sh('M20 0.8C21.6 3.2 22.8 4.6 22.8 6A2.8 2.8 0 0 1 17.2 6C17.2 4.6 18.4 3.2 20 0.8Z', IC.blue, null) + hl('M9.5 15.5Q11.5 11.5 15 9.8'),
     despulpado: () => tube('M20 7.4C20 5 21.6 3 24 2.2', IC.greenD, 1.6)
       + sh('M20 7.5A14 14 0 1 1 19.99 7.5Z', IC.red, IC.redD, 'M20 7.5A14 14 0 0 1 20 35.5A10 14 0 0 0 20 7.5Z')
       + `<circle cx="20" cy="21.5" r="10.6" fill="${IC.honey}" ${O(1.4)}/>`
@@ -455,15 +539,7 @@ function vignette(key, cx, cy, size) {
 function journey(y, kind, o = {}) {
   const W = o.w || 100, R = o.r || 9.5, gap = o.gap || 31, icon = R * 1.74, cw = (W - 12) / 4;
   const c = k => 6 + (k + 0.5) * cw;
-  const stops = o.short ? [
-    ['siembra', 'Siembra', 'Nace la chapola'],
-    ['cultivo', 'Cultivo', 'Cosecha a mano'],
-    ['despulpado', 'Despulpado', 'Con su mucílago'],
-    ['secado', 'Secado', 'Al sol, a diario'],
-    ['tostion', 'Tostión', 'Media, cada semana'],
-    ['molienda', 'Molienda', kind === 'grano' ? 'Justo antes de preparar' : 'Según tu método'],
-    ['taza', 'Taza', 'Dulzor de panela'],
-  ] : [
+  const stops = o.short ? LOT().journey(kind) : [
     ['siembra', 'Siembra', 'Nace la chapola.'],
     ['cultivo', 'Cultivo', 'Castillo a 1.950 m, cosechado a mano.'],
     ['despulpado', 'Despulpado', 'Se conserva el mucílago.'],
@@ -499,19 +575,26 @@ function journey(y, kind, o = {}) {
 // REVERSO 12 × 14 cm: viaje, origen, preparación, recetas y ficha
 function backLabel(kind) {
   const w = 120, h = 140; let s = sheetPaper(w, h);
-  s += micro(6, 7.6, w - 12, MICRO_TOP);
-  s += T(5.6, 16.8, 'EL VIAJE DEL CAFÉ', { fam:'B', size:8.2, weight:800 });
-  s += L(w - 6, 16.4, 'Serie 01 · Red Honey', { size:1.7, anchor:'end', fill:COL.field, weight:800 });
-  const j = journey(19.4, kind, { w, r:6.2, short:true, row:true }); s += j.s;
+  s += micro(6, 7.6, w - 12, LOT().microTop);
+  const Lt = LOT(), sp = Lt.journeySplit;
+  s += T(5.6, sp ? 15.8 : 16.8, Lt.journeyTitle, { fam:'B', size:sp ? 7.2 : 8.2, weight:800 });
+  // lote comprado: se separa lo que hizo el productor de lo que hace Cumbre
+  if (sp) {
+    const cw7 = (w - 12) / 7, xm = 6 + sp[0] * cw7, by = 20.6, tick = (a, b) => `<path d="M${r2(a)} ${by + 0.9}V${by}H${r2(b)}V${by + 0.9}" fill="none" stroke="${COL.field}" stroke-width="0.25"/>`;
+    s += tick(6.8, xm - 0.8) + tick(xm + 0.8, w - 6.8);
+    s += L((6.8 + xm - 0.8) / 2, by - 1.3, sp[1], { size:1.7, fill:COL.field, weight:800, anchor:'middle' });
+    s += L((xm + 0.8 + w - 6.8) / 2, by - 1.3, sp[2], { size:1.7, fill:COL.field, weight:800, anchor:'middle' });
+  }
+  const j = journey(sp ? 21.4 : 19.4, kind, { w, r:6.2, short:true, row:true }); s += j.s;
   // origen y preparación en dos columnas
   let y = j.end + 1;
   s += hair(6, y, w - 6, 0.55, 0.4);
   const mx = 63;
   s += vhair(mx - 2, y + 2, y + 36);
-  s += T(5.6, y + 6.4, 'TIERRA ANTIGUA', { fam:'B', size:5.8, weight:800, fill:COL.field });
-  const st = P(6, y + 11, 'Mistrató, en Risaralda, es tierra de pueblos indígenas; en la zona se han encontrado vestigios arqueológicos de sus antiguos pobladores. Hoy Jhon Edwin Suaza cultiva este café Castillo en la Finca La Cumbre, con una familia de más de 45 años en el café.', { size:2.45 }, mx - 10, 3.15);
+  s += T(5.6, y + 6.4, LOT().storyTitle, { fam:'B', size:5.8, weight:800, fill:COL.field });
+  const st = P(6, y + 11, LOT().story, { size:2.45 }, mx - 10, 3.15);
   s += st.svg;
-  s += T(6, st.end + 4, 'Cada taza es un pequeño hallazgo.', { size:2.5, weight:700, fill:COL.field });
+  s += T(6, st.end + 4, LOT().storyClose, { size:2.5, weight:700, fill:COL.field });
   s += T(mx + 0.4, y + 6.4, 'PREPÁRALO', { fam:'B', size:5.8, weight:800, fill:COL.field });
   s += L(w - 6, y + 6.2, 'Base 1 : 15', { size:1.6, anchor:'end', weight:800 });
   const ms = [
@@ -530,7 +613,7 @@ function backLabel(kind) {
   s += hair(6, y, w - 6, 0.55, 0.4);
   const q = 31, qx = 5.2; s += qr(qx, y + 0.6, q, S.qr, COL.ink);
   const yc = y + 0.6 + q / 2, rx = qx + q + 2;
-  s += T(rx, yc - 6.4, 'MÁS DE 50 RECETAS', { fam:'B', size:6.4, weight:800, fill:COL.field });
+  s += LOT().premium ? T(rx, yc - 6.4, 'MÁS DE 50 RECETAS', { fam:'B', size:4.6, weight:800 }) : T(rx, yc - 6.4, 'MÁS DE 50 RECETAS', { fam:'B', size:6.4, weight:800, fill:COL.field });
   s += T(rx, yc - 2.2, 'Escanea el código y prepara tu café como nunca antes.', { size:2.2, weight:500 });
   s += hair(rx, yc + 0.6, w - 6, 0.3, 0.2);
   s += L(rx, yc + 4.4, 'Pedidos', { size:1.6, fill:COL.field, weight:800 });
@@ -540,7 +623,7 @@ function backLabel(kind) {
   y += q + 2.2;
   s += hair(6, y, w - 6, 0.3, 0.2);
   const half = (w - 12) / 2, cols = [
-    [['Producto', 'Café tostado · 100 % café arábica, variedad Castillo · Producto de Colombia'], ['Reg. sanitario', 'INVIMA NSA-0376-2026']],
+    [['Producto', `Café tostado · 100 % café arábica, variedad ${LOT().variety} · Producto de Colombia`], ['Reg. sanitario', 'INVIMA NSA-0376-2026']],
     [['Conservación', 'Sin aire, en lugar fresco, seco y sin luz.'], ['Responsable', S.resp || '[pendiente]', 2]],
   ];
   let yy = y, end = y;
@@ -608,7 +691,7 @@ function testSheet() {
   // rosetas
   s += sec(206, 'Roseta y microtexto');
   s += rosette(X + 15, 225, 14, 0.9) + rosette(X + 55, 225, 19, 0.9);
-  s += micro(X, 251, 92, MICRO_TOP);
+  s += micro(X, 251, 92, LOT().microTop);
   // piezas reales a 100 %
   s += place(front(), 110, 8) + place(stamp('grano'), 106, 162) + place(stamp('molido'), 160, 162);
   s += T(110, 219, 'Compara estas piezas con la pantalla y sobre la bolsa.', { size:2.2 });
@@ -634,7 +717,7 @@ function sheet() {
 }
 
 const PIECES = () => [
-  { key:'frontal', name:'Frontal · billete Serie 01', face:'Cara frontal · ambas bolsas · debajo de la válvula', p: front() },
+  { key:'frontal', name:'Frontal · billete Serie ' + LOT().serial, face:'Cara frontal · ambas bolsas · debajo de la válvula', p: front() },
   { key:'desprendible-grano', name:'Desprendible grano', face:'Frontal, junto al billete · bolsa de grano', p: stamp('grano') },
   { key:'desprendible-molido', name:'Desprendible molido', face:'Frontal, junto al billete · bolsa de molido · marca la molienda con esfero', p: stamp('molido') },
   { key:'reverso-grano', name:'Reverso grano', face:'Cara trasera · bolsa de grano', p: backLabel('grano') },
@@ -715,7 +798,7 @@ async function download(name, piece) {
 
 /* ---------- UI ---------- */
 const $ = id => document.getElementById(id);
-function read() { S.sheet = $('sheet').value; S.stub = $('stub').value; S.peso = $('peso').value; S.paper = $('paper').value; S.resp = $('resp').value.trim(); S.qr = $('qr').value.trim() || 'https://cumbrecafe.shop'; }
+function read() { S.lot = $('lot').value; Object.assign(COL, LOTS[S.lot].ink); S.sheet = $('sheet').value; S.stub = $('stub').value; S.peso = $('peso').value; S.paper = $('paper').value; S.resp = $('resp').value.trim(); S.qr = $('qr').value.trim() || 'https://cumbrecafe.shop'; }
 function render() {
   read();
   const sh = sheet();
@@ -728,16 +811,18 @@ function render() {
     ['svg', 'png', 'jpg'].forEach(t => {
       const b = document.createElement('button'); b.className = 'sec'; b.textContent = '.' + t;
       b.setAttribute('aria-label', `Descargar ${name} en .${t}`);
-      b.onclick = () => t === 'svg' ? download(`cumbre-${key}-${p.w}x${p.h}mm`, p) : downloadImage(`cumbre-${key}-${p.w}x${p.h}mm`, p, t);
+      b.onclick = () => t === 'svg' ? download(`cumbre-${S.lot}-${key}-${p.w}x${p.h}mm`, p) : downloadImage(`cumbre-${S.lot}-${key}-${p.w}x${p.h}mm`, p, t);
       row.appendChild(b);
     });
     card.appendChild(row); grid.appendChild(card);
   });
 }
+// al cambiar de lote, el responsable vuelve al de ese lote (no hereda el del anterior)
+$('lot').addEventListener('input', () => { $('resp').value = LOTS[$('lot').value].resp; render(); });
 ['sheet','stub','peso','paper','resp','qr'].forEach(k => $(k).addEventListener('input', render));
-$('dlSheet').onclick = () => { read(); download(`cumbre-hoja-${S.sheet}-${S.peso}g-carta`, sheet()); };
-$('dlSheetPng').onclick = () => { read(); downloadImage(`cumbre-hoja-${S.sheet}-${S.peso}g-carta`, sheet(), 'png'); };
-$('dlSheetJpg').onclick = () => { read(); downloadImage(`cumbre-hoja-${S.sheet}-${S.peso}g-carta`, sheet(), 'jpg'); };
+$('dlSheet').onclick = () => { read(); download(`cumbre-${S.lot}-hoja-${S.sheet}-${S.peso}g-carta`, sheet()); };
+$('dlSheetPng').onclick = () => { read(); downloadImage(`cumbre-${S.lot}-hoja-${S.sheet}-${S.peso}g-carta`, sheet(), 'png'); };
+$('dlSheetJpg').onclick = () => { read(); downloadImage(`cumbre-${S.lot}-hoja-${S.sheet}-${S.peso}g-carta`, sheet(), 'jpg'); };
 const SHEET_NAMES = { frentes:'frentes', reversos:'reversos', prueba:'prueba-calidad' };
 async function printSheet(kind) {
   const prev = $('sheet').value;
@@ -752,7 +837,7 @@ async function printSheet(kind) {
   } else status.textContent = 'Listo. Revisa la configuración de la lista antes de confirmar.';
   $('printArea').innerHTML = svgDoc(sheet());
   const title = document.title;
-  document.title = `cumbre-${SHEET_NAMES[S.sheet]}-${S.peso}g-carta`;
+  document.title = `cumbre-${S.lot}-${SHEET_NAMES[S.sheet]}-${S.peso}g-carta`;
   const restore = () => { document.title = title; $('printArea').innerHTML = ''; if (kind) { $('sheet').value = prev; render(); } window.removeEventListener('afterprint', restore); };
   window.addEventListener('afterprint', restore);
   await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
